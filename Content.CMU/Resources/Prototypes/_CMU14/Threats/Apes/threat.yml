@@ -23,10 +23,9 @@
   id: apethreat
   lorePrimer: AU14PrimerThreatApe
   roundstartspawns: apeParty
-  whitelistedgamemodes:
-  - DistressSignal
   blacklistedgamemodes:
   - ColonyFall
+  - DistressSignal
   jobScaling: DefaultDistressScale
   winconditions:
   - KillAllGovforRule

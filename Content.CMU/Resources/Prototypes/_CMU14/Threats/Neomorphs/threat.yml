@@ -5,6 +5,7 @@
   roundstartspawns: NeomorphsThreatSpawns
   blacklistedgamemodes:
    - ColonyFall
+   - DistressSignal
   jobScaling: DefaultDistressScale
 
   winconditions:
