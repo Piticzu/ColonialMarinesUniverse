@@ -81,6 +81,7 @@
     - 0:
         weed15: ""
   - type: XenoFriendly
+  - type: AutoAssignHive # CMU14: map-placed weeds join the primary DS hive so xenos aren't slowed by them
   - type: Damageable
     damageModifierSet: Weed
 #   damageContainer: Inorganic # CMU14
