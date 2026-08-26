@@ -49,13 +49,12 @@ namespace Content.Server.GameTicking
 
         private string GetPlanetMapName()
         {
+            // Only reports a vote-committed planet. `_gameMapManager.GetSelectedMap()` is not consulted
+            // because in CMU it can hold a ship map (e.g. dev.toml's `game.map = USSBushRedux`), and
+            // that would incorrectly surface a ship name under "current planet".
             _cmuRoundDirector.TryGetLegacyPlanetProjection(out var selectedPlanet);
             if (!string.IsNullOrWhiteSpace(selectedPlanet?.VoteName))
                 return selectedPlanet.VoteName;
-
-            var selectedMap = _gameMapManager.GetSelectedMap();
-            if (!string.IsNullOrWhiteSpace(selectedMap?.MapName))
-                return selectedMap.MapName;
 
             if (!string.IsNullOrWhiteSpace(selectedPlanet?.MapId))
                 return selectedPlanet.MapId;
@@ -109,16 +108,19 @@ namespace Content.Server.GameTicking
             var readyCount = _playerGameStatuses.Values.Count(x => x == PlayerGameStatus.ReadyToPlay);
 
             var govforShip = _cmuRoundDirector.GetMainShipProjection(RoundSide.Govfor);
-            var opforShip = _cmuRoundDirector.GetMainShipProjection(RoundSide.Opfor);
+            // Fallback: when no ship has been vote-selected yet, surface `_gameMapManager`'s
+            // selected map (e.g. dev.toml's `game.map = USSBushRedux`) so it appears under
+            // GOVFOR ship rather than being lost in a "None" cell.
+            if (string.IsNullOrWhiteSpace(govforShip))
+            {
+                var fallbackShip = _gameMapManager.GetSelectedMap();
+                if (!string.IsNullOrWhiteSpace(fallbackShip?.MapName))
+                    govforShip = fallbackShip.MapName;
+            }
             var govforPlatoon = _cmuRoundDirector.TryGetLegacyForceProjection(
                 RoundSide.Govfor,
                 out var govforForce)
                 ? govforForce.Name
-                : null;
-            var opforPlatoon = _cmuRoundDirector.TryGetLegacyForceProjection(
-                RoundSide.Opfor,
-                out var opforForce)
-                ? opforForce.Name
                 : null;
             var gmTitle = LocalizeOrRaw((Decoy ?? preset).ModeTitle);
             var desc = LocalizeOrRaw((Decoy ?? preset).Description);
@@ -131,9 +133,7 @@ namespace Content.Server.GameTicking
                 ("readyCount", readyCount),
                 ("planetName", GetPlanetMapName()),
                 ("govforShip", string.IsNullOrWhiteSpace(govforShip) ? "None" : govforShip),
-                ("opforShip", string.IsNullOrWhiteSpace(opforShip) ? "None" : opforShip),
                 ("govforPlatoon", string.IsNullOrWhiteSpace(govforPlatoon) ? "None" : govforPlatoon),
-                ("opforPlatoon", string.IsNullOrWhiteSpace(opforPlatoon) ? "None" : opforPlatoon),
                 ("mapName", GetPlanetMapName()),
                 ("gmTitle", gmTitle),
                 ("desc", desc));

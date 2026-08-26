@@ -10,9 +10,7 @@ game-ticker-pause-start-resumed = Round start countdown is now resumed.
 game-ticker-player-join-game-message = Welcome to CMU! If this is your first time playing, be sure to read the game rules, and don't be afraid to ask for help in LOOC (local OOC) or OOC (usually available only between rounds).
 game-ticker-get-info-text = Hi and welcome to [color=white]Colonial Marines Universe![/color]
                             The current GOVFOR ship is: [color=#007EE7]{$govforShip}[/color]
-                            The current OPFOR ship is: [color=#FF2000]{$opforShip}[/color]
                             The current GOVFOR platoon is: [color=#007EE7]{$govforPlatoon}[/color]
-                            The current OPFOR platoon is: [color=#FF2000]{$opforPlatoon}[/color]
                             The current planet is: [color=white]{$planetName}[/color]
                             The current gamemode is: [color=white]{$gmTitle}[/color]
 game-ticker-get-info-preround-text = Hi and welcome to [color=white]Colonial Marines Universe![/color]
@@ -21,9 +19,7 @@ game-ticker-get-info-preround-text = Hi and welcome to [color=white]Colonial Mar
                                 *[other] are
                             } ready)
                             The current GOVFOR ship is: [color=#007EE7]{$govforShip}[/color]
-                            The current OPFOR ship is: [color=#FF2000]{$opforShip}[/color]
                             The current GOVFOR platoon is: [color=#007EE7]{$govforPlatoon}[/color]
-                            The current OPFOR platoon is: [color=#FF2000]{$opforPlatoon}[/color]
                             The current planet is: [color=white]{$planetName}[/color]
                             The current gamemode is: [color=white]{$gmTitle}[/color]
 game-ticker-no-map-selected = [color=#FFB500]Map not yet selected![/color]
