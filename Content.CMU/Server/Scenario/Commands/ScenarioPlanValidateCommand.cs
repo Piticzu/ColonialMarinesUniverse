@@ -24,8 +24,6 @@ public sealed class ScenarioPlanValidateCommand : IConsoleCommand
     private static readonly string[] TargetPresetIds =
     {
         "DistressSignal",
-        "Insurgency",
-        "ColonyFall",
     };
 
     public ScenarioPlanValidateCommand() : this("scenarioplanvalidate", "Scenario Plan")

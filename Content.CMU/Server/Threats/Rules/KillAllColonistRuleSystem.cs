@@ -109,7 +109,6 @@ public sealed partial class KillAllColonistRuleSystem : GameRuleSystem<KillAllCo
             return;
 
         string? winMessage = _auRoundSystem.SelectedThreat?.WinMessage;
-        _roundStats.RecordKillAllColonistRule();
         _gameTicker.EndRound(!string.IsNullOrEmpty(winMessage) ? winMessage : DefaultWinMsg);
     }
 }

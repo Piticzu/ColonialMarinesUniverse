@@ -94,7 +94,7 @@ public sealed partial class PlatoonSpawnRuleSystem : GameRuleSystem<PlatoonSpawn
             ? AuRoundVoteBranch.Govfor | AuRoundVoteBranch.Opfor
             : AuRoundSelectionRules.GetActiveFactionBranches(
                 preset.RequiresGovforVote,
-                preset.RequiresOpforVote,
+                requiresOpforSelection: false,
                 preset.UsesGovforPlatoon,
                 preset.UsesOpforPlatoon);
 

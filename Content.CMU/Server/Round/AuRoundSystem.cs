@@ -258,20 +258,6 @@ namespace Content.Server.AU14.Round
             _voteSequence.Track(handle);
         }
 
-        private static string? GetPresetVoteWinner(VoteFinishedEventArgs args)
-        {
-            if (args.SelectedWinner is string selected)
-                return selected;
-
-            if (args.Winner is string winner)
-                return winner;
-
-            if (args.Winners.Length > 0 && args.Winners[0] is string first)
-                return first;
-
-            return null;
-        }
-
         public void StartFullVoteSequence()
         {
             if (_voteSequenceRunning)
@@ -343,8 +329,8 @@ namespace Content.Server.AU14.Round
             if (_selectedPreset == null || _selectedPlanet == null)
                 return;
 
-            bool usesPresetSchedule = SelectedThreat == null && _selectedPreset.ThirdPartyAutoSpawn;
-            if (SelectedThreat == null && !usesPresetSchedule)
+            var selectedThreat = SelectedThreat;
+            if (selectedThreat == null)
                 return;
 
             var allThirdParties = new List<ThirdPartyPrototype>();
@@ -369,25 +355,18 @@ namespace Content.Server.AU14.Round
                 if (!IsThirdPartyAllowedForCurrentContext(proto))
                     continue;
 
-                // Threatless preset scheduling is opt-in on both sides. This prevents generally available
-                // third parties from silently becoming natural Insurgency spawns.
-                if (usesPresetSchedule &&
-                    !AuRoundSelectionRules.IsExplicitlyWhitelistedForGamemode(proto, _selectedPreset.ID))
-                    continue;
-
                 candidates.Add(proto);
             }
 
             var playerCount = _playerManager.PlayerCount;
-            float thirdPartyRatio = SelectedThreat?.ThirdPartyRatio ?? _selectedPreset.ThirdPartyRatio;
-            int maxThirdParties = Math.Max(0, SelectedThreat?.MaxThirdParties ?? _selectedPreset.MaxThirdParties);
+            float thirdPartyRatio = selectedThreat.ThirdPartyRatio;
+            int maxThirdParties = Math.Max(0, selectedThreat.MaxThirdParties);
             var bodyBudget = CalculateThirdPartyBodyBudget(playerCount, thirdPartyRatio);
-            if (SelectedThreat != null &&
-                TryCalculateThreatBodyCount(SelectedThreat, playerCount, out var threatBodyCount))
+            if (TryCalculateThreatBodyCount(selectedThreat, playerCount, out var threatBodyCount))
                 bodyBudget = Math.Min(bodyBudget, threatBodyCount.Total);
 
             _sawmill.Debug(
-                $"[AuRoundSystem] Third-party candidates for planet {_selectedPlanet.MapId}: listed={allThirdParties.Count}, allowed={candidates.Count}, schedule={(usesPresetSchedule ? $"preset:{_selectedPreset.ID}" : $"threat:{SelectedThreat!.ID}")}, max={maxThirdParties}, bodyBudget={bodyBudget}.");
+                $"[AuRoundSystem] Third-party candidates for planet {_selectedPlanet.MapId}: listed={allThirdParties.Count}, allowed={candidates.Count}, schedule=threat:{selectedThreat.ID}, max={maxThirdParties}, bodyBudget={bodyBudget}.");
             if (candidates.Count == 0)
                 return;
 

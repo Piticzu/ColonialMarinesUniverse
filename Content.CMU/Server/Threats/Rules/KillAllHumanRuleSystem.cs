@@ -134,7 +134,6 @@ public sealed partial class KillAllHumanRuleSystem : GameRuleSystem<KillAllHuman
             ? ruleComp.WinMessage
             : _auRoundSystem.SelectedThreat?.WinMessage;
 
-        _roundStats.RecordKillAllHumanRule();
         _gameTicker.EndRound(!string.IsNullOrEmpty(winMessage) ? winMessage : DefaultWinMsg);
     }
 }

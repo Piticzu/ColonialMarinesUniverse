@@ -56,7 +56,6 @@ public sealed partial class ThreatSystem : EntitySystem
     [Dependency] private ScenarioPlanSystem _scenarioPlan = default!;
     [Dependency] private ThreatVoteSystem _threatVote = default!;
     [Dependency] private GameTicker _ticker = default!;
-    [Dependency] private IGameTiming _timing = default!;
     [Dependency] private SharedTransformSystem _transform = default!;
     private static readonly ProtoId<JobPrototype> ThreatLeaderJobId = new("AU14JobThreatLeader");
     private static readonly ProtoId<JobPrototype> ThreatMemberJobId = new("AU14JobThreatMember");
@@ -68,51 +67,8 @@ public sealed partial class ThreatSystem : EntitySystem
 
     private static readonly ThreatMarkerType[] ThreatMarkerTypes = Enum.GetValues<ThreatMarkerType>();
 
-    private readonly List<PendingThreatForceSpawn> _pendingSpawns = new();
-
     private readonly ISawmill _sawmill = Logger.GetSawmill("au14.threat");
     public readonly ProtoId<NpcFactionPrototype> threatNPCFaction = "THREAT";
-
-    internal IReadOnlyList<PendingThreatSpawnDebugView> PendingThreatSpawnsForDebug =>
-        _pendingSpawns
-            .Select(pending => new PendingThreatSpawnDebugView(pending.Threat.ID,
-                pending.FireAt,
-                pending.PlannedForce))
-            .ToList();
-
-    public override void Initialize()
-    {
-        base.Initialize();
-        SubscribeLocalEvent<GameRunLevelChangedEvent>(OnRunLevelChanged);
-    }
-
-    public override void Update(float frameTime)
-    {
-        base.Update(frameTime);
-
-        while (_pendingSpawns.Count > 0 && _timing.CurTime >= _pendingSpawns[0].FireAt)
-        {
-            PendingThreatForceSpawn pending = _pendingSpawns[0];
-            _pendingSpawns.RemoveAt(0);
-
-            try
-            {
-                ThreatSpawnExecutionResult resolvedForce = ExecuteSpawn(pending.Threat,
-                    pending.MapId,
-                    pending.AssignedJobs,
-                    pending.VoteHeldPlayers,
-                    pending.RequireObserverForVotePlayers,
-                    pending.PlannedForce);
-                if (resolvedForce.Spawned)
-                    StartThreatWinConditions(pending.Threat, resolvedForce.ResolvedForce);
-            }
-            catch (Exception ex)
-            {
-                _sawmill.Error($"[ThreatSystem] Delayed threat spawn threw: {ex}");
-                ReleaseVoteHeldPlayers(pending.VoteHeldPlayers, pending.Threat.ID, "delayed threat spawn threw", true);
-            }
-        }
-    }
 
     internal static bool IsThreatJob(ProtoId<JobPrototype>? job)
         => job == ThreatLeaderJobId || job == ThreatMemberJobId;
@@ -191,15 +147,8 @@ public sealed partial class ThreatSystem : EntitySystem
         }
     }
 
-    private void OnRunLevelChanged(GameRunLevelChangedEvent ev)
-    {
-        if (ev.New != GameRunLevel.InRound)
-            _pendingSpawns.Clear();
-    }
-
     /// <summary>
-    ///     For delayed-threat presets, schedules entity spawning and win condition activation after a random
-    ///     delay via the game update loop. Other presets spawn and start win conditions immediately.
+    ///     Spawns the threat and starts its win conditions immediately at round start.
     /// </summary>
     public void SpawnThreatAtRoundStart(ThreatPrototype threat,
         MapId mapId,
@@ -221,22 +170,9 @@ public sealed partial class ThreatSystem : EntitySystem
                     assignmentCounts.Members}, roundStartSpawn={threat.RoundStartSpawn}.");
         }
 
-        if (_auRound.SelectedPreset?.UsesThreatSpawnDelay == true)
-        {
-            double delaySeconds = _random.NextDouble() * (threat.SpawnDelayMax - threat.SpawnDelayMin)
-                + threat.SpawnDelayMin;
-            _sawmill.Debug($"[ThreatSystem] Delayed threat '{threat.ID}' will spawn in {delaySeconds:F1}s.");
-            SchedulePendingThreatSpawn(threat,
-                mapId,
-                assignedJobs,
-                TimeSpan.FromSeconds(delaySeconds));
-        }
-        else
-        {
-            ThreatSpawnExecutionResult resolvedForce = ExecuteSpawn(threat, mapId, assignedJobs);
-            if (resolvedForce.Spawned)
-                StartThreatWinConditions(threat, resolvedForce.ResolvedForce);
-        }
+        ThreatSpawnExecutionResult resolvedForce = ExecuteSpawn(threat, mapId, assignedJobs);
+        if (resolvedForce.Spawned)
+            StartThreatWinConditions(threat, resolvedForce.ResolvedForce);
     }
 
     public void SpawnThreatFromVote(ThreatPrototype threat,
@@ -261,95 +197,9 @@ public sealed partial class ThreatSystem : EntitySystem
                 }, threatMembers={assignmentCounts.Members}, roundStartSpawn={threat.RoundStartSpawn}.");
         }
 
-        if (_auRound.SelectedPreset?.UsesThreatSpawnDelay == true)
-        {
-            double delaySeconds = _random.NextDouble() * (threat.SpawnDelayMax - threat.SpawnDelayMin)
-                + threat.SpawnDelayMin;
-            _sawmill.Debug($"[ThreatSystem] Delayed voted threat '{threat.ID}' will spawn in {delaySeconds:F1}s.");
-            SchedulePendingThreatSpawn(threat,
-                mapId,
-                assignedJobs,
-                TimeSpan.FromSeconds(delaySeconds),
-                heldPlayers,
-                true);
-        }
-        else
-        {
-            ThreatSpawnExecutionResult resolvedForce = ExecuteSpawn(threat, mapId, assignedJobs, heldPlayers);
-            if (resolvedForce.Spawned)
-                StartThreatWinConditions(threat, resolvedForce.ResolvedForce);
-        }
-    }
-
-    internal void SchedulePendingThreatSpawn(ThreatPrototype threat,
-        MapId mapId,
-        Dictionary<NetUserId, (ProtoId<JobPrototype>?, EntityUid)> assignedJobs,
-        TimeSpan delay,
-        IReadOnlyList<NetUserId>? voteHeldPlayers = null,
-        bool requireObserverForVotePlayers = false)
-    {
-        var pending = new PendingThreatForceSpawn
-        {
-            Threat = threat,
-            MapId = mapId,
-            AssignedJobs = assignedJobs,
-            FireAt = _timing.CurTime + delay,
-            VoteHeldPlayers = voteHeldPlayers?.ToList(),
-            RequireObserverForVotePlayers = requireObserverForVotePlayers
-        };
-
-        TryResolvePendingThreatForce(pending);
-        EnqueuePendingThreatSpawn(pending);
-    }
-
-    private void TryResolvePendingThreatForce(PendingThreatForceSpawn pending)
-    {
-        var coveredScenarioForce = false;
-        try
-        {
-            ScenarioPlanValidationRequest request = BuildThreatSpawnScenarioPlanRequest(pending.Threat,
-                pending.AssignedJobs,
-                pending.VoteHeldPlayers);
-            coveredScenarioForce = _scenarioPlan.HasMappedHostileRoundGroup(request.PresetId, pending.Threat.ID);
-            if (_scenarioPlan.TryResolveSelectedThreatForce(request, out ResolvedThreatForcePlan? force,
-                    out string diagnostic)
-                && force != null)
-            {
-                pending.PlannedForce = force;
-                _sawmill.Debug($"[ThreatSystem] Planned delayed threat force '{force.ForceId}' for threat '{
-                    pending.Threat.ID}'.");
-
-                return;
-            }
-
-            string backupDiagnostic = coveredScenarioForce
-                ? "covered Round Groups do not use legacy marker lookup"
-                : "delayed spawn will use live resolution or legacy markers";
-            _sawmill.Warning($"[ThreatSystem] Could not resolve delayed threat Force Plan for '{pending.Threat.ID}'; {
-                backupDiagnostic}. {diagnostic}");
-        }
-        catch (Exception ex)
-        {
-            string backupDiagnostic = coveredScenarioForce
-                ? "covered Round Groups do not use legacy marker lookup"
-                : "delayed spawn will use live resolution or legacy markers";
-            _sawmill.Error($"[ThreatSystem] Delayed threat Force Plan resolution threw for '{pending.Threat.ID}'; {
-                backupDiagnostic
-            }. {ex}");
-        }
-    }
-
-    private void EnqueuePendingThreatSpawn(PendingThreatForceSpawn pending)
-    {
-        int index = _pendingSpawns.FindIndex(existing => existing.FireAt > pending.FireAt);
-        if (index < 0)
-        {
-            _pendingSpawns.Add(pending);
-
-            return;
-        }
-
-        _pendingSpawns.Insert(index, pending);
+        ThreatSpawnExecutionResult resolvedForce = ExecuteSpawn(threat, mapId, assignedJobs, heldPlayers);
+        if (resolvedForce.Spawned)
+            StartThreatWinConditions(threat, resolvedForce.ResolvedForce);
     }
 
     private ThreatSpawnExecutionResult ExecuteSpawn(ThreatPrototype threat,
@@ -1118,12 +968,6 @@ public sealed partial class ThreatSystem : EntitySystem
             || (TryComp(uid, out SSDIndicatorComponent? ssd) && ssd.IsSSD);
     }
 
-    internal sealed record PendingThreatSpawnDebugView(
-        string ThreatId,
-        TimeSpan FireAt,
-        ResolvedThreatForcePlan? PlannedForce
-    );
-
     private readonly record struct ThreatAssignmentCounts(int Leaders, int Members);
 
     private readonly record struct ThreatSpawnExecutionResult(
@@ -1131,14 +975,4 @@ public sealed partial class ThreatSystem : EntitySystem
         bool Spawned
     );
 
-    private sealed class PendingThreatForceSpawn
-    {
-        public required Dictionary<NetUserId, (ProtoId<JobPrototype>?, EntityUid)> AssignedJobs;
-        public required TimeSpan FireAt;
-        public required MapId MapId;
-        public ResolvedThreatForcePlan? PlannedForce;
-        public bool RequireObserverForVotePlayers;
-        public required ThreatPrototype Threat;
-        public IReadOnlyList<NetUserId>? VoteHeldPlayers;
-    }
 }

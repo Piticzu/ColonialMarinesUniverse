@@ -38,11 +38,6 @@ public interface IScenarioPlanGenerator
         MapId mapId,
         out ResolvedThirdPartySpawnMarkerSet? markerSet,
         out string diagnostic);
-    bool TryResolveClfSpawnMarkers(
-        ScenarioPlanValidationRequest request,
-        MapId mapId,
-        out ResolvedClfSpawnMarkerSet? markerSet,
-        out string diagnostic);
     bool TryResolveRoundGroupPrototype(
         string roundGroupId,
         int playerCount,
@@ -164,25 +159,6 @@ public sealed record ResolvedThirdPartyForcePlan(
 
 public sealed record ResolvedThirdPartySpawnMarkerSet(
     ResolvedThirdPartyForcePlan Force,
-    IReadOnlyDictionary<string, IReadOnlyList<EntityUid>> MarkersByBucket)
-{
-    public bool TryGetMarkers(string bucket, out IReadOnlyList<EntityUid> markers)
-    {
-        return MarkersByBucket.TryGetValue(bucket, out markers!);
-    }
-}
-
-public sealed record ResolvedClfForcePlan(
-    string ForceId,
-    ResolvedSpawnPlan SpawnPlan,
-    int CommandBodies,
-    int GuerillaBodies)
-{
-    public int TotalBodies => CommandBodies + GuerillaBodies;
-}
-
-public sealed record ResolvedClfSpawnMarkerSet(
-    ResolvedClfForcePlan Force,
     IReadOnlyDictionary<string, IReadOnlyList<EntityUid>> MarkersByBucket)
 {
     public bool TryGetMarkers(string bucket, out IReadOnlyList<EntityUid> markers)

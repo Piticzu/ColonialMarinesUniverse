@@ -151,11 +151,6 @@ public sealed partial class RMCPlanetMapPrototypeComponent : Component
     [DataField("thirdpartyinterval"), AutoNetworkedField]
     public int? ThirdPartyInterval = 14000;
 
-    [DataField("jobScalingFof")]
-    public ProtoId<JobScalePrototype>? JobScalingFof;
-
-    [DataField("jobScalingIns")]
-    public ProtoId<JobScalePrototype>? JobScalingIns;
 }
 
 [DataDefinition]

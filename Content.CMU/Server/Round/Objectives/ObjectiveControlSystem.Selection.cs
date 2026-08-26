@@ -254,12 +254,8 @@ public sealed partial class ObjectiveControlSystem
 
     public string GetOppositeFaction(string faction, string? mode) => (mode?.ToLowerInvariant(), faction.ToLowerInvariant()) switch
     {
-        ("forceonforce", "govfor") => "opfor",
-        ("forceonforce", "opfor") => "govfor",
         ("distresssignal", "clf") => "govfor",
         ("distresssignal", "govfor") => "clf",
-        ("insurgency", "clf") => "govfor",
-        ("insurgency", "govfor") => "clf",
         _ => string.Empty,
     };
 

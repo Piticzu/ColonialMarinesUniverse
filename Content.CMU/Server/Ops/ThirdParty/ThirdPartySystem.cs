@@ -1101,12 +1101,6 @@ public sealed partial class ThirdPartySystem : EntitySystem
         StartThirdPartySpawning(threat, threat.ThirdPartyInterval, $"threat={threat.ID}", assignedJobs);
     }
 
-    public void StartThirdPartySpawning(GamePresetPrototype preset,
-        Dictionary<NetUserId, (ProtoId<JobPrototype>?, EntityUid)>? assignedJobs = null)
-    {
-        StartThirdPartySpawning(null, preset.ThirdPartyInterval, $"preset={preset.ID}", assignedJobs);
-    }
-
     private void StartThirdPartySpawning(ThreatPrototype? threat,
         int intervalSeconds,
         string scheduleContext,

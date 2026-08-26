@@ -36,8 +36,6 @@ public sealed partial class AddJobsRuleSystem : GameRuleSystem<AddJobsRuleCompon
         var presetId = _gameTicker.CurrentPreset?.ID ?? _gameTicker.Preset?.ID;
         var isDistressPreset = !string.IsNullOrEmpty(presetId) &&
                                presetId.Equals("distresssignal", StringComparison.OrdinalIgnoreCase);
-        var isColonyFallPreset = !string.IsNullOrEmpty(presetId) &&
-                                 presetId.Equals("ColonyFall", StringComparison.OrdinalIgnoreCase);
 
         if (string.Equals(component.ShipFaction, "opfor", StringComparison.OrdinalIgnoreCase))
         {
@@ -72,37 +70,18 @@ public sealed partial class AddJobsRuleSystem : GameRuleSystem<AddJobsRuleCompon
         }
 
         // --- Job Scaling Logic ---
-        // ForceOnForce: read from planet's JobScalingFof
-        // Insurgency: read from planet's JobScalingIns
-        // ColonyFall / Distress: read from ThreatPrototype.JobScaling
+        // Distress Signal: read from ThreatPrototype.JobScaling
         // (Entity/threat spawn scaling is handled separately via PartySpawnPrototype.Scaling)
         {
             var playerCount = _playerManager.PlayerCount;
             JobScalePrototype? scaleDef = null;
 
-            var isInsurgency = !string.IsNullOrEmpty(presetId) &&
-                               presetId.Equals("insurgency", StringComparison.OrdinalIgnoreCase);
-            var isFof = !string.IsNullOrEmpty(presetId) &&
-                        presetId.Equals("forceonforce", StringComparison.OrdinalIgnoreCase);
-
-            if (isDistressPreset || isColonyFallPreset)
+            if (isDistressPreset)
             {
-                // ColonyFall / Distress — scaling comes from the selected threat
+                // Distress — scaling comes from the selected threat
                 var threat = _auRoundSystem.SelectedThreat;
                 if (threat?.JobScaling != null)
                     _prototypeManager.TryIndex<JobScalePrototype>(threat.JobScaling.Value, out scaleDef);
-            }
-            else if (isFof)
-            {
-                // ForceOnForce — scaling comes from planet's FOF field
-                if (planet?.JobScalingFof != null)
-                    _prototypeManager.TryIndex<JobScalePrototype>(planet.JobScalingFof.Value, out scaleDef);
-            }
-            else if (isInsurgency)
-            {
-                // Insurgency — scaling comes from planet's Insurgency field
-                if (planet?.JobScalingIns != null)
-                    _prototypeManager.TryIndex<JobScalePrototype>(planet.JobScalingIns.Value, out scaleDef);
             }
 
             if (scaleDef != null)
@@ -202,11 +181,6 @@ public sealed partial class AddJobsRuleSystem : GameRuleSystem<AddJobsRuleCompon
 
         // If there are no jobs to add, return early
         if (component.Jobs == null || component.Jobs.Count == 0)
-            return;
-
-        // If this is ColonyFall, don't add GOVFOR jobs
-        if (isColonyFallPreset &&
-            string.Equals(component.ShipFaction, "govfor", StringComparison.OrdinalIgnoreCase))
             return;
 
         if (planet != null && !string.IsNullOrEmpty(component.ShipFaction))

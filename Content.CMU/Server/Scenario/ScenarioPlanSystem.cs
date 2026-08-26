@@ -23,12 +23,9 @@ namespace Content.Server.AU14.Scenario;
 
 public sealed partial class ScenarioPlanSystem : EntitySystem, IScenarioPlanGenerator
 {
-    private const string AddClfRuleId = "AddClf";
     private const string ClfForceId = "CLFInsurgents";
     private const string ColonyCivilianJobId = "AU14JobCivilianColonist";
     private const string DistressSignalPresetId = "DistressSignal";
-    private const string ColonyFallPresetId = "ColonyFall";
-    private const string InsurgencyPresetId = "Insurgency";
     private const int ScenarioPlanAnnouncementMaxDiagnosticLength = 500;
     private const string SmallestCandidateReservationPolicyId = "SmallestCandidateBodyCountAllowsUnderfill";
 
@@ -384,35 +381,6 @@ public sealed partial class ScenarioPlanSystem : EntitySystem, IScenarioPlanGene
         }
 
         markerSet = new ResolvedThirdPartySpawnMarkerSet(force, markersByBucket);
-        diagnostic = string.Empty;
-        return true;
-    }
-
-    public bool TryResolveClfSpawnMarkers(
-        ScenarioPlanValidationRequest request,
-        MapId mapId,
-        out ResolvedClfSpawnMarkerSet? markerSet,
-        out string diagnostic)
-    {
-        markerSet = null;
-
-        if (!TryResolveClfForce(request, out var force, out diagnostic) ||
-            force == null)
-        {
-            return false;
-        }
-
-        if (!TryResolveRuntimeSpawnMarkerBuckets(
-                force.ForceId,
-                force.SpawnPlan,
-                mapId,
-                out var markersByBucket,
-                out diagnostic))
-        {
-            return false;
-        }
-
-        markerSet = new ResolvedClfSpawnMarkerSet(force, markersByBucket);
         diagnostic = string.Empty;
         return true;
     }
@@ -1069,17 +1037,6 @@ public sealed partial class ScenarioPlanSystem : EntitySystem, IScenarioPlanGene
         return new ScenarioForceTiming(timing.DelayMinSeconds, timing.DelayMaxSeconds);
     }
 
-    private ScenarioForceTiming BuildLegacyThreatTiming(string presetId, ThreatPrototype threat)
-    {
-        if (!_prototypes.TryIndex<GamePresetPrototype>(presetId, out var preset) ||
-            !preset.UsesThreatSpawnDelay)
-        {
-            return ScenarioForceTiming.Immediate;
-        }
-
-        return new ScenarioForceTiming(threat.SpawnDelayMin, threat.SpawnDelayMax);
-    }
-
     private static ScenarioMarkerKind ToScenarioMarkerKind(SpawnMarkerKind kind)
     {
         return kind switch
@@ -1203,9 +1160,6 @@ public sealed partial class ScenarioPlanSystem : EntitySystem, IScenarioPlanGene
                 markers,
                 includedMarkerSources);
         }
-
-        if (preset.ID.Equals(InsurgencyPresetId, StringComparison.OrdinalIgnoreCase))
-            AddClfForce(preset.ID, planetId, planet, request.PlayerCount, forces, diagnostics);
 
         return new ScenarioPlan(
             preset.ID,
@@ -1355,7 +1309,7 @@ public sealed partial class ScenarioPlanSystem : EntitySystem, IScenarioPlanGene
             threat.ID,
             spawnPlan,
             threat.WinConditions.ToArray(),
-            BuildLegacyThreatTiming(presetId, threat));
+            ScenarioForceTiming.Immediate);
         return true;
     }
 
@@ -1527,35 +1481,6 @@ public sealed partial class ScenarioPlanSystem : EntitySystem, IScenarioPlanGene
         }
     }
 
-    private void AddClfForce(
-        string presetId,
-        string planetId,
-        RMCPlanetMapPrototypeComponent planet,
-        int playerCount,
-        List<PlannedForce> forces,
-        List<ScenarioPlanDiagnostic> diagnostics)
-    {
-        if (!TryBuildClfForce(playerCount, out var force, out _))
-        {
-            diagnostics.Add(BuildDiagnostic(
-                ScenarioDiagnosticSeverity.Error,
-                presetId,
-                planetId,
-                planet.MapId,
-                ClfForceId,
-                AddClfRuleId,
-                "CLFJobs",
-                0,
-                1,
-                0,
-                Array.Empty<string>(),
-                "Insurgency CLF Round Force could not resolve AddClf job data."));
-            return;
-        }
-
-        forces.Add(force);
-    }
-
     private void AddPlatoonForces(
         GamePresetPrototype preset,
         RMCPlanetMapPrototypeComponent planet,
@@ -1565,7 +1490,7 @@ public sealed partial class ScenarioPlanSystem : EntitySystem, IScenarioPlanGene
     {
         var active = AuRoundSelectionRules.GetActiveFactionBranches(
             preset.RequiresGovforVote,
-            preset.RequiresOpforVote,
+            requiresOpforSelection: false,
             preset.UsesGovforPlatoon,
             preset.UsesOpforPlatoon);
 
@@ -1586,17 +1511,11 @@ public sealed partial class ScenarioPlanSystem : EntitySystem, IScenarioPlanGene
         }
 
         if ((active & AuRoundVoteBranch.Opfor) != 0 &&
-            preset.RequiresOpforVote &&
-            planet.PlatoonsOpfor.Count > 0)
-        {
-            deferredChoices.Add(BuildPlatoonChoice("OpforPlatoon", planet.PlatoonsOpfor, request.PlayerCount));
-        }
-        else if ((active & AuRoundVoteBranch.Opfor) != 0 &&
-                 TryGetFixedPlatoonId(
-                     request.OpforPlatoonId,
-                     planet.DefaultOpforPlatoon,
-                     planet.PlatoonsOpfor,
-                     out var opforPlatoonId))
+            TryGetFixedPlatoonId(
+                request.OpforPlatoonId,
+                planet.DefaultOpforPlatoon,
+                planet.PlatoonsOpfor,
+                out var opforPlatoonId))
         {
             forces.Add(BuildPlatoonForce("OpforPlatoon", opforPlatoonId, request.PlayerCount));
         }
@@ -2172,106 +2091,6 @@ public sealed partial class ScenarioPlanSystem : EntitySystem, IScenarioPlanGene
             leaderBodies,
             memberBodies,
             entityBodies);
-        diagnostic = string.Empty;
-        return true;
-    }
-
-    private bool TryResolveClfForce(
-        ScenarioPlanValidationRequest request,
-        out ResolvedClfForcePlan? force,
-        out string diagnostic)
-    {
-        force = null;
-
-        foreach (var plan in GeneratePlansForRuntimeResolution(request, "ClfForce"))
-        {
-            foreach (var plannedForce in plan.Forces)
-            {
-                if (plannedForce.ForceKind != ScenarioForceKind.Clf)
-                    continue;
-
-                if (TryResolveClfForcePlan(plannedForce, out var resolved, out diagnostic))
-                {
-                    force = resolved;
-                    return true;
-                }
-            }
-        }
-
-        if (!TryBuildClfForce(request.PlayerCount, out var directForce, out diagnostic))
-        {
-            return false;
-        }
-
-        if (!TryResolveClfForcePlan(directForce, out var directResolved, out diagnostic))
-            return false;
-
-        force = directResolved;
-        return true;
-    }
-
-    private bool TryBuildClfForce(int playerCount, out PlannedForce force, out string diagnostic)
-    {
-        if (!TryGetRoundGroupId(
-                InsurgencyPresetId,
-                RoundForceSide.Clf,
-                RoundForceSource.GameRule,
-                AddClfRuleId,
-                ClfForceId,
-                out var roundGroupId))
-        {
-            force = default!;
-            diagnostic =
-                $"No CLF Round Group maps '{InsurgencyPresetId}/{AddClfRuleId}/{ClfForceId}'.";
-            return false;
-        }
-
-        if (TryResolveRoundGroupPrototype(
-                roundGroupId,
-                playerCount,
-                out var prototypeForce,
-                out diagnostic) &&
-            prototypeForce != null &&
-            prototypeForce.ForceKind == ScenarioForceKind.Clf)
-        {
-            force = prototypeForce;
-            diagnostic = string.Empty;
-            return true;
-        }
-
-        var prototypeDiagnostic = diagnostic;
-        force = default!;
-        diagnostic =
-            $"Round Group '{roundGroupId}' could not resolve for CLF planning ({prototypeDiagnostic}); covered CLF planning no longer falls back to the legacy AddClf job adapter.";
-        return false;
-    }
-
-    private static bool TryResolveClfForcePlan(
-        PlannedForce force,
-        out ResolvedClfForcePlan resolved,
-        out string diagnostic)
-    {
-        resolved = default!;
-
-        if (force.ForceKind != ScenarioForceKind.Clf)
-        {
-            diagnostic = $"Force '{force.ForceId}' is not a CLF force.";
-            return false;
-        }
-
-        var commandBodies = GetBucketCount(force.SpawnPlan, "CLFCommand");
-        var guerillaBodies = GetBucketCount(force.SpawnPlan, "CLFGuerilla");
-        if (commandBodies + guerillaBodies <= 0)
-        {
-            diagnostic = $"CLF force '{force.ForceId}' has no command or guerilla bodies in its Spawn Plan.";
-            return false;
-        }
-
-        resolved = new ResolvedClfForcePlan(
-            force.ForceId,
-            force.SpawnPlan,
-            commandBodies,
-            guerillaBodies);
         diagnostic = string.Empty;
         return true;
     }

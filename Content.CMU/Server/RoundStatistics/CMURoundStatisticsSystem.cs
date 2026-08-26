@@ -12,8 +12,6 @@ namespace Content.Server._CMU14.RoundStatistics;
 public sealed partial class CMURoundStatisticsSystem : EntitySystem
 {
     private const string DistressSignalPreset = "DistressSignal";
-    private const string InsurgencyPreset = "Insurgency";
-    private const string ColonyFallPreset = "ColonyFall";
     private const string NoPendingOutcomeSource = "NoPendingOutcome";
 
     [Dependency] private AuRoundSystem _auRound = default!;
@@ -36,121 +34,48 @@ public sealed partial class CMURoundStatisticsSystem : EntitySystem
 
     public void RecordKillAllGovforRule()
     {
-        switch (GetCurrentPreset())
-        {
-            case CMURoundStatisticsPreset.Insurgency:
-                TrySetPendingOutcome(
-                    CMURoundStatisticsWinner.Clf,
-                    CMURoundStatisticsOutcome.InsurgencyClfVictory,
-                    "KillAllGovforRule");
-                break;
-            case CMURoundStatisticsPreset.DistressSignal:
-                TrySetPendingOutcome(
-                    CMURoundStatisticsWinner.Xeno,
-                    CMURoundStatisticsOutcome.XenoMajorHijackWin,
-                    "KillAllGovforRule");
-                break;
-        }
-    }
-
-    public void RecordKillAllClfRule()
-    {
-        if (GetCurrentPreset() != CMURoundStatisticsPreset.Insurgency)
+        if (GetCurrentPreset() != CMURoundStatisticsPreset.DistressSignal)
             return;
 
         TrySetPendingOutcome(
-            CMURoundStatisticsWinner.Govfor,
-            CMURoundStatisticsOutcome.InsurgencyGovforVictory,
-            "KillAllClfRule");
-    }
-
-    public void RecordKillAllColonistRule()
-    {
-        if (GetCurrentPreset() != CMURoundStatisticsPreset.ColonyFall)
-            return;
-
-        TrySetPendingOutcome(
-            CMURoundStatisticsWinner.Threat,
-            CMURoundStatisticsOutcome.ColonyFallThreatVictory,
-            "KillAllColonistRule");
-    }
-
-    public void RecordKillAllHumanRule()
-    {
-        if (GetCurrentPreset() != CMURoundStatisticsPreset.ColonyFall)
-            return;
-
-        TrySetPendingOutcome(
-            CMURoundStatisticsWinner.Threat,
-            CMURoundStatisticsOutcome.ColonyFallThreatVictory,
-            "KillAllHumanRule");
+            CMURoundStatisticsWinner.Xeno,
+            CMURoundStatisticsOutcome.XenoMajorHijackWin,
+            "KillAllGovforRule");
     }
 
     public void RecordThreatSurviveRule()
     {
-        switch (GetCurrentPreset())
-        {
-            case CMURoundStatisticsPreset.ColonyFall:
-                TrySetPendingOutcome(
-                    CMURoundStatisticsWinner.Threat,
-                    CMURoundStatisticsOutcome.ColonyFallThreatVictory,
-                    "ThreatSurviveRule");
-                break;
-            case CMURoundStatisticsPreset.DistressSignal:
-                TrySetPendingOutcome(
-                    CMURoundStatisticsWinner.Xeno,
-                    CMURoundStatisticsOutcome.XenoMajorHijackWin,
-                    "ThreatSurviveRule");
-                break;
-        }
+        if (GetCurrentPreset() != CMURoundStatisticsPreset.DistressSignal)
+            return;
+
+        TrySetPendingOutcome(
+            CMURoundStatisticsWinner.Xeno,
+            CMURoundStatisticsOutcome.XenoMajorHijackWin,
+            "ThreatSurviveRule");
     }
 
     public void RecordThreatDefeatedRule(string source)
     {
-        switch (GetCurrentPreset())
-        {
-            case CMURoundStatisticsPreset.ColonyFall:
-                TrySetPendingOutcome(
-                    CMURoundStatisticsWinner.Colonists,
-                    CMURoundStatisticsOutcome.ColonyFallSurvivorVictory,
-                    source);
-                break;
-            case CMURoundStatisticsPreset.DistressSignal:
-                TrySetPendingOutcome(GetDistressThreatDefeatedOutcome(source));
-                break;
-        }
+        if (GetCurrentPreset() != CMURoundStatisticsPreset.DistressSignal)
+            return;
+
+        TrySetPendingOutcome(GetDistressThreatDefeatedOutcome(source));
     }
 
     public void RecordWithdrawal(string? faction, bool isStalemate)
     {
-        switch (GetCurrentPreset())
-        {
-            case CMURoundStatisticsPreset.DistressSignal:
-                TrySetPendingOutcome(GetDistressWithdrawalOutcome(faction, isStalemate));
-                break;
-            case CMURoundStatisticsPreset.Insurgency:
-                TrySetPendingOutcome(GetInsurgencyWithdrawalOutcome(faction, isStalemate));
-                break;
-            case CMURoundStatisticsPreset.ColonyFall:
-                TrySetPendingOutcome(GetColonyFallWithdrawalOutcome(faction, isStalemate));
-                break;
-        }
+        if (GetCurrentPreset() != CMURoundStatisticsPreset.DistressSignal)
+            return;
+
+        TrySetPendingOutcome(GetDistressWithdrawalOutcome(faction, isStalemate));
     }
 
     public void RecordObjectiveVictory(string? faction)
     {
-        switch (GetCurrentPreset())
-        {
-            case CMURoundStatisticsPreset.DistressSignal:
-                TrySetPendingOutcome(GetDistressObjectiveOutcome(faction));
-                break;
-            case CMURoundStatisticsPreset.Insurgency:
-                TrySetPendingOutcome(GetInsurgencyObjectiveOutcome(faction));
-                break;
-            case CMURoundStatisticsPreset.ColonyFall:
-                TrySetPendingOutcome(GetColonyFallObjectiveOutcome(faction));
-                break;
-        }
+        if (GetCurrentPreset() != CMURoundStatisticsPreset.DistressSignal)
+            return;
+
+        TrySetPendingOutcome(GetDistressObjectiveOutcome(faction));
     }
 
     private void TrySetPendingOutcome(PendingRoundOutcome outcome)
@@ -293,114 +218,6 @@ public sealed partial class CMURoundStatisticsSystem : EntitySystem
             source);
     }
 
-    private PendingRoundOutcome GetInsurgencyWithdrawalOutcome(string? faction, bool isStalemate)
-    {
-        var source = GetWithdrawalSource(faction, isStalemate);
-        if (isStalemate)
-        {
-            return new PendingRoundOutcome(
-                CMURoundStatisticsWinner.Draw,
-                CMURoundStatisticsOutcome.Stalemate,
-                source);
-        }
-
-        if (IsGovforFaction(faction))
-        {
-            return new PendingRoundOutcome(
-                CMURoundStatisticsWinner.Clf,
-                CMURoundStatisticsOutcome.InsurgencyClfVictory,
-                source);
-        }
-
-        if (IsOpforFaction(faction))
-        {
-            return new PendingRoundOutcome(
-                CMURoundStatisticsWinner.Govfor,
-                CMURoundStatisticsOutcome.InsurgencyGovforVictory,
-                source);
-        }
-
-        return new PendingRoundOutcome(
-            CMURoundStatisticsWinner.Unknown,
-            CMURoundStatisticsOutcome.Unknown,
-            source);
-    }
-
-    private PendingRoundOutcome GetColonyFallWithdrawalOutcome(string? faction, bool isStalemate)
-    {
-        var source = GetWithdrawalSource(faction, isStalemate);
-        if (isStalemate)
-        {
-            return new PendingRoundOutcome(
-                CMURoundStatisticsWinner.Draw,
-                CMURoundStatisticsOutcome.Stalemate,
-                source);
-        }
-
-        if (IsColonyFaction(faction))
-        {
-            return new PendingRoundOutcome(
-                CMURoundStatisticsWinner.Colonists,
-                CMURoundStatisticsOutcome.ColonyFallSurvivorVictory,
-                source);
-        }
-
-        return new PendingRoundOutcome(
-            CMURoundStatisticsWinner.Unknown,
-            CMURoundStatisticsOutcome.Unknown,
-            source);
-    }
-
-    private PendingRoundOutcome GetInsurgencyObjectiveOutcome(string? faction)
-    {
-        var source = GetObjectiveSource(faction);
-        if (IsGovforFaction(faction))
-        {
-            return new PendingRoundOutcome(
-                CMURoundStatisticsWinner.Govfor,
-                CMURoundStatisticsOutcome.ObjectiveVictory,
-                source);
-        }
-
-        if (IsOpforFaction(faction))
-        {
-            return new PendingRoundOutcome(
-                CMURoundStatisticsWinner.Clf,
-                CMURoundStatisticsOutcome.ObjectiveVictory,
-                source);
-        }
-
-        return new PendingRoundOutcome(
-            CMURoundStatisticsWinner.Unknown,
-            CMURoundStatisticsOutcome.ObjectiveVictory,
-            source);
-    }
-
-    private PendingRoundOutcome GetColonyFallObjectiveOutcome(string? faction)
-    {
-        var source = GetObjectiveSource(faction);
-        if (IsColonyFaction(faction) || IsGovforFaction(faction))
-        {
-            return new PendingRoundOutcome(
-                CMURoundStatisticsWinner.Colonists,
-                CMURoundStatisticsOutcome.ObjectiveVictory,
-                source);
-        }
-
-        if (IsThreatFaction(faction) || IsOpforFaction(faction))
-        {
-            return new PendingRoundOutcome(
-                CMURoundStatisticsWinner.Threat,
-                CMURoundStatisticsOutcome.ObjectiveVictory,
-                source);
-        }
-
-        return new PendingRoundOutcome(
-            CMURoundStatisticsWinner.Unknown,
-            CMURoundStatisticsOutcome.ObjectiveVictory,
-            source);
-    }
-
     private PendingRoundOutcome GetDistressObjectiveOutcome(string? faction)
     {
         var source = GetObjectiveSource(faction);
@@ -444,12 +261,6 @@ public sealed partial class CMURoundStatisticsSystem : EntitySystem
         return string.Equals(faction, "govfor", StringComparison.OrdinalIgnoreCase);
     }
 
-    private static bool IsOpforFaction(string? faction)
-    {
-        return string.Equals(faction, "opfor", StringComparison.OrdinalIgnoreCase) ||
-               string.Equals(faction, "clf", StringComparison.OrdinalIgnoreCase);
-    }
-
     private static bool IsColonyFaction(string? faction)
     {
         return string.Equals(faction, "colony", StringComparison.OrdinalIgnoreCase) ||
@@ -471,8 +282,6 @@ public sealed partial class CMURoundStatisticsSystem : EntitySystem
         return presetId switch
         {
             DistressSignalPreset => CMURoundStatisticsPreset.DistressSignal,
-            InsurgencyPreset => CMURoundStatisticsPreset.Insurgency,
-            ColonyFallPreset => CMURoundStatisticsPreset.ColonyFall,
             _ => null,
         };
     }

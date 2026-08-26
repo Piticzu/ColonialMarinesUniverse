@@ -69,40 +69,18 @@ public sealed partial class AuRoundSystem
 
     private void BeginPresetSelection(int sequenceId)
     {
-        var existingVotes = new HashSet<int>();
-        foreach (var activeVote in _voteManager.ActiveVotes)
+        // CMU only ships Distress Signal as a votable preset, so the preset ballot is skipped:
+        // resolve `game.defaultpreset` (falls back to `ticker.Preset` in ResolvePreset if the id
+        // is missing or invalid) and continue directly to planet/platoon/ship selection.
+        var defaultPresetId = _cfg.GetCVar(CCVars.GameLobbyDefaultPreset);
+        if (!string.IsNullOrWhiteSpace(defaultPresetId))
         {
-            existingVotes.Add(activeVote.Id);
+            var ticker = _entityManager.EntitySysManager.GetEntitySystem<GameTicker>();
+            if (ticker.TryFindGamePreset(defaultPresetId, out _))
+                ticker.SetGamePreset(defaultPresetId);
         }
 
-        _voteManager.CreateStandardVote(null, StandardVoteType.Preset);
-
-        IVoteHandle? presetVote = null;
-        foreach (var activeVote in _voteManager.ActiveVotes)
-        {
-            if (existingVotes.Contains(activeVote.Id))
-                continue;
-
-            presetVote = activeVote;
-            break;
-        }
-
-        if (presetVote == null)
-        {
-            _sawmill.Warning("[AuRoundSystem] Preset vote could not be found after starting it; using the configured preset.");
-            ApplyPresetSelectionAndQueueContinuation(sequenceId, null);
-            return;
-        }
-
-        TrackVoteOutcome(
-            presetVote,
-            sequenceId,
-            args =>
-            {
-                var winner = GetPresetVoteWinner(args);
-                ApplyPresetSelectionAndQueueContinuation(sequenceId, winner);
-            },
-            () => ApplyPresetSelectionAndQueueContinuation(sequenceId, null));
+        ApplyPresetSelectionAndQueueContinuation(sequenceId, defaultPresetId);
     }
 
     private void ApplyPresetSelectionAndQueueContinuation(int sequenceId, string? selectedPresetId)
@@ -205,7 +183,7 @@ public sealed partial class AuRoundSystem
     {
         var required = AuRoundSelectionRules.GetActiveFactionBranches(
             preset.RequiresGovforVote,
-            preset.RequiresOpforVote,
+            requiresOpforSelection: false,
             preset.UsesGovforPlatoon,
             preset.UsesOpforPlatoon);
 
@@ -671,8 +649,20 @@ public sealed partial class AuRoundSystem
 
     private bool SetPlanetSelection(PlanetCandidate selected)
     {
-        return GetRoundDirectorSystem().TrySetLegacyPlanet(selected.Id, selected.Planet) ==
-               CMURoundSelectionMutationResult.Applied;
+        var applied = GetRoundDirectorSystem().TrySetLegacyPlanet(selected.Id, selected.Planet) ==
+                      CMURoundSelectionMutationResult.Applied;
+        if (applied)
+            RefreshLobbyInfo();
+        return applied;
+    }
+
+    /// <summary>
+    ///     Rebroadcasts the pre-round lobby "Server Info" text so vote-committed planet, platoon,
+    ///     and ship selections appear immediately without waiting for the next player status change.
+    /// </summary>
+    private void RefreshLobbyInfo()
+    {
+        _entityManager.EntitySysManager.GetEntitySystem<GameTicker>().UpdateInfoText();
     }
 
     private void ClearPlanetAndFactionSelection()
@@ -751,6 +741,8 @@ public sealed partial class AuRoundSystem
         {
             return;
         }
+
+        RefreshLobbyInfo();
     }
 
     private string? GetFactionShip(AuRoundVoteBranch faction)
@@ -768,20 +760,19 @@ public sealed partial class AuRoundSystem
                 ? RoundSide.Govfor
                 : RoundSide.Opfor,
             ship);
+        RefreshLobbyInfo();
     }
 
     private static bool FactionIsEnabled(GamePresetPrototype preset, AuRoundVoteBranch faction)
     {
         return faction == AuRoundVoteBranch.Govfor
             ? preset.RequiresGovforVote || preset.UsesGovforPlatoon
-            : preset.RequiresOpforVote || preset.UsesOpforPlatoon;
+            : preset.UsesOpforPlatoon;
     }
 
     private static bool FactionRequiresVote(GamePresetPrototype preset, AuRoundVoteBranch faction)
     {
-        return faction == AuRoundVoteBranch.Govfor
-            ? preset.RequiresGovforVote
-            : preset.RequiresOpforVote;
+        return faction == AuRoundVoteBranch.Govfor && preset.RequiresGovforVote;
     }
 
     private static bool FactionUsesShip(

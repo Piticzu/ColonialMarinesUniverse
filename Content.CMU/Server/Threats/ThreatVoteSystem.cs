@@ -509,7 +509,7 @@ public sealed partial class ThreatVoteSystem : EntitySystem
             Sawmill.Error($"[ThreatVoteSystem] GenerateShadowPlan threw after threat vote: {scenarioEx}");
         }
 
-        MoveHeldPlayersToObservers(prepared.HeldPlayers, selected);
+        MoveHeldPlayersToObservers(prepared.HeldPlayers);
 
         try
         {
@@ -542,12 +542,8 @@ public sealed partial class ThreatVoteSystem : EntitySystem
         }
     }
 
-    private void MoveHeldPlayersToObservers(IReadOnlyCollection<NetUserId> heldPlayers, ThreatPrototype selected)
+    private void MoveHeldPlayersToObservers(IReadOnlyCollection<NetUserId> heldPlayers)
     {
-        bool usesThreatSpawnDelay = _auRound.SelectedPreset?.UsesThreatSpawnDelay == true;
-        int minMinutes = Math.Max(1, (int)Math.Round(selected.SpawnDelayMin / 60.0));
-        int maxMinutes = Math.Max(minMinutes, (int)Math.Round(selected.SpawnDelayMax / 60.0));
-
         foreach (NetUserId playerId in heldPlayers)
         {
             if (!_player.TryGetSessionById(playerId, out ICommonSession? session)
@@ -555,13 +551,6 @@ public sealed partial class ThreatVoteSystem : EntitySystem
                 continue;
 
             _ticker.JoinAsObserver(session);
-            if (usesThreatSpawnDelay)
-            {
-                _chat.DispatchServerMessage(session,
-                    Loc.GetString("au14-threat-vote-colony-fall-observer-warning",
-                        ("min", minMinutes),
-                        ("max", maxMinutes)));
-            }
         }
     }
 

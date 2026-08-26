@@ -96,10 +96,6 @@ public sealed partial class GameTicker
             {
                 _cmuThirdParty.StartThirdPartySpawning(selectedThreat, assignedJobs);
             }
-            else if (_auRoundSystem.SelectedPreset is { ThirdPartyAutoSpawn: true } preset)
-            {
-                _cmuThirdParty.StartThirdPartySpawning(preset, assignedJobs);
-            }
         }
         catch (Exception ex)
         {

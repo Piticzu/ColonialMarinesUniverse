@@ -52,11 +52,6 @@ internal static class AuRoundSelectionRules
                (maximum <= 0 || playerCount <= maximum);
     }
 
-    public static bool IsExplicitlyWhitelistedForGamemode(ThirdPartyPrototype proto, string gamemode)
-    {
-        return ContainsIgnoreCase(proto.whitelistedgamemodes, gamemode);
-    }
-
     public static bool IsThirdPartyAllowed(
         ThirdPartyPrototype proto,
         string currentGamemode,

@@ -102,9 +102,7 @@ public sealed partial class AuJobSelectionSystem : EntitySystem
         // placeholder humans when it tries to spawn them directly.
         Logger.GetSawmill("au14.jobs").Debug( $"[DEBUG] threatRatio: {threatRatio}");
 
-        // Modes that do NOT use threat jobs (e.g., insurgency, forceonforce)
-        var noThreatModes = new[] { "insurgency", "forceonforce" };
-        bool useThreat = threat != null && !noThreatModes.Contains(presetId);
+        bool useThreat = threat != null;
         Logger.GetSawmill("au14.jobs").Debug( $"[DEBUG] useThreat: {useThreat}");
 
         // Determine number of threat leaders/members
