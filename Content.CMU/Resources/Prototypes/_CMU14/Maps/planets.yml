@@ -35,7 +35,6 @@
     - NeomorphsThreat
     - NeomorphsThreatCF
     - wendigoThreat
-    - abominationsThreatDistress
 #    - badBloodClanThreat
     thirdparties:
     - WEYUSurvLarge
@@ -65,7 +64,6 @@
     - WYHT
     - WYPMCParty
     - WYPMCPartyAlt
-    - abominationThirdParty
     - tribalThirdParty
     - DrugSmuggler
     - CMBParoleeTransport
@@ -132,7 +130,6 @@
     - WYHT
     - WYPMCParty
     - WYPMCPartyAlt
-    - abominationThirdParty
     - tribalThirdParty
     - DrugSmuggler
     - CMBParoleeTransport
@@ -150,8 +147,6 @@
     - NeomorphsThreat
     - NeomorphsThreatCF
     - wendigoThreat
-    - abominationsThreat
-    - abominationsThreatDistress
 #    - badBloodClanThreat
     # Shepherds' Pride exposes CWPS Ranger as its map-specific LEO role.
     joboverrides:
@@ -204,7 +199,6 @@
     - WYHT
     - WYPMCParty
     - WYPMCPartyAlt
-    - abominationThirdParty
     - tribalThirdParty
     - DrugSmuggler
     - CMBParoleeTransport
@@ -219,8 +213,6 @@
     - cultistThreat
     - XenoThreatCF
     - wendigoThreat
-    - abominationsThreat
-    - abominationsThreatDistress
     joboverrides:
       AU14JobLEOLeaderBase: AU14JobCivilianCMBMarshal
       AU14JobLEOBase: AU14JobCivilianCMBDeputy
@@ -271,7 +263,6 @@
     - WYHT
     - WYPMCParty
     - WYPMCPartyAlt
-    - abominationThirdParty
     - tribalThirdParty
     - DrugSmuggler
     - CMBParoleeTransport
@@ -287,8 +278,6 @@
     - XenoThreatCF
     - NeomorphsThreatCF
     - wendigoThreat
-    - abominationsThreat
-    - abominationsThreatDistress
     joboverrides:
       AU14JobLEOLeaderBase: AU14JobCivilianCMBMarshal
       AU14JobLEOBase: AU14JobCivilianCMBDeputy
@@ -347,7 +336,6 @@
     - WYHT
     - WYPMCParty
     - WYPMCPartyAlt
-    - abominationThirdParty
     - tribalThirdParty
     - DrugSmuggler
     - CMBParoleeTransport
@@ -361,7 +349,6 @@
     threats:
     - cultistThreat
     - wendigoThreat
-    - abominationsThreatDistress
     joboverrides:
       AU14JobLEOLeaderBase: AU14JobCivilianCMBMarshal
       AU14JobLEOBase: AU14JobCivilianCMBDeputy
@@ -424,13 +411,11 @@
     threats:
     - XenoThreat
     - NeomorphsThreat
-    - abominationsThreatDistress
     thirdparties:
     - USArmy
     - USArmyAlt
     - USArmyAlt2
    # - cultistThirdParty
-    - abominationThirdParty
     joboverrides:
       AU14JobLEOLeaderBase: AU14JobCivilianCMBMarshal
       AU14JobLEOBase: AU14JobCivilianCMBDeputy
@@ -466,8 +451,6 @@
     - XenoThreatCF
     - NeomorphsThreatCF
     - wendigoThreat
-    - abominationsThreatDistress
-
     thirdparties:
     - IASFSurvLarge
     - IASFSurvMedium
@@ -494,7 +477,6 @@
     - WYHT
     - WYPMCParty
     - WYPMCPartyAlt
-    - abominationThirdParty
     joboverrides:
       AU14JobLEOLeaderBase: AU14JobCivilianNSPAInspector
       AU14JobLEOBase: AU14JobCivilianNSPAConstable
@@ -516,12 +498,11 @@
     - VAIPO
     - ProdigySF
     - UPP
+    # DS-only build: USCM is the sole govfor platoon, so the govfor vote resolves
+    # automatically. Remaining platoons stay defined for future presets.
     platoonsGovfor:
-    - LACN
-    - CMBCIU
     - USCM
-    - RMC
-    defaultgovfor: RMC
+    defaultgovfor: USCM
     defaultopfor: WEYU
     govforinship: true
     opforinship: true
@@ -534,7 +515,6 @@
     - NeomorphsThreat
     - NeomorphsThreatCF
     - wendigoThreat
-    - abominationsThreatDistress
 #    - badBloodClanThreat
 
     thirdparties:
@@ -561,7 +541,6 @@
     - WYHT
     - WYPMCParty
     - WYPMCPartyAlt
-    - abominationThirdParty
     joboverrides:
       AU14JobLEOLeaderBase: AU14JobCivilianNSPAInspector
       AU14JobLEOBase: AU14JobCivilianNSPAConstable
@@ -614,7 +593,6 @@
     - ApeThirdParty
     - WYPMCParty
     - WYPMCPartyAlt
-    - abominationThirdParty
     joboverrides:
       AU14JobLEOLeaderBase: AU14JobCivilianCMBMarshal
       AU14JobLEOBase: AU14JobCivilianCMBDeputy
@@ -661,7 +639,6 @@
     - ICRCReliefParty
     - UACGLostTeam
     - USArmy
-    - abominationThirdParty
     - tribalThirdParty
     - DrugSmuggler
     - CMBParoleeTransport
@@ -679,8 +656,6 @@
     - NeomorphsThreat
     - NeomorphsThreatCF
     - wendigoThreat
-    - abominationsThreat
-    - abominationsThreatDistress
 #    - badBloodClanThreat
 
     joboverrides:
@@ -736,14 +711,12 @@
     - WYHT
     - WYPMCParty
     - WYPMCPartyAlt
-    - abominationThirdParty
     threats:
     - cultistThreat
     - XenoThreat
     - NeomorphsThreat
     - wendigoThreat
  #   - TribalsThreat
-    - abominationsThreatDistress
 #    - badBloodClanThreat
 
 
@@ -764,11 +737,11 @@
     - WEYU
     - VAIPO
     - ProdigySF
+    # DS-only build: USCM is the sole govfor platoon, so the govfor vote resolves
+    # automatically. Remaining platoons stay defined for future presets.
     platoonsGovfor:
-    - LACN
     - USCM
-    - RMC
-    defaultgovfor: RMC
+    defaultgovfor: USCM
     defaultopfor: VAIPO
     govforinship: true
     opforinship: true
@@ -800,7 +773,6 @@
     - FORECONFirstRecon
     - WYPMCParty
     - WYPMCPartyAlt
-    - abominationThirdParty
     threats:
     - XenoThreat
     - NeomorphsThreat
@@ -820,13 +792,10 @@
     Allegiance: UA
     camouflage: Snow
     announcement: "A remote research outpost, Shepherd's Pride, has gone silent. The UNS Almayer is dispatched to investigate the mysterious circumstances."
+    # DS-only build: USCM is the sole govfor platoon, so the govfor vote resolves
+    # automatically. Remaining platoons stay defined for future presets.
     platoonsGovfor:
     - USCM
-    - WEYU
-    - VAIPO
-    - RMC
-    - UPP
-    - HAZOPS
     defaultgovfor: USCM
     defaultopfor: UPP
     govforinship: true
@@ -858,7 +827,6 @@
     - ProfessorVonBandolier
     - WYPMCParty
     - WYPMCPartyAlt
-    - abominationThirdParty
     threats:
     - XenoThreat
     - NeomorphsThreat
@@ -916,7 +884,6 @@
     - ProfessorVonBandolier
     - WYPMCParty
     - WYPMCPartyAlt
-    - abominationThirdParty
     threats:
     - XenoThreat
     - NeomorphsThreat
@@ -975,9 +942,7 @@
     - WYHT
     - WYPMCParty
     - WYPMCPartyAlt
-    - abominationThirdParty
     threats:
-    - abominationsThreatDistress
     - XenoThreat
     - NeomorphsThreat
 #    - badBloodClanThreat
@@ -1031,9 +996,7 @@
     - WYHT
     - WYPMCParty
     - WYPMCPartyAlt
-    - abominationThirdParty
     threats:
-    - abominationsThreatDistress
     - XenoThreat
     - NeomorphsThreat
 #    - badBloodClanThreat
@@ -1119,18 +1082,15 @@
     Allegiance: TWE
     camouflage: Desert
     announcement: "The Octanis Research Complex and attached colony of Hope's Retreat on charted exoplanet JE-1758 have gone silent, investigate the cause of this communications blackout."
+    # DS-only build: USCM is the sole govfor platoon, so the govfor vote resolves
+    # automatically. Remaining platoons stay defined for future presets.
     platoonsGovfor:
-    - WEYU
     - USCM
-    - RMC
-    - CMBCIU
-    - LACN
-    - UPP
     platoonsOpfor:
     - HAZOPS
     - ProdigySF
     - VAIPO
-    defaultgovfor: WEYU
+    defaultgovfor: USCM
     defaultopfor: ProdigySF
     govforinship: false
     opforinship: true
@@ -1159,7 +1119,6 @@
     - WYHT
     - WYPMCParty
     - WYPMCPartyAlt
-    - abominationThirdParty
     - IASFSurvLarge
     - IASFSurvMedium
     - IASFSurvSmall
@@ -1170,8 +1129,6 @@
     - XenoThreat
     - NeomorphsThreat
     - cultistThreatOnMarker
-    - abominationsThreat
-    - abominationsThreatDistress
     joboverrides:
       AU14JobLEOLeaderBase: AU14JobCivilianNSPAInspector
       AU14JobLEOBase: AU14JobCivilianNSPAConstable

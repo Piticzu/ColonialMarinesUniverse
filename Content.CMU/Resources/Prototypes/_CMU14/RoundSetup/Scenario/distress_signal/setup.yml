@@ -22,7 +22,6 @@
       threatVote:
         candidates:
           - DistressSignalXenoRoundGroup
-          - DistressSignalAbominationRoundGroup
       backupThreatVote:
         candidates:
           - DistressSignalXenoRoundGroup

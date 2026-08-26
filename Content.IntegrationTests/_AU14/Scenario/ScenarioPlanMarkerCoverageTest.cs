@@ -96,8 +96,6 @@ public sealed class ScenarioPlanMarkerCoverageTest
     private static readonly ProtoId<RoundGroupPrototype> OpforProdigySfPlatoonRoundGroup = "OpforProdigySfPlatoonRoundGroup";
     private static readonly ProtoId<RoundGroupPrototype> DistressSignalXenoRoundGroup = "DistressSignalXenoRoundGroup";
     private const string DistressSignalXenoSpawnPlan = "DistressSignalXenoSpawnPlan";
-    private static readonly ProtoId<RoundGroupPrototype> DistressSignalAbominationRoundGroup = "DistressSignalAbominationRoundGroup";
-    private const string DistressSignalAbominationSpawnPlan = "DistressSignalAbominationSpawnPlan";
     private const string ColonyFallCultistSpawnPlan = "ColonyFallCultistSpawnPlan";
     private const string ColonyFallCultistMarkerSpawnPlan = "ColonyFallCultistMarkerSpawnPlan";
     private const string ColonyFallXenoSpawnPlan = "ColonyFallXenoSpawnPlan";
@@ -497,20 +495,20 @@ public sealed class ScenarioPlanMarkerCoverageTest
                 DistressSignalVotingChoices.Id,
                 DistressSignalPreset,
                 "AUPlanetSorokyne",
-                new[] { SelectedThreatAssignmentThreat.Id, DistressSignalAbominationThreat.Id })
-            .SetName("DistressSignal Sorokyne xeno-abomination package slice matches adapter");
+                new[] { SelectedThreatAssignmentThreat.Id })
+            .SetName("DistressSignal Sorokyne xeno-only package slice matches adapter");
         yield return new TestCaseData(
                 DistressSignalVotingChoices.Id,
                 DistressSignalPreset,
                 "AUPlanetLV327",
-                new[] { SelectedThreatAssignmentThreat.Id, DistressSignalAbominationThreat.Id })
-            .SetName("DistressSignal LV327 xeno-abomination package slice matches adapter");
+                new[] { SelectedThreatAssignmentThreat.Id })
+            .SetName("DistressSignal LV327 xeno-only package slice matches adapter");
         yield return new TestCaseData(
                 DistressSignalVotingChoices.Id,
                 DistressSignalPreset,
                 "AuPlanetChances",
-                new[] { DistressSignalAbominationThreat.Id, SelectedThreatAssignmentThreat.Id })
-            .SetName("DistressSignal Chances abomination-xeno package slice matches adapter");
+                new[] { SelectedThreatAssignmentThreat.Id })
+            .SetName("DistressSignal Chances xeno-only package slice matches adapter");
     }
 
     private static IEnumerable<TestCaseData> RemainingGovforPlatoonRoundGroupCases()
@@ -2411,7 +2409,7 @@ public sealed class ScenarioPlanMarkerCoverageTest
                 Assert.That(validatedPlan.SpawnMarkers, Is.Not.Empty);
                 Assert.That(
                     prototypeThreatChoice.Candidates.Select(candidate => candidate.SourcePrototypeId),
-                    Is.EqualTo(new[] { SelectedThreatAssignmentThreat.Id, DistressSignalAbominationThreat.Id }));
+                    Is.EqualTo(new[] { SelectedThreatAssignmentThreat.Id }));
                 Assert.That(adaptedGovforChoice.Candidates.Count, Is.GreaterThan(1));
             });
 
@@ -2423,8 +2421,6 @@ public sealed class ScenarioPlanMarkerCoverageTest
                 {
                     var source when source.Equals(SelectedThreatAssignmentThreat.Id, StringComparison.OrdinalIgnoreCase) =>
                         DistressSignalXenoRoundGroup.Id,
-                    var source when source.Equals(DistressSignalAbominationThreat.Id, StringComparison.OrdinalIgnoreCase) =>
-                        DistressSignalAbominationRoundGroup.Id,
                     _ => throw new InvalidOperationException($"Unexpected Distress Signal seeded threat '{prototypeCandidate.SourcePrototypeId}'."),
                 };
                 Assert.That(
@@ -2661,57 +2657,6 @@ public sealed class ScenarioPlanMarkerCoverageTest
         await pair.CleanReturnAsync();
     }
 
-    [Test]
-    public async Task DistressSignalAbominationRoundGroupPrototypePreservesEntityBucketAndCustomMarkers()
-    {
-        await using var pair = await PoolManager.GetServerClient();
-        var server = pair.Server;
-
-        await server.WaitAssertion(() =>
-        {
-            var prototypes = server.ResolveDependency<IPrototypeManager>();
-            var generator = server.System<ScenarioPlanSystem>();
-            var threat = prototypes.Index(DistressSignalAbominationThreat);
-            var partySpawn = prototypes.Index(threat.RoundStartSpawn);
-            var force = prototypes.Index(DistressSignalAbominationRoundGroup);
-            var spawnPlan = force.Spawn;
-            var legacyBodyCount = ThreatVoteSelection.CalculateBodyCount(partySpawn, MarkerValidationPlayerCount);
-            var request = new ScenarioPlanValidationRequest(
-                "DistressSignal",
-                MarkerValidationPlayerCount,
-                SelectedThreatId: threat.ID);
-
-            Assert.That(
-                generator.TryResolveSelectedThreatForce(request, out var adaptedForce, out var diagnostic),
-                Is.True,
-                diagnostic);
-            Assert.That(adaptedForce, Is.Not.Null);
-
-            Assert.Multiple(() =>
-            {
-                Assert.That(force.Kind, Is.EqualTo(RoundGroupKind.Hostile));
-                Assert.That(force.SourcePrototypeId, Is.EqualTo(threat.ID));
-                Assert.That(force.Spawn.HasData, Is.True);
-                Assert.That(force.WinConditionRuleIds, Is.EquivalentTo(threat.WinConditions));
-
-                Assert.That(adaptedForce!.LeaderBodies, Is.EqualTo(legacyBodyCount.Leaders));
-                Assert.That(adaptedForce.MemberBodies, Is.EqualTo(legacyBodyCount.Members));
-            });
-
-            AssertScenarioSpawnDefinitionMatchesAdapter(spawnPlan, adaptedForce!.SpawnPlan);
-            AssertPartySpawnPlanPrototypeMatchesLegacy(spawnPlan, partySpawn, legacyBodyCount, thirdParty: false);
-            AssertPrototypeBucketBodiesMatchLegacy(spawnPlan, ThreatMarkerType.Leader, partySpawn.LeadersToSpawn, partySpawn);
-            AssertPrototypeBucketBodiesMatchLegacy(spawnPlan, ThreatMarkerType.Member, partySpawn.GruntsToSpawn, partySpawn);
-            AssertPrototypeBucketBodiesMatchLegacy(spawnPlan, ThreatMarkerType.Entity, partySpawn.EntitiesToSpawn, partySpawn);
-            AssertPrototypeBodyCountMatchesLegacyPartySpawn(spawnPlan, partySpawn, playerCount: 25);
-            AssertPrototypeBodyCountMatchesLegacyPartySpawn(spawnPlan, partySpawn, playerCount: 50);
-            AssertPrototypeBodyCountMatchesLegacyPartySpawn(spawnPlan, partySpawn, playerCount: 100);
-            AssertPrototypeBodyCountMatchesLegacyPartySpawn(spawnPlan, partySpawn, playerCount: 180);
-        });
-
-        await pair.CleanReturnAsync();
-    }
-
     [TestCase(40)]
     [TestCase(100)]
     [TestCase(200)]
@@ -2739,44 +2684,6 @@ public sealed class ScenarioPlanMarkerCoverageTest
                         "DistressSignal",
                         playerCount,
                         SelectedThreatId: SelectedThreatAssignmentThreat.Id),
-                    out var adaptedForce,
-                    out var adaptedDiagnostic),
-                Is.True,
-                adaptedDiagnostic);
-            Assert.That(adaptedForce, Is.Not.Null);
-
-            AssertPrototypeForceMatchesThreatAdapter(prototypeForce!, adaptedForce!);
-        });
-
-        await pair.CleanReturnAsync();
-    }
-
-    [TestCase(50)]
-    [TestCase(100)]
-    public async Task RoundGroupPrototypeResolverMatchesAbominationAdapter(int playerCount)
-    {
-        await using var pair = await PoolManager.GetServerClient();
-        var server = pair.Server;
-
-        await server.WaitAssertion(() =>
-        {
-            var generator = server.System<ScenarioPlanSystem>();
-            Assert.That(
-                generator.TryResolveRoundGroupPrototype(
-                    DistressSignalAbominationRoundGroup.Id,
-                    playerCount,
-                    out var prototypeForce,
-                    out var prototypeDiagnostic),
-                Is.True,
-                prototypeDiagnostic);
-            Assert.That(prototypeForce, Is.Not.Null);
-
-            Assert.That(
-                generator.TryResolveSelectedThreatForce(
-                    new ScenarioPlanValidationRequest(
-                        "DistressSignal",
-                        playerCount,
-                        SelectedThreatId: DistressSignalAbominationThreat.Id),
                     out var adaptedForce,
                     out var adaptedDiagnostic),
                 Is.True,

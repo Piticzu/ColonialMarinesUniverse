@@ -54,10 +54,9 @@
   id: abominationsThreatDistress
   lorePrimer: AU14PrimerThreatAbomination
   roundstartspawns: abominationsPartyDistress
-  whitelistedgamemodes:
-  - DistressSignal
   blacklistedgamemodes:
   - ColonyFall
+  - DistressSignal
   winconditions:
   - KillAllGovforRule
   - KillAllAbominationsRule
