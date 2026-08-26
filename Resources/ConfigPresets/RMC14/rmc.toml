@@ -24,9 +24,9 @@ enabled = false
 can_create_vacuum = false
 
 [game]
-defaultpreset = "CMDistressSignal"
+defaultpreset = "DistressSignal"
 fallbackenabled = false
-fallbackpreset = "CMDistressSignal"
+fallbackpreset = "DistressSignal"
 round_end_sound_collection = "CMRoundEnd"
 contraband_examine = false
 maxplayers = 500
