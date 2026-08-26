@@ -88,6 +88,25 @@ namespace Content.Server.GameTicking
             shipNames.Add(mapId);
         }
 
+        /// <summary>
+        ///     Resolves a ship prototype id (as returned by the round director) to its display
+        ///     <c>MapName</c>. Falls back to the raw id if the prototype cannot be indexed, and
+        ///     returns <c>null</c> for null/whitespace input.
+        /// </summary>
+        private string? ResolveShipDisplayName(string? mapId)
+        {
+            if (string.IsNullOrWhiteSpace(mapId))
+                return null;
+
+            if (_prototypeManager.TryIndex<GameMapPrototype>(mapId, out var shipMap) &&
+                !string.IsNullOrWhiteSpace(shipMap.MapName))
+            {
+                return shipMap.MapName;
+            }
+
+            return mapId;
+        }
+
         private string LocalizeOrRaw(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -107,7 +126,11 @@ namespace Content.Server.GameTicking
             var playerCount = $"{_playerManager.PlayerCount}";
             var readyCount = _playerGameStatuses.Values.Count(x => x == PlayerGameStatus.ReadyToPlay);
 
-            var govforShip = _cmuRoundDirector.GetMainShipProjection(RoundSide.Govfor);
+            // `GetMainShipProjection` returns the raw ship prototype id (e.g. `USSBushRedux`).
+            // Resolve to the prototype's MapName ("USS George Bush") so the label does not flip
+            // from the pretty fallback name to the raw id the moment the ship vote commits.
+            var govforShip = ResolveShipDisplayName(
+                _cmuRoundDirector.GetMainShipProjection(RoundSide.Govfor));
             // Fallback: when no ship has been vote-selected yet, surface `_gameMapManager`'s
             // selected map (e.g. dev.toml's `game.map = USSBushRedux`) so it appears under
             // GOVFOR ship rather than being lost in a "None" cell.
