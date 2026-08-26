@@ -29,10 +29,6 @@ public sealed partial class HumanoidProfileEditor
         TabContainer.SetTabVisible(CharacterDescriptionTabIndex, _cfgManager.GetCVar(CCVars.CharacterDescription));
         TabContainer.SetTabTitle(RegulationAppearanceTabIndex,
             Loc.GetString("humanoid-profile-editor-regulation-appearance-tab"));
-        TabContainer.SetTabTitle(InsurgencyTabIndex,
-            Loc.GetString("humanoid-profile-editor-insurgency-tab"));
-        TabContainer.SetTabTitle(ColonyFallTabIndex,
-            Loc.GetString("humanoid-profile-editor-colony-fall-tab"));
         TabContainer.SetTabTitle(DistressSignalTabIndex,
             Loc.GetString("humanoid-profile-editor-distress-signal-tab"));
         TabContainer.SetTabTitle(TraitsTabIndex,
@@ -40,13 +36,6 @@ public sealed partial class HumanoidProfileEditor
         TabContainer.SetTabTitle(MarkingsTabIndex,
             Loc.GetString("humanoid-profile-editor-markings-tab"));
 
-        InsurgencyTabs.SetTabTitle(0, Loc.GetString("humanoid-profile-editor-government-jobs-tab"));
-        InsurgencyTabs.SetTabTitle(1, Loc.GetString("humanoid-profile-editor-insurgency-jobs-tab"));
-        InsurgencyTabs.SetTabTitle(2, Loc.GetString("humanoid-profile-editor-civilian-jobs-tab"));
-        InsurgencyTabs.SetTabTitle(3, Loc.GetString("humanoid-profile-editor-antags-tab"));
-        ColonyFallTabs.SetTabTitle(0, Loc.GetString("humanoid-profile-editor-civilian-jobs-tab"));
-        ColonyFallTabs.SetTabTitle(1, Loc.GetString("humanoid-profile-editor-threat-roles-tab"));
-        ColonyFallTabs.SetTabTitle(2, Loc.GetString("humanoid-profile-editor-antags-tab"));
         DistressSignalTabs.SetTabTitle(0, Loc.GetString("humanoid-profile-editor-government-jobs-tab"));
         DistressSignalTabs.SetTabTitle(1, Loc.GetString("humanoid-profile-editor-threat-roles-tab"));
         DistressSignalTabs.SetTabTitle(2, Loc.GetString("humanoid-profile-editor-antags-tab"));

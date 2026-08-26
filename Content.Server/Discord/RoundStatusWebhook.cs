@@ -189,21 +189,13 @@ public static class RoundStatusWebhook
 
     public static string? GetGamemodeRole(
         string? presetId,
-        string? distressSignalRole,
-        string? colonyFallRole,
-        string? insurgencyRole)
+        string? distressSignalRole)
     {
         if (string.IsNullOrWhiteSpace(presetId))
             return null;
 
         if (presetId.Equals("DistressSignal", StringComparison.OrdinalIgnoreCase))
             return NullIfEmpty(distressSignalRole);
-
-        if (presetId.Equals("ColonyFall", StringComparison.OrdinalIgnoreCase))
-            return NullIfEmpty(colonyFallRole);
-
-        if (presetId.Equals("Insurgency", StringComparison.OrdinalIgnoreCase))
-            return NullIfEmpty(insurgencyRole);
 
         return null;
     }
@@ -212,14 +204,12 @@ public static class RoundStatusWebhook
         bool includeRoundEndRole,
         string? presetId,
         string? roundEndRole,
-        string? distressSignalRole,
-        string? colonyFallRole,
-        string? insurgencyRole)
+        string? distressSignalRole)
     {
         if (includeRoundEndRole && NullIfEmpty(roundEndRole) is { } endRole)
             yield return endRole;
 
-        if (GetGamemodeRole(presetId, distressSignalRole, colonyFallRole, insurgencyRole) is { } gamemodeRole)
+        if (GetGamemodeRole(presetId, distressSignalRole) is { } gamemodeRole)
             yield return gamemodeRole;
     }
 

@@ -45,9 +45,6 @@ namespace Content.Server.GameTicking.Presets
         [DataField("requiresGovforVote")]
         public bool RequiresGovforVote;
 
-        [DataField("requiresOpforVote")]
-        public bool RequiresOpforVote;
-
         [DataField("supportedPlanets")]
         public List<string>? SupportedPlanets;
 

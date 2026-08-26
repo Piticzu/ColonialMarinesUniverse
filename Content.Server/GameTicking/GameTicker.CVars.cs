@@ -27,12 +27,6 @@ namespace Content.Server.GameTicking
         [ViewVariables]
         private string? DiscordRoundStatusDistressSignalRole { get; set; }
 
-        [ViewVariables]
-        private string? DiscordRoundStatusColonyFallRole { get; set; }
-
-        [ViewVariables]
-        private string? DiscordRoundStatusInsurgencyRole { get; set; }
-
         private WebhookIdentifier? _webhookIdentifier;
 
         private ulong _roundStatusWebhookMessageId;
@@ -105,14 +99,6 @@ namespace Content.Server.GameTicking
             Subs.CVar(_cfg, CCVars.DiscordRoundStatusDistressSignalRole, value =>
             {
                 DiscordRoundStatusDistressSignalRole = NullIfEmpty(value);
-            }, true);
-            Subs.CVar(_cfg, CCVars.DiscordRoundStatusColonyFallRole, value =>
-            {
-                DiscordRoundStatusColonyFallRole = NullIfEmpty(value);
-            }, true);
-            Subs.CVar(_cfg, CCVars.DiscordRoundStatusInsurgencyRole, value =>
-            {
-                DiscordRoundStatusInsurgencyRole = NullIfEmpty(value);
             }, true);
             Subs.CVar(_cfg, CCVars.DiscordRoundStatusUpdateInterval, value =>
             {

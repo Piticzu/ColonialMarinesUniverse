@@ -45,8 +45,6 @@ internal static class LobbyHighJobPreview
 
     private static readonly (string Key, string Label)[] Gamemodes =
     {
-        ("Insurgency", "INS"),
-        ("ColonyFall", "CF"),
         ("DistressSignal", "DS")
     };
 

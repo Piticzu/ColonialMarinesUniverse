@@ -10,6 +10,7 @@ using Content.Shared.AU14.util; // CMU14
 using Content.Shared._AU14.Marines.Roles.Chevrons; // CMU14
 using Content.Shared._CMU14.Threats;
 using Content.Shared._RMC14.Prototypes;
+using Content.Shared.CCVar; // CMU14
 using Content.Shared.Clothing;
 using Content.Shared.Preferences;
 using Content.Shared.Preferences.Loadouts;
@@ -25,8 +26,6 @@ namespace Content.Client.Lobby.UI;
 
 public sealed partial class HumanoidProfileEditor
 {
-    private const string GamemodeInsurgency = "Insurgency";
-    private const string GamemodeColonyFall = "ColonyFall";
     private const string GamemodeDistressSignal = "DistressSignal";
     private const string InsurgencyDepartmentId = "AU14DepartmentColonialLiberationFront";
 
@@ -295,42 +294,25 @@ public sealed partial class HumanoidProfileEditor
         JobPrototype job,
         string departmentName)
     {
+        // Distress Signal is the only surviving gamemode; opfor and CLF jobs are not offered.
         if (department.Faction == "govfor")
         {
             var (segment, title) = GetMilitaryJobSegment(job);
-            yield return (InsurgencyGovernmentJobList, GamemodeInsurgency, $"insurgency-govfor-{segment}", title);
             yield return (DistressGovernmentJobList, GamemodeDistressSignal, $"distress-govfor-{segment}", title);
             yield break;
         }
-        if (department.Faction == "opfor")
+        if (department.Faction == "opfor" || department.ID == InsurgencyDepartmentId)
             yield break;
-        if (department.ID == InsurgencyDepartmentId)
-        {
-            yield return (InsurgencyInsurgentJobList, GamemodeInsurgency,
-                $"insurgency-{department.ID}", department.CustomName ?? departmentName);
-            yield break;
-        }
         if (department.Faction == "colonist")
-        {
-            var title = department.CustomName ?? departmentName;
-            yield return (InsurgencyCivilianJobList, GamemodeInsurgency, $"insurgency-civilian-{department.ID}", title);
-            yield return (ColonyCivilianJobList, GamemodeColonyFall, $"colony-civilian-{department.ID}", title);
             yield break;
-        }
         if (job.ID is not ("AU14JobThreatLeader" or "AU14JobThreatMember" or
             "AU14JobThirdPartyLeader" or "AU14JobThirdPartyMember"))
             yield break;
-        yield return (ColonyThreatJobList, GamemodeColonyFall, "colony-threat", "Threat Jobs");
         yield return (DistressThreatJobList, GamemodeDistressSignal, "distress-threat", "Threat Jobs");
     }
 
     private IEnumerable<BoxContainer> GetGamemodeJobLists()
     {
-        yield return InsurgencyGovernmentJobList;
-        yield return InsurgencyInsurgentJobList;
-        yield return InsurgencyCivilianJobList;
-        yield return ColonyCivilianJobList;
-        yield return ColonyThreatJobList;
         yield return DistressGovernmentJobList;
         yield return DistressThreatJobList;
     }
@@ -373,12 +355,8 @@ public sealed partial class HumanoidProfileEditor
 
     public void RefreshAntags()
     {
-        InsurgencyAntagList.RemoveAllChildren();
-        ColonyAntagList.RemoveAllChildren();
         DistressAntagList.RemoveAllChildren();
         _antagPreferences.Clear();
-        PopulateAntagList(InsurgencyAntagList, GamemodeInsurgency);
-        PopulateAntagList(ColonyAntagList, GamemodeColonyFall);
         PopulateAntagList(DistressAntagList, GamemodeDistressSignal);
     }
 
@@ -425,14 +403,11 @@ public sealed partial class HumanoidProfileEditor
 
     public void RefreshThreatPreferences()
     {
-        ColonyThreatPreferenceList.RemoveAllChildren();
         DistressThreatPreferenceList.RemoveAllChildren();
         _threatPreferenceButtons.Clear();
 
-        PopulateThreatPreferenceList(ColonyThreatPreferenceList, GamemodeColonyFall);
         PopulateThreatPreferenceList(DistressThreatPreferenceList, GamemodeDistressSignal);
         SyncThreatPreferenceButtons();
-        CrtLobbyTheme.Apply(ColonyThreatPreferenceList);
         CrtLobbyTheme.Apply(DistressThreatPreferenceList);
     }
 

@@ -72,18 +72,6 @@ public sealed partial class CCVars
         CVarDef.Create("discord.round_status_distress_signal_role", string.Empty, CVar.SERVERONLY);
 
     /// <summary>
-    ///     Role id for the Discord round status webhook to ping when a Colony Fall round ends.
-    /// </summary>
-    public static readonly CVarDef<string> DiscordRoundStatusColonyFallRole =
-        CVarDef.Create("discord.round_status_colony_fall_role", string.Empty, CVar.SERVERONLY);
-
-    /// <summary>
-    ///     Role id for the Discord round status webhook to ping when an Insurgency round ends.
-    /// </summary>
-    public static readonly CVarDef<string> DiscordRoundStatusInsurgencyRole =
-        CVarDef.Create("discord.round_status_insurgency_role", string.Empty, CVar.SERVERONLY);
-
-    /// <summary>
     ///     How often, in seconds, the Discord round status webhook should edit the active status embed.
     ///     Set to zero to disable periodic status edits.
     /// </summary>

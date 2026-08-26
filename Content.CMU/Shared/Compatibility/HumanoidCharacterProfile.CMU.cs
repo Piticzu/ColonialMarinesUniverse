@@ -113,8 +113,6 @@ public sealed partial class HumanoidCharacterProfile
 
         return gamemode.Trim().ToLowerInvariant() switch
         {
-            "insurgency" => "Insurgency",
-            "colonyfall" => "ColonyFall",
             "distresssignal" => "DistressSignal",
             _ => gamemode.Trim(),
         };

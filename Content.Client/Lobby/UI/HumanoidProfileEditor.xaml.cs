@@ -95,12 +95,10 @@ namespace Content.Client.Lobby.UI
         private const int AppearanceTabIndex = 0;
         private const int CharacterDescriptionTabIndex = 1;
         private const int RegulationAppearanceTabIndex = 2;
-        private const int InsurgencyTabIndex = 3;
-        private const int ColonyFallTabIndex = 4;
-        private const int DistressSignalTabIndex = 5;
-        private const int TraitsTabIndex = 6;
-        private const int MarkingsTabIndex = 7;
-        private const int NamedItemsTabIndex = 8;
+        private const int DistressSignalTabIndex = 3;
+        private const int TraitsTabIndex = 4;
+        private const int MarkingsTabIndex = 5;
+        private const int NamedItemsTabIndex = 6;
 
         public HumanoidProfileEditor(
             IClientPreferencesManager preferencesManager,

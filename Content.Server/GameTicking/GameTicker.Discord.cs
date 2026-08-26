@@ -283,9 +283,7 @@ namespace Content.Server.GameTicking
 
             var role = RoundStatusWebhook.GetGamemodeRole(
                 presetId,
-                DiscordRoundStatusDistressSignalRole,
-                DiscordRoundStatusColonyFallRole,
-                DiscordRoundStatusInsurgencyRole);
+                DiscordRoundStatusDistressSignalRole);
 
             if (role == null)
                 return;
@@ -377,9 +375,7 @@ namespace Content.Server.GameTicking
                 includeRoundEndRole,
                 CurrentPreset?.ID ?? Preset?.ID,
                 DiscordRoundEndRole,
-                DiscordRoundStatusDistressSignalRole,
-                DiscordRoundStatusColonyFallRole,
-                DiscordRoundStatusInsurgencyRole);
+                DiscordRoundStatusDistressSignalRole);
         }
 
         private IEnumerable<string> GetRoundEndRoleIds()
