@@ -45,42 +45,6 @@
       AU14JobGOVFORWorkingJoe: 1
 
 - type: entity
-  id: AddOpfor
-  parent: BaseGameRule
-  name: Spawn Opfor
-  components:
-  - type: AddJobsRule
-    shipFaction: opfor
-    addToShip: true
-    jobs:
-      AU14JobOPFORPlatCo: 1
-      AU14JobOPFORAdjutant: 1
-      AU14JobOPFORadvisor: 1
-      AU14JobOPFORPlatOp: 4
-      AU14JobOPFOROfficerIntel: 1
-      AU14JobOPFORSquadSergeant: 3
-      AU14JobOPFORRadioTelephoneOperator: 3
-      AU14JobOPFORRadioTrafficOperator: 3
-      AU14JobOPFORSquadRifleman: 75
-#     CMUJobOPFORDroneOperator: 1
-#     AU14JobOPFORWeaponsSpecialist: 3 # TODO
-      AU14JobOPFORSquadAutomaticRifleman: 3
-      AU14JobOPFORSquadCombatTech: 6
-      AU14JobOPFOROfficerLogistics: 1
-      AU14JobOPFORAuxTech: 1
-      AU14JobOPFOROfficerMedical: 1
-      AU14JobOPFORMilitaryDoctor: 3
-      AU14JobOPFORPlatoonCorpsman: 9
-      AU14JobOPFOROfficerMP: 1
-      AU14JobOPFORMilitaryPoliceMan: 2
-      AU14JobOPFOROfficerEngi: 1
-      AU14JobOPFORVehicleCrewman: 2
-      AU14JobOPFORDSPilot: 2
-      AU14JobOPFORDCC: 2
-      AU14JobOPFORAuxSupportSynth: 2
-      AU14JobOPFORWorkingJoe: 1
-
-- type: entity
   id: AddGovforCorrespondent
   parent: BaseGameRule
   name: Add Combat Reporter
@@ -90,29 +54,6 @@
     shipFaction: govfor
     jobs:
       AU14JobGOVFORCombatCorrespondent: 1
-
-- type: entity
-  id: AddClf
-  parent: BaseGameRule
-  name: Spawn CLF
-  components:
-  - type: AddJobsRule
-    jobs:
-      AU14JobCLFCellLeader: 1
-      AU14JobCLFRadioOperator: 1
-      AU14JobCLFPhysician: 1
-      AU14JobCLFSurgeon: 1
-      AU14JobCLFGuerilla: 3
-      AU14JobCLFSapper: 1
-
-- type: entity
-  id: ColonyAntags
-  parent: BaseGameRule
-  name: Colony Antags
-  description: Randomly rolls for each colony antag to be present this round.
-  components:
-  - type: GameRule
-  - type: ColonyAntagsRule
 
 - type: entity
   id: AuVoteRule

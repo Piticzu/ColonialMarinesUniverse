@@ -16,10 +16,6 @@
   id: IASFSurvLarge
   displayName: IASF Survivors Large
   partyspawn: IASFSurvSpawnLarge
-  blacklistedgamemodes:
-    - insurgency
-    - forceonforce
-    - colonyfall
   entrymethod: ground
   weight: 25
   minplayers: 101
@@ -45,10 +41,6 @@
   id: IASFSurvMedium
   displayName: IASF Survivors Medium
   partyspawn: IASFSurvSpawnMedium
-  blacklistedgamemodes:
-    - insurgency
-    - forceonforce
-    - colonyfall
   entrymethod: ground
   weight: 25
   minplayers: 51
@@ -74,10 +66,6 @@
   id: IASFSurvSmall
   displayName: IASF Survivors Small
   partyspawn: IASFSurvSpawnSmall
-  blacklistedgamemodes:
-    - insurgency
-    - forceonforce
-    - colonyfall
   entrymethod: ground
   weight: 25
   minplayers: 25

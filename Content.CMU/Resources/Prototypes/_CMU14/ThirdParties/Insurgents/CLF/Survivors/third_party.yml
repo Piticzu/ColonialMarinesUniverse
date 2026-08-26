@@ -12,10 +12,6 @@
   id: CLFSurvsBig
   announceAsSurvivors: true
   partyspawn: CLFSurvsSpawnBig
-  blacklistedgamemodes:
-    - insurgency
-    - forceonforce
-    - colonyfall
   entrymethod: ground
   weight: 25
   minplayers: 101
@@ -37,10 +33,6 @@
   id: CLFSurvsMedium
   announceAsSurvivors: true
   partyspawn: CLFSurvsSpawnMedium
-  blacklistedgamemodes:
-    - insurgency
-    - forceonforce
-    - colonyfall
   entrymethod: ground
   weight: 25
   minplayers: 51
@@ -62,10 +54,6 @@
   id: CLFSurvsSmall
   announceAsSurvivors: true
   partyspawn: CLFSurvsSpawnSmall
-  blacklistedgamemodes:
-    - insurgency
-    - forceonforce
-    - colonyfall
   entrymethod: ground
   weight: 25
   minplayers: 20

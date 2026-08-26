@@ -4,7 +4,6 @@ cmu-guide-rules-general = General Rules
 cmu-guide-rules-roleplay = Roleplay Rules
 cmu-guide-rules-gamemode = Gamemode Rules
 cmu-guide-rules-high-roleplay-roles = High Roleplay Roles
-cmu-guide-rules-insurgency = Insurgency Rules
 cmu-guide-comms-overview = Communications Reference
 cmu-guide-comms-first-net = Getting On The Net
 cmu-guide-comms-anprc = AN/PRC-117G Radio

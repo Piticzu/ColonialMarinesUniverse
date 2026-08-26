@@ -500,7 +500,6 @@
   prefRoles: [ CLFVeteranRole ]
   jobBlacklist:
   - AU14JobCLFGuerilla
-  - AU14JobCLFSapper
   - AU14JobCLFCellLeader
   - AU14JobCLFRadioOperator
   - AU14JobCLFPhysician

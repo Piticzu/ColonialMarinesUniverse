@@ -589,19 +589,6 @@
       amount: 1
 
 - type: entity
-  parent: CMPaper
-  id: AU14CLFStandingOrdersPad
-  name: cell standing orders
-  description: >-
-    Cheap colony notepaper. Write down what the cell is for, pass the word, then get rid of
-    it. Nobody can search a body for something everyone already knows.
-  suffix: CLF
-  components:
-  - type: Paper
-    contentSize: 2000
-  - type: CLFStandingOrders
-
-- type: entity
   parent: CMFax
   id: CMFaxCLF
   suffix: CLF

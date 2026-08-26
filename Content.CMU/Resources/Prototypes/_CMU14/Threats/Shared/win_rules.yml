@@ -86,18 +86,3 @@
   components:
   - type: KillAllYautjaRule
     percent: 100
-
-- type: entity
-  id: InsWinConditionsRule
-  parent: BaseGameRule
-  name: Kill All Govfor/killallclf respectively
-  description: Threat wins when all Govfor are dead (or when specified percent are dead).
-  components:
-  - type: InsurgencyRule
-  - type: KillAllGovforRule
-    percent: 85
-    arrest: true
-    winMessage: The CLF have won by eliminating Government Forces!
-  - type: KillAllClfRule
-    percent: 80
-    winMessage: CLF combatants neutralized! The insurgency has been wiped out.

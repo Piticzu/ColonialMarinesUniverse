@@ -8,8 +8,6 @@
 - type: thirdParty
   id: CarpInvasiveParty
   partyspawn: CarpInvasivePartySpawn
-  blacklistedgamemodes:
-  - forceonforce
   entrymethod: ground
   weight: 40
   minplayers: 40

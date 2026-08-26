@@ -58,8 +58,6 @@
   id: XenoParasiteRunnerParty
   partyspawn: XenoParasiteRunnerPartySpawn
   blacklistedgamemodes:
-  - insurgency
-  - forceonforce
   - DistressSignal
   entrymethod: ground
   weight: 10

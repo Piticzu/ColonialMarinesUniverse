@@ -16,10 +16,6 @@
   announceAsSurvivors: true
   displayName: Weyland-Yutani Survivors
   partyspawn: WEYUSurvSpawnLarge
-  blacklistedgamemodes:
-    - insurgency
-    - forceonforce
-    - colonyfall
   entrymethod: ground
   weight: 25
   minplayers: 100
@@ -44,10 +40,6 @@
   announceAsSurvivors: true
   displayName: Weyland-Yutani Survivors
   partyspawn: WEYUSurvSpawnMedium
-  blacklistedgamemodes:
-    - insurgency
-    - forceonforce
-    - colonyfall
   entrymethod: ground
   weight: 25
   minplayers: 51
@@ -71,10 +63,6 @@
   announceAsSurvivors: true
   displayName: Weyland-Yutani Survivors
   partyspawn: WEYUSurvSpawnSmall
-  blacklistedgamemodes:
-    - insurgency
-    - forceonforce
-    - colonyfall
   entrymethod: ground
   weight: 25
   minplayers: 25

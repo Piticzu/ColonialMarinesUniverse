@@ -87,12 +87,10 @@
     eyes: RMCGlassesAviators
     pocket1: AU14StampCLFCell
   inhand:
-  - AU14HeavyCellKit
   - AU14CLFHeadset
   storage:
     back:
     - ANPRCFillCardCLF
-    - AU14CLFStandingOrdersPad
 
 - type: entity
   parent: CMSpawnPointJobBase

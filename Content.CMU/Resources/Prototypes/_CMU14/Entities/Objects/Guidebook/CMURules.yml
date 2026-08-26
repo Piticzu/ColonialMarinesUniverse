@@ -39,12 +39,6 @@
   name: cmu-guide-rules-gamemode
   priority: 4
   text: "/ServerInfo/_CMU14/Guidebook/Rules/Gamemodes/AU14GamemodeRulesOverview.xml"
-  children:
-  - AU14GamemodeRulesInsurgency
-  # - AU14GamemodeRulesForceOnForce
-  # - AU14GamemodeRulesDistressSignal
-  # - AU14GamemodeRulesColonyFall
-  # - AU14GamemodeRulesPrometheus
 
 - type: guideEntry
   parent: RMC
@@ -52,41 +46,3 @@
   name: cmu-guide-rules-high-roleplay-roles
   priority: 5
   text: "/ServerInfo/_CMU14/Guidebook/Rules/AU14HighRoleplayRoles.xml"
-
-- type: guideEntry
-  parent: RMC
-  id: AU14GamemodeRulesInsurgency
-  name: cmu-guide-rules-insurgency
-  priority: 6
-  text: "/ServerInfo/_CMU14/Guidebook/Rules/Gamemodes/AU14GamemodeRulesInsurgency.xml"
-
-# Placeholder stubs below,
-# require actual rules
-#
-# - type: guideEntry
-#   parent: RMC
-#   id: AU14GamemodeRulesForceOnForce
-#   name: Force on Force Rules
-#   priority: 7
-#   text: "/ServerInfo/_CMU14/Guidebook/Rules/Gamemodes/AU14GamemodeRulesForceOnForce.xml"
-#
-# - type: guideEntry
-#   parent: RMC
-#   id: AU14GamemodeRulesDistressSignal
-#   name: Distress Signal Rules
-#   priority: 8
-#   text: "/ServerInfo/_CMU14/Guidebook/Rules/Gamemodes/AU14GamemodeRulesDistressSignal.xml"
-               #
-# - type: guideEntry
-#   parent: RMC
-#   id: AU14GamemodeRulesColonyFall
-#   name: Colony Fall Rules
-#   priority: 9
-#   text: "/ServerInfo/_CMU14/Guidebook/Rules/Gamemodes/AU14GamemodeRulesColonyFall.xml"
-#
-# - type: guideEntry
-#   parent: RMC
-#   id: AU14GamemodeRulesPrometheus
-#   name: Prometheus Rules
-#   priority: 10
-#   text: "/ServerInfo/_CMU14/Guidebook/Rules/Gamemodes/AU14GamemodeRulesPrometheus.xml"

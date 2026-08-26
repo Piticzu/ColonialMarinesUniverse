@@ -15,10 +15,6 @@
   id: VAISO
   announceAsSurvivors: true
   partyspawn: VAISOSpawn
-  blacklistedgamemodes:
-    - insurgency
-    - forceonforce
-    - colonyfall
   entrymethod: shuttle
   weight: 20
   minplayers: 100

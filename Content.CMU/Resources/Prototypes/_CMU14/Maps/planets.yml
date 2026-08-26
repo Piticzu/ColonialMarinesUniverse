@@ -76,8 +76,6 @@
     - MigratingCivsLarge
     - MissionariesParty
     - MissionariesPartyMedium
-    jobScalingFof: DefaultGovforOpforScale
-    jobScalingIns: DefaultInsurgencyScale
 
 - type: entity
   id: AUPlanetShepherdsPride
@@ -159,8 +157,6 @@
     joboverrides:
       AU14JobLEOLeaderBase: AU14JobCivilianCWPSRanger
       AU14JobLEOBase: AU14JobCivilianCWPSRanger
-    jobScalingFof: DefaultGovforOpforScale
-    jobScalingIns: DefaultInsurgencyScale
 
 - type: entity
   id: CMUPlanetStableGarrisonRedux
@@ -228,8 +224,6 @@
     joboverrides:
       AU14JobLEOLeaderBase: AU14JobCivilianCMBMarshal
       AU14JobLEOBase: AU14JobCivilianCMBDeputy
-    jobScalingFof: DefaultGovforOpforScale
-    jobScalingIns: DefaultInsurgencyScale
 
 - type: entity
   id: AUPlanetStableGarrison
@@ -298,8 +292,6 @@
     joboverrides:
       AU14JobLEOLeaderBase: AU14JobCivilianCMBMarshal
       AU14JobLEOBase: AU14JobCivilianCMBDeputy
-    jobScalingFof: DefaultGovforOpforScale
-    jobScalingIns: DefaultInsurgencyScale
 
 - type: entity
   id: AUPlanetLV624
@@ -373,8 +365,6 @@
     joboverrides:
       AU14JobLEOLeaderBase: AU14JobCivilianCMBMarshal
       AU14JobLEOBase: AU14JobCivilianCMBDeputy
-    jobScalingFof: DefaultGovforOpforScale
-    jobScalingIns: DefaultInsurgencyScale
 
 - type: entity
   id: AUPlanetGixensCaverns
@@ -402,8 +392,6 @@
     opforinship: true
     daycycleenabled: false
     #faction: ua
-    jobScalingFof: DefaultGovforOpforScale
-    jobScalingIns: DefaultInsurgencyScale
 
 - type: entity
   id: AUPlanetFlight
@@ -446,8 +434,6 @@
     joboverrides:
       AU14JobLEOLeaderBase: AU14JobCivilianCMBMarshal
       AU14JobLEOBase: AU14JobCivilianCMBDeputy
-    jobScalingFof: DefaultGovforOpforScale
-    jobScalingIns: DefaultInsurgencyScale
 
 - type: entity
   id: AUPlanetLV759
@@ -512,8 +498,6 @@
     joboverrides:
       AU14JobLEOLeaderBase: AU14JobCivilianNSPAInspector
       AU14JobLEOBase: AU14JobCivilianNSPAConstable
-    jobScalingFof: DefaultGovforOpforScale
-    jobScalingIns: DefaultInsurgencyScale
 
 - type: entity
   id: AUPlanetLV327
@@ -581,8 +565,6 @@
     joboverrides:
       AU14JobLEOLeaderBase: AU14JobCivilianNSPAInspector
       AU14JobLEOBase: AU14JobCivilianNSPAConstable
-    jobScalingFof: DefaultGovforOpforScale
-    jobScalingIns: DefaultInsurgencyScale
 
 - type: entity
   id: AUPlanetCorsatStation
@@ -636,8 +618,6 @@
     joboverrides:
       AU14JobLEOLeaderBase: AU14JobCivilianCMBMarshal
       AU14JobLEOBase: AU14JobCivilianCMBDeputy
-    jobScalingFof: DefaultGovforOpforScale
-    jobScalingIns: DefaultInsurgencyScale
 
 - type: entity
   id: CMUPlanetLament
@@ -706,8 +686,6 @@
     joboverrides:
       AU14JobLEOBase: AU14JobCivilianCMBDeputy
       AU14JobLEOLeaderBase: AU14JobCivilianCMBMarshal
-    jobScalingFof: DefaultGovforOpforScale
-    jobScalingIns: DefaultInsurgencyScale
 
 - type: entity
   id: AUPlanetSorokyne
@@ -768,8 +746,6 @@
     - abominationsThreatDistress
 #    - badBloodClanThreat
 
-    jobScalingFof: DefaultGovforOpforScale
-    jobScalingIns: DefaultInsurgencyScale
 
 - type: entity
   id: AUPlanetTrijent
@@ -831,8 +807,6 @@
     #- TribalsThreat
 #    - badBloodClanThreat
 
-    jobScalingFof: DefaultGovforOpforScale
-    jobScalingIns: DefaultInsurgencyScale
 
 - type: entity
   id: AuPlanetShivasSnowball
@@ -891,8 +865,6 @@
  #   - TribalsThreat
 #    - badBloodClanThreat
 
-    jobScalingFof: DefaultGovforOpforScale
-    jobScalingIns: DefaultInsurgencyScale
 
 - type: entity
   id: AuPlanetKutjevo
@@ -951,8 +923,6 @@
 #    - TribalsThreat
 #    - badBloodClanThreat
 
-    jobScalingFof: DefaultGovforOpforScale
-    jobScalingIns: DefaultInsurgencyScale
 
 - type: entity
   id: AuPlanetFiorina
@@ -1011,8 +981,6 @@
     - XenoThreat
     - NeomorphsThreat
 #    - badBloodClanThreat
-    jobScalingFof: DefaultGovforOpforScale
-    jobScalingIns: DefaultInsurgencyScale
 
 
 - type: entity
@@ -1070,8 +1038,6 @@
     - NeomorphsThreat
 #    - badBloodClanThreat
 
-    jobScalingFof: DefaultGovforOpforScale
-    jobScalingIns: DefaultInsurgencyScale
     joboverrides:
       AU14JobLEOLeaderBase: AU14JobCivilianColonySecurityLeader
       AU14JobLEOBase: AU14JobCivilianColonySecurityOfficer
@@ -1209,8 +1175,6 @@
     joboverrides:
       AU14JobLEOLeaderBase: AU14JobCivilianNSPAInspector
       AU14JobLEOBase: AU14JobCivilianNSPAConstable
-    jobScalingFof: DefaultGovforOpforScale
-    jobScalingIns: DefaultInsurgencyScale
 
 
 - type: lorePrimer

@@ -16,10 +16,6 @@
   id: UPPGROM
   announceAsSurvivors: true
   partyspawn: UPPGROMSpawn
-  blacklistedgamemodes:
-    - insurgency
-    - forceonforce
-    - colonyfall
   entrymethod: shuttle
   dropshippath: /Maps/_CMU14/ShuttlesDropships/rmc_ert_spp_shuttle.yml
   weight: 100
@@ -46,10 +42,6 @@
   id: UPPGROMAlt
   announceAsSurvivors: true
   partyspawn: UPPGROMSpawnAlt
-  blacklistedgamemodes:
-    - insurgency
-    - forceonforce
-    - colonyfall
   entrymethod: shuttle
   dropshippath: /Maps/_CMU14/ShuttlesDropships/rmc_ert_spp_shuttle.yml
   weight: 100
@@ -76,10 +68,6 @@
   id: UPPGROMAlt2
   announceAsSurvivors: true
   partyspawn: UPPGROMSpawnAlt2
-  blacklistedgamemodes:
-    - insurgency
-    - forceonforce
-    - colonyfall
   entrymethod: shuttle
   dropshippath: /Maps/_CMU14/ShuttlesDropships/rmc_ert_spp_shuttle.yml
   weight: 100
