@@ -13,6 +13,8 @@
 
 - type: thirdParty
   id: WEYUSurvLarge
+  blacklistedgamemodes:
+  - DistressSignal
   announceAsSurvivors: true
   displayName: Weyland-Yutani Survivors
   partyspawn: WEYUSurvSpawnLarge
@@ -37,6 +39,8 @@
 
 - type: thirdParty
   id: WEYUSurvMedium
+  blacklistedgamemodes:
+  - DistressSignal
   announceAsSurvivors: true
   displayName: Weyland-Yutani Survivors
   partyspawn: WEYUSurvSpawnMedium
@@ -60,6 +64,8 @@
 
 - type: thirdParty
   id: WEYUSurvSmall
+  blacklistedgamemodes:
+  - DistressSignal
   announceAsSurvivors: true
   displayName: Weyland-Yutani Survivors
   partyspawn: WEYUSurvSpawnSmall

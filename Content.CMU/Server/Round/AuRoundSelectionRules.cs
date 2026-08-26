@@ -67,6 +67,13 @@ internal static class AuRoundSelectionRules
             !ContainsIgnoreCase(proto.whitelistedgamemodes, currentGamemode))
             return false;
 
+        // DS-only build: only roundstart survivor parties may spawn as third parties.
+        // Reinforcements, one-offs, and ghost-role parties (cultists, GROM, FORECON,
+        // Pizza Boy, etc.) are disabled for DistressSignal even if the planet lists them.
+        if (currentGamemode.Equals("DistressSignal", StringComparison.OrdinalIgnoreCase) &&
+            !(proto.RoundStart && proto.AnnounceAsSurvivors))
+            return false;
+
         if (proto.MaxPlayers < playerCount || proto.MinPlayers > playerCount)
             return false;
 
