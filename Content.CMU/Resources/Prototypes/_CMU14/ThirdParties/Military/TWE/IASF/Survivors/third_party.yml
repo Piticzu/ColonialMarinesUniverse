@@ -14,6 +14,8 @@
 
 - type: thirdParty
   id: IASFSurvLarge
+  blacklistedgamemodes:
+  - DistressSignal
   displayName: IASF Survivors Large
   partyspawn: IASFSurvSpawnLarge
   entrymethod: ground
@@ -39,6 +41,8 @@
 
 - type: thirdParty
   id: IASFSurvMedium
+  blacklistedgamemodes:
+  - DistressSignal
   displayName: IASF Survivors Medium
   partyspawn: IASFSurvSpawnMedium
   entrymethod: ground
@@ -64,6 +68,8 @@
 
 - type: thirdParty
   id: IASFSurvSmall
+  blacklistedgamemodes:
+  - DistressSignal
   displayName: IASF Survivors Small
   partyspawn: IASFSurvSpawnSmall
   entrymethod: ground
