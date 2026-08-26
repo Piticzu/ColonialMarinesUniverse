@@ -214092,7 +214092,6 @@ entities:
     - type: Transform
       pos: 159.5,-45.5
       parent: 1
-...
 # CMU DS scenario markers injected from CMSpawnPointXeno* positions.
 - proto: scenariothreatleaderspawnmarker
   entities:
@@ -214301,3 +214300,4 @@ entities:
     - type: Transform
       pos: 72.5,-84.5
       parent: 1
+...
