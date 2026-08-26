@@ -34,7 +34,6 @@ public sealed partial class HumanoidProfileEditor
     private LoadoutWindow? _loadoutWindow;
     [ViewVariables] private PlatoonRankPreferenceWindow? _rankPreferenceWindow; // CMU14
     private readonly List<(string Gamemode, string JobId, RequirementsSelector Selector)> _jobPriorities = [];
-    private readonly List<(string Gamemode, string AntagId, RequirementsSelector Selector)> _antagPreferences = [];
     private readonly List<(string Gamemode, string ThreatId, Button Yes, Button No)> _threatPreferenceButtons = [];
     private readonly Dictionary<string, BoxContainer> _jobCategories;
 
@@ -111,9 +110,13 @@ public sealed partial class HumanoidProfileEditor
             ("humanoid-profile-editor-job-priority-high-button", (int) JobPriority.High),
         };
 
+        // Threat departments render first in the merged Jobs list; govfor comes after.
+        // Ordering: non-govfor departments (which currently means the threat department) first,
+        // then govfor, both sorted internally by DepartmentUIComparer.
         var departments = _prototypeManager.EnumerateCM<DepartmentPrototype>()
             .Where(department => !department.EditorHidden)
-            .OrderBy(department => department, DepartmentUIComparer.Instance)
+            .OrderBy(department => department.Faction == "govfor" ? 1 : 0)
+            .ThenBy(department => department, DepartmentUIComparer.Instance)
             .ToArray();
 
         foreach (var department in departments)
@@ -294,27 +297,26 @@ public sealed partial class HumanoidProfileEditor
         JobPrototype job,
         string departmentName)
     {
-        // Distress Signal is the only surviving gamemode; opfor and CLF jobs are not offered.
+        // Distress Signal is the only surviving gamemode; opfor, CLF, colonist and third-party
+        // profile-preference jobs are not offered. Every remaining entry lands in DistressJobList.
         if (department.Faction == "govfor")
         {
             var (segment, title) = GetMilitaryJobSegment(job);
-            yield return (DistressGovernmentJobList, GamemodeDistressSignal, $"distress-govfor-{segment}", title);
+            yield return (DistressJobList, GamemodeDistressSignal, $"distress-govfor-{segment}", title);
             yield break;
         }
         if (department.Faction == "opfor" || department.ID == InsurgencyDepartmentId)
             yield break;
         if (department.Faction == "colonist")
             yield break;
-        if (job.ID is not ("AU14JobThreatLeader" or "AU14JobThreatMember" or
-            "AU14JobThirdPartyLeader" or "AU14JobThirdPartyMember"))
+        if (job.ID is not ("AU14JobThreatLeader" or "AU14JobThreatMember"))
             yield break;
-        yield return (DistressThreatJobList, GamemodeDistressSignal, "distress-threat", "Threat Jobs");
+        yield return (DistressJobList, GamemodeDistressSignal, "distress-threat", "Threat Jobs");
     }
 
     private IEnumerable<BoxContainer> GetGamemodeJobLists()
     {
-        yield return DistressGovernmentJobList;
-        yield return DistressThreatJobList;
+        yield return DistressJobList;
     }
 
     private static (string Key, string Title) GetMilitaryJobSegment(JobPrototype job)
@@ -352,54 +354,6 @@ public sealed partial class HumanoidProfileEditor
     private static bool ContainsAny(string id, string name, params string[] values) =>
         values.Any(value => id.Contains(value, StringComparison.OrdinalIgnoreCase) ||
                             name.Contains(value, StringComparison.OrdinalIgnoreCase));
-
-    public void RefreshAntags()
-    {
-        DistressAntagList.RemoveAllChildren();
-        _antagPreferences.Clear();
-        PopulateAntagList(DistressAntagList, GamemodeDistressSignal);
-    }
-
-    private void PopulateAntagList(BoxContainer target, string gamemode)
-    {
-        var items = new[]
-        {
-            ("humanoid-profile-editor-antag-preference-yes-button", 0),
-            ("humanoid-profile-editor-antag-preference-no-button", 1),
-        };
-        foreach (var antag in _prototypeManager.EnumerateCM<AntagPrototype>()
-                     .Where(antag => antag.SetPreference)
-                     .OrderBy(antag => Loc.GetString(antag.Name)))
-        {
-            var selector = new RequirementsSelector { Margin = new Thickness(3, 3, 3, 0) };
-            selector.OnOpenGuidebook += OnOpenGuidebook;
-            selector.Setup(items, Loc.GetString(antag.Name), 250, Loc.GetString(antag.Objective), guides: antag.Guides);
-            selector.Select(Profile?.GetAntagPreferencesForGamemode(gamemode).Contains(antag.ID) == true ? 0 : 1);
-            if (!_requirements.IsAllowed(antag,
-                    (HumanoidCharacterProfile?) _preferencesManager.Preferences?.SelectedCharacter,
-                    out var reason))
-            {
-                selector.LockRequirements(reason);
-            }
-            else
-            {
-                selector.UnlockRequirements();
-            }
-            selector.OnSelected += selected =>
-            {
-                Profile = Profile?.WithGamemodeAntagPreference(gamemode, antag.ID, selected == 0);
-                foreach (var (otherGamemode, otherAntag, otherSelector) in _antagPreferences)
-                {
-                    if (otherGamemode == gamemode && otherAntag == antag.ID)
-                        otherSelector.Select(selected);
-                }
-                SetDirty();
-            };
-            _antagPreferences.Add((gamemode, antag.ID, selector));
-            target.AddChild(selector);
-        }
-        CrtLobbyTheme.Apply(target);
-    }
 
     public void RefreshThreatPreferences()
     {

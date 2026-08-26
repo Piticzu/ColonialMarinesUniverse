@@ -90,7 +90,6 @@ public sealed partial class LobbyUIController : UIController, IOnStateEntered<Lo
     {
         if (_profileEditor != null)
         {
-            _profileEditor.RefreshAntags();
             _profileEditor.RefreshSynthetic();
             _profileEditor.RefreshJobs();
             _profileEditor.RefreshThreatPreferences();
@@ -101,11 +100,6 @@ public sealed partial class LobbyUIController : UIController, IOnStateEntered<Lo
     {
         if (_profileEditor != null)
         {
-            if (obj.WasModified<AntagPrototype>())
-            {
-                _profileEditor.RefreshAntags();
-            }
-
             if (obj.WasModified<JobPrototype>() ||
                 obj.WasModified<DepartmentPrototype>())
             {
@@ -277,7 +271,6 @@ public sealed partial class LobbyUIController : UIController, IOnStateEntered<Lo
 
     private void RefreshProfileEditor()
     {
-        _profileEditor?.RefreshAntags();
         _profileEditor?.RefreshSynthetic();
         _profileEditor?.RefreshJobs();
         _profileEditor?.RefreshThreatPreferences();

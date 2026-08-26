@@ -253,29 +253,15 @@
                         </BoxContainer>
                     </ScrollContainer>
                 </BoxContainer>
-                <BoxContainer Orientation="Vertical">
-                    <TabContainer Name="DistressSignalTabs" VerticalExpand="True" StyleClasses="CrtTabContainer">
-                        <BoxContainer Orientation="Vertical">
-                            <ScrollContainer VerticalExpand="True">
-                                <BoxContainer Name="DistressGovernmentJobList" Orientation="Vertical" />
-                            </ScrollContainer>
-                        </BoxContainer>
-                        <BoxContainer Orientation="Horizontal" VerticalExpand="True" SeparationOverride="6">
-                            <PanelContainer StyleClasses="CrtInsetPanel" MinWidth="330" Margin="3 3 0 3">
-                                <ScrollContainer VerticalExpand="True">
-                                    <BoxContainer Name="DistressThreatPreferenceList" Orientation="Vertical" />
-                                </ScrollContainer>
-                            </PanelContainer>
-                            <ScrollContainer VerticalExpand="True" HorizontalExpand="True">
-                                <BoxContainer Name="DistressThreatJobList" Orientation="Vertical" />
-                            </ScrollContainer>
-                        </BoxContainer>
-                        <BoxContainer Orientation="Vertical" Margin="10">
-                            <ScrollContainer VerticalExpand="True">
-                                <BoxContainer Name="DistressAntagList" Orientation="Vertical" />
-                            </ScrollContainer>
-                        </BoxContainer>
-                    </TabContainer>
+                <BoxContainer Orientation="Horizontal" VerticalExpand="True" SeparationOverride="6">
+                    <PanelContainer StyleClasses="CrtInsetPanel" MinWidth="330" Margin="3 3 0 3">
+                        <ScrollContainer VerticalExpand="True">
+                            <BoxContainer Name="DistressThreatPreferenceList" Orientation="Vertical" />
+                        </ScrollContainer>
+                    </PanelContainer>
+                    <ScrollContainer VerticalExpand="True" HorizontalExpand="True">
+                        <BoxContainer Name="DistressJobList" Orientation="Vertical" />
+                    </ScrollContainer>
                 </BoxContainer>
                 <BoxContainer Orientation="Vertical" Margin="10">
                     <!-- Traits -->

@@ -302,7 +302,6 @@ namespace Content.Client.Lobby.UI
 
             _jobCategories = new Dictionary<string, BoxContainer>();
 
-            RefreshAntags();
             RefreshJobs();
             RefreshThreatPreferences();
 
@@ -511,7 +510,6 @@ namespace Content.Client.Lobby.UI
             UpdateRmcControls();
             UpdateCmuControls();
 
-            RefreshAntags();
             RefreshJobs();
             RefreshThreatPreferences();
             RefreshLoadouts();

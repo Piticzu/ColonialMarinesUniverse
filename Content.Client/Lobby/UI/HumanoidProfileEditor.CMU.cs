@@ -36,10 +36,6 @@ public sealed partial class HumanoidProfileEditor
         TabContainer.SetTabTitle(MarkingsTabIndex,
             Loc.GetString("humanoid-profile-editor-markings-tab"));
 
-        DistressSignalTabs.SetTabTitle(0, Loc.GetString("humanoid-profile-editor-government-jobs-tab"));
-        DistressSignalTabs.SetTabTitle(1, Loc.GetString("humanoid-profile-editor-threat-roles-tab"));
-        DistressSignalTabs.SetTabTitle(2, Loc.GetString("humanoid-profile-editor-antags-tab"));
-
         RefreshAllegiances();
         AllegianceButton.OnItemSelected += args =>
         {
