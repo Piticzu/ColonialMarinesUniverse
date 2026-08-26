@@ -71,6 +71,31 @@
   components:
   - type: RMCPlanetMapPrototype
     map: /Maps/_RMC14/solaris.yml
+    # CMU DS vote flow requires these fields; they are unused by the upstream
+    # CMDistressSignalRuleSystem pipeline that also references this entity.
+    mapId: RMCSolarisMap
+    votename: "Solaris Ridge"
+    Allegiance: UA
+    # DS-only build: USCM is the sole govfor platoon, so the govfor vote resolves
+    # automatically. Remaining platoons stay defined for future presets.
+    platoonsGovfor:
+    - USCM
+    defaultgovfor: USCM
+    govforinship: true
+    faction: ua
+    threats:
+    - XenoThreat
+    - NeomorphsThreat
+    thirdparties:
+    - WEYUSurvLarge
+    - WEYUSurvMedium
+    - WEYUSurvSmall
+    - CLFSurvsBig
+    - CLFSurvsMedium
+    - CLFSurvsSmall
+    - IASFSurvLarge
+    - IASFSurvMedium
+    - IASFSurvSmall
     camouflage: Desert
     announcement: "Weston-Yamada has lost contact with one of its Biological Storage Facilities, Solaris Ridge, on the planet of LV-1413. The UNS Almayer has been requested to look into the blackout by Weston-Yamada."
     specialFaxes:
@@ -157,6 +182,24 @@
     survivorJobOverrideScenarios:
       crashlanding_offices: # PMC
         CMSurvivorScientist: CMSurvivorDoctor
+
+# CMU-required GameMapPrototype for the RMC solaris map, referenced by
+# RMCPlanetSolaris.mapId. The upstream CMDistressSignalRuleSystem loads the
+# map by ResPath directly and does not need this entry.
+- type: gameMap
+  id: RMCSolarisMap
+  mapName: Solaris Ridge
+  mapPath: /Maps/_RMC14/solaris.yml
+  minPlayers: 0
+  maxPlayers: 500
+  maxRandomOffset: 0
+  randomRotation: false
+  stations:
+    RMCSolaris:
+      stationProto: StandardUNMCWarship
+      components:
+        - type: StationNameSetup
+          mapNameTemplate: 'Solaris Ridge'
 
 - type: entity
   id: RMCPlanetShiva

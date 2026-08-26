@@ -19,6 +19,7 @@
   - AUPlanetLV327
 #  - AuPlanetChances
   - CMUPlanetHopesRetreat
+  - RMCPlanetSolaris
   rules:
   - AuVoteRule
   - PlatoonSpawn
