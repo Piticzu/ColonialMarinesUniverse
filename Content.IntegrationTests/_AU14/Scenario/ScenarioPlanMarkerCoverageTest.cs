@@ -26,22 +26,13 @@ namespace Content.IntegrationTests._AU14.Scenario;
 public sealed class ScenarioPlanMarkerCoverageTest
 {
     private const int MarkerValidationPlayerCount = 100;
-    private const string SelectedThreatAssignmentPreset = "Prometheus";
     private const string ColonyCivilianJobId = "AU14JobCivilianColonist";
     private const string StandaloneCooldownMarkerId = "scenario-plan-cooldown";
-    private const string InsurgencyPreset = "Insurgency";
     private const string DistressSignalPreset = "DistressSignal";
-    private const string ColonyFallPreset = "ColonyFall";
     private const string PlatoonAdapterTestPreset = "ScenarioPlanPlatoonAdapterTestPreset";
     private const string DistressSignalSeededSlicePlanetId = "CMUPlanetHopesRetreat";
-    private const string ColonyFallSeededSlicePlanetId = "AUPlanetShepherdsPride";
     private static readonly ProtoId<ThreatPrototype> SelectedThreatAssignmentThreat = "XenoThreat";
     private static readonly ProtoId<ThreatPrototype> DistressSignalAbominationThreat = "abominationsThreatDistress";
-    private static readonly ProtoId<ThreatPrototype> ColonyFallCultistThreat = "cultistThreat";
-    private static readonly ProtoId<ThreatPrototype> ColonyFallXenoThreat = "XenoThreatCF";
-    private static readonly ProtoId<ThreatPrototype> ColonyFallAbominationThreat = "abominationsThreat";
-    private static readonly ProtoId<ThreatPrototype> CustomMarkerThreat = "cultistThreatOnMarker";
-    private static readonly ProtoId<ThreatPrototype> WendigoThreat = "wendigoThreat";
     private static readonly ProtoId<ThirdPartyPrototype> GroundThirdParty = "USArmyAlt";
     private const string StandaloneGroundThirdParty = "ScenarioPlanStandaloneThirdParty";
     private const string StandaloneCooldownThirdParty = "ScenarioPlanStandaloneCooldownThirdParty";
@@ -89,11 +80,7 @@ public sealed class ScenarioPlanMarkerCoverageTest
     private static readonly ProtoId<SpawnMarkerPrototype> ThirdPartyEntityGenericSpawnMarker = "ThirdPartyEntityGenericSpawnMarker";
     private static readonly ProtoId<SpawnMarkerPrototype> ClfSafehouseSpawnMarker = "ClfSafehouseSpawnMarker";
     private static readonly ProtoId<SpawnMarkerPrototype> ClfCivilianColonistSpawnMarker = "ClfCivilianColonistSpawnMarker";
-    private static readonly ProtoId<VotingChoicesPrototype> InsurgencyVotingChoices = "InsurgencyVotingChoices";
     private static readonly ProtoId<VotingChoicesPrototype> DistressSignalVotingChoices = "DistressSignalVotingChoices";
-    private static readonly ProtoId<VotingChoicesPrototype> ColonyFallVotingChoices = "ColonyFallVotingChoices";
-    private static readonly ProtoId<RoundGroupPrototype> InsurgencyClfRoundGroup = "InsurgencyClfRoundGroup";
-    private const string InsurgencyClfSpawnPlan = "InsurgencyClfSpawnPlan";
     private static readonly ProtoId<RoundGroupPrototype> GovforUppPlatoonRoundGroup = "GovforUppPlatoonRoundGroup";
     private static readonly ProtoId<RoundGroupPrototype> GovforUscmPlatoonRoundGroup = "GovforUscmPlatoonRoundGroup";
     private static readonly ProtoId<RoundGroupPrototype> GovforRmcPlatoonRoundGroup = "GovforRmcPlatoonRoundGroup";
@@ -111,15 +98,10 @@ public sealed class ScenarioPlanMarkerCoverageTest
     private const string DistressSignalXenoSpawnPlan = "DistressSignalXenoSpawnPlan";
     private static readonly ProtoId<RoundGroupPrototype> DistressSignalAbominationRoundGroup = "DistressSignalAbominationRoundGroup";
     private const string DistressSignalAbominationSpawnPlan = "DistressSignalAbominationSpawnPlan";
-    private static readonly ProtoId<RoundGroupPrototype> ColonyFallCultistRoundGroup = "ColonyFallCultistRoundGroup";
     private const string ColonyFallCultistSpawnPlan = "ColonyFallCultistSpawnPlan";
-    private static readonly ProtoId<RoundGroupPrototype> ColonyFallCultistMarkerRoundGroup = "ColonyFallCultistMarkerRoundGroup";
     private const string ColonyFallCultistMarkerSpawnPlan = "ColonyFallCultistMarkerSpawnPlan";
-    private static readonly ProtoId<RoundGroupPrototype> ColonyFallXenoRoundGroup = "ColonyFallXenoRoundGroup";
     private const string ColonyFallXenoSpawnPlan = "ColonyFallXenoSpawnPlan";
-    private static readonly ProtoId<RoundGroupPrototype> ColonyFallWendigoRoundGroup = "ColonyFallWendigoRoundGroup";
     private const string ColonyFallWendigoSpawnPlan = "ColonyFallWendigoSpawnPlan";
-    private static readonly ProtoId<RoundGroupPrototype> ColonyFallAbominationRoundGroup = "ColonyFallAbominationRoundGroup";
     private const string ColonyFallAbominationSpawnPlan = "ColonyFallAbominationSpawnPlan";
     private static readonly ProtoId<RoundGroupPrototype> DistressSignalWypmcPartyRoundGroup = "DistressSignalWypmcPartyRoundGroup";
     private const string DistressSignalWypmcPartySpawnPlan = "DistressSignalWypmcPartySpawnPlan";
@@ -173,36 +155,6 @@ public sealed class ScenarioPlanMarkerCoverageTest
     private const string DistressSignalCmbInvestigationPartySpawnPlan = "DistressSignalCmbInvestigationPartySpawnPlan";
     private static readonly ProtoId<RoundGroupPrototype> DistressSignalCmbInvestigationPartyAltRoundGroup = "DistressSignalCmbInvestigationPartyAltRoundGroup";
     private const string DistressSignalCmbInvestigationPartyAltSpawnPlan = "DistressSignalCmbInvestigationPartyAltSpawnPlan";
-    private static readonly ProtoId<RoundGroupPrototype> ColonyFallCmbParoleeTransportPartyRoundGroup = "ColonyFallCmbParoleeTransportPartyRoundGroup";
-    private const string ColonyFallCmbParoleeTransportPartySpawnPlan = "ColonyFallCmbParoleeTransportPartySpawnPlan";
-    private static readonly ProtoId<RoundGroupPrototype> ColonyFallCmbParoleeTransportBigPartyRoundGroup = "ColonyFallCmbParoleeTransportBigPartyRoundGroup";
-    private const string ColonyFallCmbParoleeTransportBigPartySpawnPlan = "ColonyFallCmbParoleeTransportBigPartySpawnPlan";
-    private static readonly ProtoId<RoundGroupPrototype> ColonyFallIpiePartyRoundGroup = "ColonyFallIpiePartyRoundGroup";
-    private const string ColonyFallIpiePartySpawnPlan = "ColonyFallIpiePartySpawnPlan";
-    private static readonly ProtoId<RoundGroupPrototype> ColonyFallIpieSynthPartyRoundGroup = "ColonyFallIpieSynthPartyRoundGroup";
-    private const string ColonyFallIpieSynthPartySpawnPlan = "ColonyFallIpieSynthPartySpawnPlan";
-    private static readonly ProtoId<RoundGroupPrototype> ColonyFallWyhtPartyRoundGroup = "ColonyFallWyhtPartyRoundGroup";
-    private const string ColonyFallWyhtPartySpawnPlan = "ColonyFallWyhtPartySpawnPlan";
-    private static readonly ProtoId<RoundGroupPrototype> ColonyFallMissionariesPartyRoundGroup = "ColonyFallMissionariesPartyRoundGroup";
-    private const string ColonyFallMissionariesPartySpawnPlan = "ColonyFallMissionariesPartySpawnPlan";
-    private static readonly ProtoId<RoundGroupPrototype> ColonyFallMissionariesPartyMediumRoundGroup = "ColonyFallMissionariesPartyMediumRoundGroup";
-    private const string ColonyFallMissionariesPartyMediumSpawnPlan = "ColonyFallMissionariesPartyMediumSpawnPlan";
-    private static readonly ProtoId<RoundGroupPrototype> ColonyFallMigratingCivsPartyRoundGroup = "ColonyFallMigratingCivsPartyRoundGroup";
-    private const string ColonyFallMigratingCivsPartySpawnPlan = "ColonyFallMigratingCivsPartySpawnPlan";
-    private static readonly ProtoId<RoundGroupPrototype> ColonyFallMigratingCivsMediumPartyRoundGroup = "ColonyFallMigratingCivsMediumPartyRoundGroup";
-    private const string ColonyFallMigratingCivsMediumPartySpawnPlan = "ColonyFallMigratingCivsMediumPartySpawnPlan";
-    private static readonly ProtoId<RoundGroupPrototype> ColonyFallMigratingCivsLargePartyRoundGroup = "ColonyFallMigratingCivsLargePartyRoundGroup";
-    private const string ColonyFallMigratingCivsLargePartySpawnPlan = "ColonyFallMigratingCivsLargePartySpawnPlan";
-    private static readonly ProtoId<RoundGroupPrototype> ColonyFallDrugSmugglerPartyRoundGroup = "ColonyFallDrugSmugglerPartyRoundGroup";
-    private const string ColonyFallDrugSmugglerPartySpawnPlan = "ColonyFallDrugSmugglerPartySpawnPlan";
-    private static readonly ProtoId<RoundGroupPrototype> ColonyFallForeignCrimeGangPartyRoundGroup = "ColonyFallForeignCrimeGangPartyRoundGroup";
-    private const string ColonyFallForeignCrimeGangPartySpawnPlan = "ColonyFallForeignCrimeGangPartySpawnPlan";
-    private static readonly ProtoId<RoundGroupPrototype> ColonyFallForeconKillTeamPartyRoundGroup = "ColonyFallForeconKillTeamPartyRoundGroup";
-    private const string ColonyFallForeconKillTeamPartySpawnPlan = "ColonyFallForeconKillTeamPartySpawnPlan";
-    private static readonly ProtoId<RoundGroupPrototype> ColonyFallXenoParasiteRunnerPartyRoundGroup = "ColonyFallXenoParasiteRunnerPartyRoundGroup";
-    private const string ColonyFallXenoParasiteRunnerPartySpawnPlan = "ColonyFallXenoParasiteRunnerPartySpawnPlan";
-    private static readonly ProtoId<RoundGroupPrototype> ColonyFallCarpInvasivePartyRoundGroup = "ColonyFallCarpInvasivePartyRoundGroup";
-    private const string ColonyFallCarpInvasivePartySpawnPlan = "ColonyFallCarpInvasivePartySpawnPlan";
     private static readonly ProtoId<RoundGroupPrototype> DistressSignalPapInvestigationPartyRoundGroup = "DistressSignalPapInvestigationPartyRoundGroup";
     private const string DistressSignalPapInvestigationPartySpawnPlan = "DistressSignalPapInvestigationPartySpawnPlan";
     private static readonly ProtoId<RoundGroupPrototype> DistressSignalPapInvestigationPartyAltRoundGroup = "DistressSignalPapInvestigationPartyAltRoundGroup";
@@ -217,7 +169,6 @@ public sealed class ScenarioPlanMarkerCoverageTest
     private const string DistressSignalUsArmyTankPartySpawnPlan = "DistressSignalUsArmyTankPartySpawnPlan";
     private static readonly ProtoId<RoundGroupPrototype> DistressSignalIcrcReliefPartyRoundGroup = "DistressSignalIcrcReliefPartyRoundGroup";
     private const string DistressSignalIcrcReliefPartySpawnPlan = "DistressSignalIcrcReliefPartySpawnPlan";
-    private static readonly EntProtoId AddClfRule = "AddClf";
     private const string ShadowFallbackPreset = "DistressSignal";
     private const string ShadowFallbackPlanet = "AUPlanetSorokyne";
     private const string ShadowFallbackMap = "ScenarioPlanShadowFallbackMap";
@@ -560,36 +511,6 @@ public sealed class ScenarioPlanMarkerCoverageTest
                 "AuPlanetChances",
                 new[] { DistressSignalAbominationThreat.Id, SelectedThreatAssignmentThreat.Id })
             .SetName("DistressSignal Chances abomination-xeno package slice matches adapter");
-        yield return new TestCaseData(
-                ColonyFallVotingChoices.Id,
-                ColonyFallPreset,
-                "CMUPlanetStableGarrisonRedux",
-                new[] { ColonyFallCultistThreat.Id, ColonyFallXenoThreat.Id, WendigoThreat.Id, ColonyFallAbominationThreat.Id })
-            .SetName("ColonyFall Stable Garrison package slice matches adapter");
-        yield return new TestCaseData(
-                ColonyFallVotingChoices.Id,
-                ColonyFallPreset,
-                "AUPlanetLV327",
-                new[] { ColonyFallCultistThreat.Id, ColonyFallXenoThreat.Id, WendigoThreat.Id })
-            .SetName("ColonyFall LV327 package slice matches adapter");
-        yield return new TestCaseData(
-                ColonyFallVotingChoices.Id,
-                ColonyFallPreset,
-                "AUPlanetSorokyne",
-                new[] { ColonyFallCultistThreat.Id, WendigoThreat.Id })
-            .SetName("ColonyFall Sorokyne package slice matches adapter");
-        yield return new TestCaseData(
-                ColonyFallVotingChoices.Id,
-                ColonyFallPreset,
-                "CMUPlanetLament",
-                new[] { CustomMarkerThreat.Id, ColonyFallXenoThreat.Id, WendigoThreat.Id, ColonyFallAbominationThreat.Id })
-            .SetName("ColonyFall Lament marker-cultist package slice matches adapter");
-        yield return new TestCaseData(
-                ColonyFallVotingChoices.Id,
-                ColonyFallPreset,
-                "CMUPlanetHopesRetreat",
-                new[] { CustomMarkerThreat.Id, ColonyFallAbominationThreat.Id })
-            .SetName("ColonyFall Hope's Retreat marker-cultist package slice matches adapter");
     }
 
     private static IEnumerable<TestCaseData> RemainingGovforPlatoonRoundGroupCases()
@@ -864,115 +785,6 @@ public sealed class ScenarioPlanMarkerCoverageTest
             .SetName("Distress Signal ICRC relief shuttle third-party Round Group matches adapter");
     }
 
-    private static IEnumerable<TestCaseData> ColonyFallThirdPartyResolverRoundGroupCases()
-    {
-        yield return new TestCaseData(
-                "CMBParoleeTransport",
-                ColonyFallCmbParoleeTransportPartyRoundGroup.Id,
-                "AUPlanetLV747",
-                40,
-                2)
-            .SetName("Colony Fall CMB parolee transport resolver uses Round Group");
-        yield return new TestCaseData(
-                "CMBParoleeTransportBig",
-                ColonyFallCmbParoleeTransportBigPartyRoundGroup.Id,
-                "AUPlanetLV747",
-                100,
-                3)
-            .SetName("Colony Fall CMB parolee transport big resolver uses Round Group");
-        yield return new TestCaseData(
-                "IPIE",
-                ColonyFallIpiePartyRoundGroup.Id,
-                "AUPlanetLV747",
-                40,
-                1)
-            .SetName("Colony Fall IPIE resolver uses Round Group");
-        yield return new TestCaseData(
-                "IPIESynth",
-                ColonyFallIpieSynthPartyRoundGroup.Id,
-                "AUPlanetLV747",
-                40,
-                1)
-            .SetName("Colony Fall IPIE synth resolver uses Round Group");
-        yield return new TestCaseData(
-                "WYHT",
-                ColonyFallWyhtPartyRoundGroup.Id,
-                "AUPlanetLV747",
-                40,
-                5)
-            .SetName("Colony Fall WYHT resolver uses Round Group");
-        yield return new TestCaseData(
-                "MissionariesParty",
-                ColonyFallMissionariesPartyRoundGroup.Id,
-                "AUPlanetLV747",
-                40,
-                1)
-            .SetName("Colony Fall missionaries resolver uses Round Group");
-        yield return new TestCaseData(
-                "MissionariesPartyMedium",
-                ColonyFallMissionariesPartyMediumRoundGroup.Id,
-                "AUPlanetLV747",
-                100,
-                3)
-            .SetName("Colony Fall missionaries medium resolver uses Round Group");
-        yield return new TestCaseData(
-                "MigratingCivs",
-                ColonyFallMigratingCivsPartyRoundGroup.Id,
-                "AUPlanetLV747",
-                40,
-                2)
-            .SetName("Colony Fall migrating civilians resolver uses Round Group");
-        yield return new TestCaseData(
-                "MigratingCivsMedium",
-                ColonyFallMigratingCivsMediumPartyRoundGroup.Id,
-                "AUPlanetLV747",
-                80,
-                4)
-            .SetName("Colony Fall migrating civilians medium resolver uses Round Group");
-        yield return new TestCaseData(
-                "MigratingCivsLarge",
-                ColonyFallMigratingCivsLargePartyRoundGroup.Id,
-                "AUPlanetLV747",
-                120,
-                5)
-            .SetName("Colony Fall migrating civilians large resolver uses Round Group");
-        yield return new TestCaseData(
-                "DrugSmuggler",
-                ColonyFallDrugSmugglerPartyRoundGroup.Id,
-                "AUPlanetLV747",
-                40,
-                1)
-            .SetName("Colony Fall drug smuggler resolver uses Round Group");
-        yield return new TestCaseData(
-                "ForeignCrimeGang",
-                ColonyFallForeignCrimeGangPartyRoundGroup.Id,
-                "AUPlanetLV747",
-                40,
-                3)
-            .SetName("Colony Fall foreign crime gang resolver uses Round Group");
-        yield return new TestCaseData(
-                "FORECONKillTeam",
-                ColonyFallForeconKillTeamPartyRoundGroup.Id,
-                "AUPlanetLV747",
-                80,
-                1)
-            .SetName("Colony Fall FORECON kill team resolver uses Round Group");
-        yield return new TestCaseData(
-                "XenoParasiteRunnerParty",
-                ColonyFallXenoParasiteRunnerPartyRoundGroup.Id,
-                "AUPlanetLV747",
-                40,
-                1)
-            .SetName("Colony Fall xeno parasite runner resolver uses Round Group");
-        yield return new TestCaseData(
-                "CarpInvasiveParty",
-                ColonyFallCarpInvasivePartyRoundGroup.Id,
-                "AUPlanetShepherdsPride",
-                40,
-                0)
-            .SetName("Colony Fall carp invasive resolver uses leader-only Round Group");
-    }
-
     [Test]
     public void ScenarioPlanValidateCommandDocumentsAdminReports()
     {
@@ -1006,8 +818,6 @@ public sealed class ScenarioPlanMarkerCoverageTest
     }
 
     [TestCase("DistressSignal")]
-    [TestCase("Insurgency")]
-    [TestCase("ColonyFall")]
     public async Task SupportedScenarioPlansHaveSpawnMarkerCoverage(string presetId)
     {
         await using var pair = await PoolManager.GetServerClient();
@@ -1027,7 +837,6 @@ public sealed class ScenarioPlanMarkerCoverageTest
     }
 
     [TestCase("DistressSignal")]
-    [TestCase("ColonyFall")]
     public async Task DeferredThreatVoteReservationMatchesLegacySmallestCandidate(string presetId)
     {
         await using var pair = await PoolManager.GetServerClient();
@@ -1115,117 +924,6 @@ public sealed class ScenarioPlanMarkerCoverageTest
                 checkedCandidatePlanets,
                 Is.GreaterThan(0),
                 $"{presetId} did not have any supported planets with legacy threat vote candidates at {playerCount} players.");
-        });
-
-        await pair.CleanReturnAsync();
-    }
-
-    [Test]
-    public async Task SelectedThreatForcePlanMatchesLegacyBodyCount()
-    {
-        await using var pair = await PoolManager.GetServerClient();
-        var server = pair.Server;
-
-        await server.WaitAssertion(() =>
-        {
-            var prototypes = server.ResolveDependency<IPrototypeManager>();
-            var generator = server.System<ScenarioPlanSystem>();
-            var threat = prototypes.Index<ThreatPrototype>(SelectedThreatAssignmentThreat);
-            var partySpawn = prototypes.Index<PartySpawnPrototype>(threat.RoundStartSpawn);
-            var legacyBodyCount = ThreatVoteSelection.CalculateBodyCount(partySpawn, MarkerValidationPlayerCount);
-            var request = new ScenarioPlanValidationRequest(
-                SelectedThreatAssignmentPreset,
-                MarkerValidationPlayerCount,
-                SelectedThreatId: threat.ID);
-
-            Assert.That(
-                generator.TryResolveSelectedThreatForce(request, out var resolvedForce, out var diagnostic),
-                Is.True,
-                diagnostic);
-            Assert.That(resolvedForce, Is.Not.Null);
-
-            Assert.Multiple(() =>
-            {
-                Assert.That(resolvedForce!.ThreatId, Is.EqualTo(threat.ID));
-                Assert.That(resolvedForce.LeaderBodies, Is.EqualTo(legacyBodyCount.Leaders));
-                Assert.That(resolvedForce.MemberBodies, Is.EqualTo(legacyBodyCount.Members));
-                Assert.That(resolvedForce.TotalBodies, Is.EqualTo(legacyBodyCount.Total));
-                Assert.That(resolvedForce.WinConditionRuleIds, Is.EquivalentTo(threat.WinConditions));
-            });
-        });
-
-        await pair.CleanReturnAsync();
-    }
-
-    [Test]
-    public async Task SelectedThreatSpawnMarkersMatchLegacyRuntimeMarkerSelection()
-    {
-        await using var pair = await PoolManager.GetServerClient();
-        var server = pair.Server;
-        var map = await pair.CreateTestMap();
-
-        await server.WaitPost(() =>
-        {
-            var entities = server.EntMan;
-
-            entities.SpawnEntity(ThreatLeaderMarker, map.GridCoords);
-            entities.SpawnEntity(XenoCfMemberMarker, map.GridCoords);
-            entities.SpawnEntity(ThirdPartyMemberMarker, map.GridCoords);
-            entities.SpawnEntity(CultistCfLeaderMarker, map.GridCoords);
-            entities.SpawnEntity(CultistCfMemberMarker, map.GridCoords);
-            entities.SpawnEntity(CultistCfMemberMarker, map.GridCoords);
-        });
-
-        await server.WaitAssertion(() =>
-        {
-            var entities = server.EntMan;
-            var prototypes = server.ResolveDependency<IPrototypeManager>();
-            var generator = server.System<ScenarioPlanSystem>();
-            var threat = prototypes.Index<ThreatPrototype>(CustomMarkerThreat);
-            var partySpawn = prototypes.Index<PartySpawnPrototype>(threat.RoundStartSpawn);
-            var legacyBodyCount = ThreatVoteSelection.CalculateBodyCount(partySpawn, MarkerValidationPlayerCount);
-            var request = new ScenarioPlanValidationRequest(
-                "ColonyFall",
-                MarkerValidationPlayerCount,
-                SelectedThreatId: threat.ID);
-
-            Assert.That(
-                generator.TryResolveSelectedThreatSpawnMarkers(
-                    request,
-                    map.MapId,
-                    out var markerSet,
-                    out var diagnostic),
-                Is.True,
-                diagnostic);
-            Assert.That(markerSet, Is.Not.Null);
-
-            Assert.Multiple(() =>
-            {
-                Assert.That(markerSet!.Force.LeaderBodies, Is.EqualTo(legacyBodyCount.Leaders));
-                Assert.That(markerSet.Force.MemberBodies, Is.EqualTo(legacyBodyCount.Members));
-            });
-
-            AssertResolvedMarkersMatchLegacy(
-                entities,
-                map.MapId,
-                partySpawn,
-                markerSet!,
-                ThreatMarkerType.Leader);
-            AssertResolvedMarkersMatchLegacy(
-                entities,
-                map.MapId,
-                partySpawn,
-                markerSet!,
-                ThreatMarkerType.Member);
-            foreach (var markerType in new[] { ThreatMarkerType.Leader, ThreatMarkerType.Member })
-            {
-                Assert.That(
-                    markerSet.TryGetMarkers(markerType.ToString(), out var resolvedMarkers),
-                    Is.True);
-                Assert.That(
-                    resolvedMarkers!.All(uid => entities.HasComponent<ScenarioSpawnMarkerComponent>(uid)),
-                    Is.True);
-            }
         });
 
         await pair.CleanReturnAsync();
@@ -1490,110 +1188,6 @@ public sealed class ScenarioPlanMarkerCoverageTest
                 Assert.That(
                     resolvedMarkers!.All(uid => entities.HasComponent<ScenarioSpawnMarkerComponent>(uid)),
                     Is.True);
-            }
-        });
-
-        await pair.CleanReturnAsync();
-    }
-
-    [TestCaseSource(nameof(ColonyFallThirdPartyResolverRoundGroupCases))]
-    public async Task ColonyFallThirdPartyResolverRoundGroupMatchesLegacyPartySpawn(
-        string thirdPartyId,
-        string RoundGroupId,
-        string planetId,
-        int playerCount,
-        int expectedMembers)
-    {
-        await using var pair = await PoolManager.GetServerClient();
-        var server = pair.Server;
-        var map = await pair.CreateTestMap();
-
-        await server.WaitPost(() =>
-        {
-            var entities = server.EntMan;
-
-            entities.SpawnEntity(ThirdPartyLeaderMarker, map.GridCoords);
-            entities.SpawnEntity(ThirdPartyMemberMarker, map.GridCoords);
-        });
-
-        await server.WaitAssertion(() =>
-        {
-            var entities = server.EntMan;
-            var prototypes = server.ResolveDependency<IPrototypeManager>();
-            var componentFactory = server.ResolveDependency<IComponentFactory>();
-            var generator = server.System<ScenarioPlanSystem>();
-            var thirdParty = prototypes.Index<ThirdPartyPrototype>(thirdPartyId);
-            var partySpawn = prototypes.Index<PartySpawnPrototype>(thirdParty.PartySpawn);
-            var RoundGroup = prototypes.Index<RoundGroupPrototype>(RoundGroupId);
-            var spawnPlan = RoundGroup.Spawn;
-            Assert.That(
-                TryGetPlanet(prototypes, componentFactory, planetId, out _),
-                Is.True,
-                $"{planetId} did not resolve to a planet map prototype.");
-            Assert.That(
-                generator.TryResolveRoundGroupPrototype(
-                    RoundGroupId,
-                    playerCount,
-                    out var prototypeForce,
-                    out var prototypeDiagnostic),
-                Is.True,
-                prototypeDiagnostic);
-            Assert.That(prototypeForce, Is.Not.Null);
-
-            var request = new ScenarioPlanValidationRequest(
-                ColonyFallPreset,
-                playerCount,
-                SelectedThreatId: ColonyFallXenoThreat.Id);
-
-            Assert.That(
-                generator.TryResolveThirdPartySpawnMarkers(
-                    request,
-                    thirdParty.ID,
-                    map.MapId,
-                    out var markerSet,
-                    out var diagnostic),
-                Is.True,
-                diagnostic);
-            Assert.That(markerSet, Is.Not.Null);
-
-            Assert.Multiple(() =>
-            {
-                Assert.That(markerSet!.Force.ForceId, Is.EqualTo($"ThirdParty:{ColonyFallXenoThreat.Id}:{thirdPartyId}"));
-                Assert.That(markerSet.Force.ThirdPartyId, Is.EqualTo(thirdParty.ID));
-                Assert.That(markerSet.Force.LeaderBodies, Is.EqualTo(1));
-                Assert.That(markerSet.Force.MemberBodies, Is.EqualTo(expectedMembers));
-                Assert.That(markerSet.Force.EntityBodies, Is.Zero);
-            });
-
-            AssertResolvedSpawnPlansMatch(prototypeForce!.SpawnPlan, markerSet!.Force.SpawnPlan);
-            AssertPartySpawnPlanPrototypeMatchesLegacy(
-                spawnPlan,
-                partySpawn,
-                ThreatVoteSelection.CalculateBodyCount(partySpawn, playerCount),
-                thirdParty: true);
-            AssertPrototypeBucketBodiesMatchLegacy(spawnPlan, ThreatMarkerType.Leader, partySpawn.LeadersToSpawn, partySpawn);
-            AssertPrototypeBucketBodiesMatchLegacy(spawnPlan, ThreatMarkerType.Member, partySpawn.GruntsToSpawn, partySpawn);
-            AssertThirdPartyResolvedMarkersMatchLegacy(
-                entities,
-                map.MapId,
-                partySpawn,
-                markerSet,
-                ThreatMarkerType.Leader);
-            if (expectedMembers > 0)
-            {
-                AssertThirdPartyResolvedMarkersMatchLegacy(
-                    entities,
-                    map.MapId,
-                    partySpawn,
-                    markerSet,
-                    ThreatMarkerType.Member);
-            }
-            else
-            {
-                Assert.That(
-                    markerSet.TryGetMarkers(ThreatMarkerType.Member.ToString(), out _),
-                    Is.False,
-                    "Leader-only third-party Round Groups should not resolve member markers.");
             }
         });
 
@@ -1942,172 +1536,6 @@ public sealed class ScenarioPlanMarkerCoverageTest
     }
 
     [Test]
-    public async Task ClfSpawnMarkersMatchLegacyRuntimeSafehouseAndCivilianSelection()
-    {
-        await using var pair = await PoolManager.GetServerClient();
-        var server = pair.Server;
-        var map = await pair.CreateTestMap();
-
-        await server.WaitPost(() =>
-        {
-            var entities = server.EntMan;
-
-            entities.SpawnEntity(ClfCellLeaderSpawnPoint, map.GridCoords);
-            entities.SpawnEntity(ScenarioClfCivilianColonistSpawnMarker, map.GridCoords);
-            entities.SpawnEntity(ScenarioClfCivilianColonistSpawnMarker, map.GridCoords);
-        });
-
-        await server.WaitAssertion(() =>
-        {
-            var entities = server.EntMan;
-            var prototypes = server.ResolveDependency<IPrototypeManager>();
-            var componentFactory = server.ResolveDependency<IComponentFactory>();
-            var generator = server.System<ScenarioPlanSystem>();
-            var (commandBodies, guerillaBodies) = GetLegacyClfBodyCounts(prototypes, componentFactory);
-
-            var request = new ScenarioPlanValidationRequest(
-                "Insurgency",
-                MarkerValidationPlayerCount);
-
-            Assert.That(
-                generator.TryResolveClfSpawnMarkers(
-                    request,
-                    map.MapId,
-                    out var markerSet,
-                    out var diagnostic),
-                Is.True,
-                diagnostic);
-            Assert.That(markerSet, Is.Not.Null);
-
-            Assert.Multiple(() =>
-            {
-                Assert.That(markerSet!.Force.CommandBodies, Is.EqualTo(commandBodies));
-                Assert.That(markerSet.Force.GuerillaBodies, Is.EqualTo(guerillaBodies));
-            });
-
-            AssertClfResolvedMarkersMatchLegacy(
-                entities,
-                map.MapId,
-                markerSet!,
-                "CLFSafehouse",
-                FindScenarioCompatibleClfSafehouseMarkers(entities, map.MapId));
-            AssertClfResolvedMarkersMatchLegacy(
-                entities,
-                map.MapId,
-                markerSet!,
-                "CLFCivilianBackup",
-                FindLegacyClfCivilianSpawnPoints(entities, map.MapId));
-            foreach (var bucket in new[] { "CLFSafehouse", "CLFCivilianBackup" })
-            {
-                Assert.That(
-                    markerSet.TryGetMarkers(bucket, out var resolvedMarkers),
-                    Is.True);
-                Assert.That(
-                    resolvedMarkers!.All(uid => entities.HasComponent<ScenarioSpawnMarkerComponent>(uid)),
-                    Is.True);
-            }
-        });
-
-        await pair.CleanReturnAsync();
-    }
-
-    [Test]
-    public async Task ClfStandaloneScenarioSpawnMarkersResolveWithoutLegacyMarkers()
-    {
-        await using var pair = await PoolManager.GetServerClient();
-        var server = pair.Server;
-        var map = await pair.CreateTestMap();
-        var safehouseMarker = EntityUid.Invalid;
-        var civilianMarker = EntityUid.Invalid;
-
-        await server.WaitPost(() =>
-        {
-            var entities = server.EntMan;
-
-            safehouseMarker = entities.SpawnEntity(ScenarioClfSafehouseMarker, map.GridCoords);
-            civilianMarker = entities.SpawnEntity(StandaloneClfCivilianMarker, map.GridCoords);
-        });
-
-        await server.WaitAssertion(() =>
-        {
-            var entities = server.EntMan;
-            var generator = server.System<ScenarioPlanSystem>();
-            var request = new ScenarioPlanValidationRequest(
-                "Insurgency",
-                MarkerValidationPlayerCount);
-
-            Assert.That(
-                generator.TryResolveClfSpawnMarkers(
-                    request,
-                    map.MapId,
-                    out var markerSet,
-                    out var diagnostic),
-                Is.True,
-                diagnostic);
-            Assert.That(markerSet, Is.Not.Null);
-
-            Assert.Multiple(() =>
-            {
-                Assert.That(markerSet!.TryGetMarkers("CLFSafehouse", out var safehouseMarkers), Is.True);
-                Assert.That(safehouseMarkers, Is.EquivalentTo(new[] { safehouseMarker }));
-                Assert.That(markerSet.TryGetMarkers("CLFCivilianBackup", out var civilianMarkers), Is.True);
-                Assert.That(civilianMarkers, Is.EquivalentTo(new[] { civilianMarker }));
-                Assert.That(entities.HasComponent<SafehouseMarkerComponent>(safehouseMarker), Is.False);
-                Assert.That(entities.HasComponent<SpawnPointComponent>(civilianMarker), Is.False);
-            });
-        });
-
-        await pair.CleanReturnAsync();
-    }
-
-    [Test]
-    public async Task RuntimeSpawnIndexMatchesActiveQueryPauseSemantics()
-    {
-        await using var pair = await PoolManager.GetServerClient();
-        var server = pair.Server;
-        var map = await pair.CreateTestMap();
-
-        await server.WaitPost(() =>
-        {
-            server.EntMan.SpawnEntity(ScenarioClfSafehouseMarker, map.GridCoords);
-            server.EntMan.SpawnEntity(StandaloneClfCivilianMarker, map.GridCoords);
-        });
-
-        await server.WaitAssertion(() =>
-        {
-            var generator = server.System<ScenarioPlanSystem>();
-            var mapSystem = server.System<SharedMapSystem>();
-            var request = new ScenarioPlanValidationRequest(
-                InsurgencyPreset,
-                MarkerValidationPlayerCount);
-
-            Assert.That(
-                generator.TryResolveClfSpawnMarkers(request, map.MapId, out _, out var activeDiagnostic),
-                Is.True,
-                activeDiagnostic);
-
-            mapSystem.SetPaused(map.MapId, true);
-            try
-            {
-                Assert.That(
-                    generator.TryResolveClfSpawnMarkers(request, map.MapId, out _, out _),
-                    Is.False);
-            }
-            finally
-            {
-                mapSystem.SetPaused(map.MapId, false);
-            }
-
-            Assert.That(
-                generator.TryResolveClfSpawnMarkers(request, map.MapId, out _, out var resumedDiagnostic),
-                Is.True,
-                resumedDiagnostic);
-        });
-
-        await pair.CleanReturnAsync();
-    }
-
-    [Test]
     public async Task RuntimeSpawnIndexUsesCurrentMapAndRejectsDeletedMarkers()
     {
         await using var pair = await PoolManager.GetServerClient();
@@ -2232,8 +1660,6 @@ public sealed class ScenarioPlanMarkerCoverageTest
     }
 
     [TestCase("DistressSignal")]
-    [TestCase("Insurgency")]
-    [TestCase("ColonyFall")]
     public async Task ShadowScenarioPlanCanBeGeneratedForSelectedTargetScenario(string presetId)
     {
         await using var pair = await PoolManager.GetServerClient();
@@ -2911,204 +2337,6 @@ public sealed class ScenarioPlanMarkerCoverageTest
     }
 
     [Test]
-    public async Task InsurgencyClfRoundGroupPrototypeMatchesLegacyAdapter()
-    {
-        await using var pair = await PoolManager.GetServerClient();
-        var server = pair.Server;
-
-        await server.WaitAssertion(() =>
-        {
-            var prototypes = server.ResolveDependency<IPrototypeManager>();
-            var componentFactory = server.ResolveDependency<IComponentFactory>();
-            var generator = server.System<ScenarioPlanSystem>();
-            var package = prototypes.Index(InsurgencyVotingChoices);
-            var force = prototypes.Index(InsurgencyClfRoundGroup);
-            var spawnPlan = force.Spawn;
-            var preset = prototypes.Index<GamePresetPrototype>(InsurgencyPreset);
-            var (planetId, planet) = GetFirstSupportedPlanet(prototypes, componentFactory, InsurgencyPreset);
-            var plan = generator.GeneratePlans(new ScenarioPlanValidationRequest(
-                    InsurgencyPreset,
-                    MarkerValidationPlayerCount,
-                    PlanetId: planetId,
-                    MapId: planet.MapId))
-                .Single();
-            var adaptedClf = plan.Forces.Single(plannedForce => plannedForce.ForceKind == ScenarioForceKind.Clf);
-            Assert.That(
-                generator.TryResolveRoundGroupPrototype(
-                    InsurgencyClfRoundGroup.Id,
-                    MarkerValidationPlayerCount,
-                    out var prototypeClf,
-                    out var forceDiagnostic),
-                Is.True,
-                forceDiagnostic);
-            Assert.That(prototypeClf, Is.Not.Null);
-
-            Assert.Multiple(() =>
-            {
-                Assert.That(package.Presets, Does.Contain(InsurgencyPreset));
-                Assert.That(package.SupportedPlanets, Is.EquivalentTo(preset.SupportedPlanets));
-                Assert.That(
-                    package.PlanetChoices
-                        .Single(choice => choice.SupportsPlanet(planetId))
-                        .Groups
-                        .Select(groupId => groupId.Id),
-                    Does.Contain(force.ID));
-                Assert.That(plan.DeferredForceChoices.Select(choice => choice.ChoiceId), Does.Contain("GovforPlatoon"));
-
-                Assert.That(force.Kind, Is.EqualTo(RoundGroupKind.Clf));
-                Assert.That(force.SourcePrototypeId, Is.EqualTo(adaptedClf.SourcePrototypeId));
-                Assert.That(force.Spawn.HasData, Is.True);
-                Assert.That(force.SourcePrototypeId, Is.EqualTo(AddClfRule.Id));
-            });
-
-            AssertPlannedForcesMatch(adaptedClf, prototypeClf!);
-            AssertScenarioSpawnDefinitionMatchesAdapter(spawnPlan, adaptedClf.SpawnPlan);
-            Assert.Multiple(() =>
-            {
-                var commandBucket = spawnPlan.BodyBuckets.Single(bucket => bucket.Bucket == "CLFCommand");
-                var guerillaBucket = spawnPlan.BodyBuckets.Single(bucket => bucket.Bucket == "CLFGuerilla");
-
-                Assert.That(commandBucket.Bodies["AU14JobCLFCellLeader"], Is.EqualTo(1));
-                Assert.That(commandBucket.Bodies["AU14JobCLFRadioOperator"], Is.EqualTo(1));
-                Assert.That(commandBucket.Bodies["AU14JobCLFPhysician"], Is.EqualTo(1));
-                Assert.That(commandBucket.Bodies["AU14JobCLFSurgeon"], Is.EqualTo(1));
-                Assert.That(guerillaBucket.Bodies["AU14JobCLFGuerilla"], Is.EqualTo(3));
-            });
-        });
-
-        await pair.CleanReturnAsync();
-    }
-
-    [Test]
-    public async Task InsurgencyPresetSchedulesExplicitlyWhitelistedThirdPartiesWithoutThreat()
-    {
-        await using var pair = await PoolManager.GetServerClient();
-        var server = pair.Server;
-
-        await server.WaitAssertion(() =>
-        {
-            var prototypes = server.ResolveDependency<IPrototypeManager>();
-            var componentFactory = server.ResolveDependency<IComponentFactory>();
-            var preset = prototypes.Index<GamePresetPrototype>(InsurgencyPreset);
-
-            Assert.Multiple(() =>
-            {
-                Assert.That(preset.ThirdPartyAutoSpawn, Is.True);
-                Assert.That(preset.ThirdPartyInterval, Is.EqualTo(3600));
-                Assert.That(preset.ThirdPartyRatio, Is.EqualTo(0.15f));
-                Assert.That(preset.MaxThirdParties, Is.EqualTo(3));
-            });
-
-            foreach (string planetId in preset.SupportedPlanets!)
-            {
-                Assert.That(
-                    TryGetPlanet(prototypes, componentFactory, planetId, out var planet),
-                    Is.True,
-                    $"{planetId} did not resolve to a planet map prototype.");
-
-                var candidates = planet!.ThirdParties
-                    .Select(prototypes.Index<ThirdPartyPrototype>)
-                    .Where(party =>
-                        AuRoundSelectionRules.IsExplicitlyWhitelistedForGamemode(party, InsurgencyPreset) &&
-                        AuRoundSelectionRules.IsThirdPartyAllowed(
-                            party,
-                            InsurgencyPreset,
-                            null,
-                            null,
-                            null,
-                            MarkerValidationPlayerCount))
-                    .ToList();
-
-                Assert.That(
-                    candidates,
-                    Is.Not.Empty,
-                    $"{planetId} has no population-valid third party explicitly whitelisted for Insurgency.");
-
-                var bodyCounts = candidates.ToDictionary(
-                    party => party,
-                    party => ThreatVoteSelection.CalculateBodyCount(
-                        prototypes.Index<PartySpawnPrototype>(party.PartySpawn),
-                        MarkerValidationPlayerCount).Total);
-                int bodyBudget = AuRoundSystem.CalculateThirdPartyBodyBudget(
-                    MarkerValidationPlayerCount,
-                    preset.ThirdPartyRatio);
-                List<ThirdPartyPrototype> selected = AuRoundSystem.SelectThirdPartiesWithinBodyBudget(
-                    candidates,
-                    preset.MaxThirdParties,
-                    bodyBudget,
-                    choices => choices[0],
-                    party => bodyCounts[party],
-                    out int selectedBodyCount);
-
-                Assert.Multiple(() =>
-                {
-                    Assert.That(selected, Is.Not.Empty, $"{planetId} could not select an Insurgency third party within its preset budget.");
-                    Assert.That(selected, Has.Count.LessThanOrEqualTo(preset.MaxThirdParties));
-                    Assert.That(selectedBodyCount, Is.LessThanOrEqualTo(bodyBudget));
-                    Assert.That(
-                        selected.All(party =>
-                            AuRoundSelectionRules.IsExplicitlyWhitelistedForGamemode(party, InsurgencyPreset)),
-                        Is.True);
-                });
-            }
-        });
-
-        await pair.CleanReturnAsync();
-    }
-
-    [Test]
-    public async Task InsurgencyVotingChoicesPrototypeResolverMatchesLegacyPlan()
-    {
-        await using var pair = await PoolManager.GetServerClient();
-        var server = pair.Server;
-
-        await server.WaitAssertion(() =>
-        {
-            var prototypes = server.ResolveDependency<IPrototypeManager>();
-            var componentFactory = server.ResolveDependency<IComponentFactory>();
-            var generator = server.System<ScenarioPlanSystem>();
-            var (planetId, planet) = GetFirstSupportedPlanet(prototypes, componentFactory, InsurgencyPreset);
-            var adaptedPlan = generator.GeneratePlans(new ScenarioPlanValidationRequest(
-                    InsurgencyPreset,
-                    MarkerValidationPlayerCount,
-                    PlanetId: planetId,
-                    MapId: planet.MapId))
-                .Single();
-
-            Assert.That(
-                generator.TryResolveVotingChoicesPrototype(
-                    InsurgencyVotingChoices.Id,
-                    InsurgencyPreset,
-                    planetId,
-                    planet.MapId,
-                    MarkerValidationPlayerCount,
-                    out var prototypePlan,
-                    out var diagnostic),
-                Is.True,
-                diagnostic);
-            Assert.That(prototypePlan, Is.Not.Null);
-
-            Assert.Multiple(() =>
-            {
-                Assert.That(prototypePlan!.PresetId, Is.EqualTo(adaptedPlan.PresetId));
-                Assert.That(prototypePlan.PlanetId, Is.EqualTo(adaptedPlan.PlanetId));
-                Assert.That(prototypePlan.MapId, Is.EqualTo(adaptedPlan.MapId));
-                Assert.That(prototypePlan.PlayerCount, Is.EqualTo(adaptedPlan.PlayerCount));
-                Assert.That(prototypePlan.DeferredForceChoices, Is.Empty);
-                Assert.That(prototypePlan.Diagnostics, Is.Empty);
-                Assert.That(prototypePlan.SourceVotingChoicesIds, Is.EqualTo(new[] { InsurgencyVotingChoices.Id }));
-                Assert.That(adaptedPlan.SourceVotingChoicesIds, Does.Contain(InsurgencyVotingChoices.Id));
-            });
-
-            AssertPlannedForcesMatch(
-                prototypePlan!.Forces.Single(plannedForce => plannedForce.ForceKind == ScenarioForceKind.Clf),
-                adaptedPlan.Forces.Single(plannedForce => plannedForce.ForceKind == ScenarioForceKind.Clf));
-        });
-
-        await pair.CleanReturnAsync();
-    }
-
-    [Test]
     public async Task DistressSignalVotingChoicesPrototypeResolverMatchesSeededLegacyChoices()
     {
         await using var pair = await PoolManager.GetServerClient();
@@ -3203,130 +2431,6 @@ public sealed class ScenarioPlanMarkerCoverageTest
                     generator.TryResolveRoundGroupPrototype(
                         RoundGroupId,
                         MarkerValidationPlayerCount,
-                        out var RoundGroupCandidate,
-                        out var RoundGroupDiagnostic),
-                    Is.True,
-                    RoundGroupDiagnostic);
-                Assert.That(RoundGroupCandidate, Is.Not.Null);
-
-                AssertPlannedForcesMatch(prototypeCandidate, RoundGroupCandidate!);
-                AssertPlannedForcesMatch(prototypeCandidate, adaptedCandidate);
-            }
-
-            AssertReservationPolicyMatchesSmallestThreatCandidate(prototypeThreatChoice);
-        });
-
-        await pair.CleanReturnAsync();
-    }
-
-    [Test]
-    public async Task ColonyFallVotingChoicesPrototypeResolverMatchesSeededLegacyThreatChoice()
-    {
-        await using var pair = await PoolManager.GetServerClient();
-        var server = pair.Server;
-
-        await server.WaitAssertion(() =>
-        {
-            var prototypes = server.ResolveDependency<IPrototypeManager>();
-            var componentFactory = server.ResolveDependency<IComponentFactory>();
-            var generator = server.System<ScenarioPlanSystem>();
-            var preset = prototypes.Index<GamePresetPrototype>(ColonyFallPreset);
-            var playerCount = GetPresetValidPlayerCount(preset);
-            Assert.That(
-                TryGetPlanet(prototypes, componentFactory, ColonyFallSeededSlicePlanetId, out var planet),
-                Is.True,
-                $"{ColonyFallSeededSlicePlanetId} did not resolve to a planet map prototype.");
-
-            var adaptedPlan = generator.GeneratePlans(new ScenarioPlanValidationRequest(
-                    ColonyFallPreset,
-                    playerCount,
-                    PlanetId: ColonyFallSeededSlicePlanetId,
-                    MapId: planet.MapId))
-                .Single();
-
-            Assert.That(
-                generator.TryResolveVotingChoicesPrototype(
-                    ColonyFallVotingChoices.Id,
-                    ColonyFallPreset,
-                    ColonyFallSeededSlicePlanetId,
-                    planet.MapId,
-                    playerCount,
-                    out var prototypePlan,
-                    out var diagnostic),
-                Is.True,
-                diagnostic);
-            Assert.That(prototypePlan, Is.Not.Null);
-
-            var packageReport = generator.ValidateVotingChoicesPrototypeCoverage(
-                ColonyFallVotingChoices.Id,
-                ColonyFallPreset,
-                ColonyFallSeededSlicePlanetId,
-                planet.MapId,
-                playerCount);
-            Assert.That(packageReport.IsValid, Is.True, packageReport.ToString());
-            Assert.That(packageReport.Diagnostics, Is.Empty, packageReport.ToString());
-            var validatedPlan = packageReport.Plans.Single();
-
-            var package = prototypes.Index(ColonyFallVotingChoices);
-            var planetChoice = package.PlanetChoices.Single(choice => choice.SupportsPlanet(ColonyFallSeededSlicePlanetId));
-            var prototypeThreatChoice = prototypePlan!.DeferredForceChoices.Single();
-            var adaptedThreatChoice = adaptedPlan.DeferredForceChoices.Single(choice =>
-                choice.ChoiceId.Equals(prototypeThreatChoice.ChoiceId, StringComparison.OrdinalIgnoreCase));
-            var expectedThreatCandidates = new[]
-            {
-                ColonyFallCultistThreat.Id,
-                ColonyFallXenoThreat.Id,
-                WendigoThreat.Id,
-                ColonyFallAbominationThreat.Id,
-            };
-
-            Assert.Multiple(() =>
-            {
-                Assert.That(package.Presets, Does.Contain(ColonyFallPreset));
-                Assert.That(package.SupportedPlanets, Does.Contain(ColonyFallSeededSlicePlanetId));
-                Assert.That(package.Groups, Is.Empty);
-                Assert.That(package.DeferredForceChoices, Is.Empty);
-                Assert.That(planetChoice.DeferredForceChoices, Has.Count.EqualTo(1));
-                Assert.That(planetChoice.BackupDeferredForceChoices, Has.Count.EqualTo(1));
-                Assert.That(prototypePlan.PresetId, Is.EqualTo(adaptedPlan.PresetId));
-                Assert.That(prototypePlan.PlanetId, Is.EqualTo(adaptedPlan.PlanetId));
-                Assert.That(prototypePlan.MapId, Is.EqualTo(adaptedPlan.MapId));
-                Assert.That(prototypePlan.PlayerCount, Is.EqualTo(adaptedPlan.PlayerCount));
-                Assert.That(prototypePlan.Diagnostics, Is.Empty);
-                Assert.That(prototypePlan.SourceVotingChoicesIds, Is.EqualTo(new[] { ColonyFallVotingChoices.Id }));
-                Assert.That(adaptedPlan.SourceVotingChoicesIds, Does.Contain(ColonyFallVotingChoices.Id));
-                Assert.That(validatedPlan.Forces.Count, Is.EqualTo(prototypePlan.Forces.Count));
-                Assert.That(validatedPlan.DeferredForceChoices.Count, Is.EqualTo(prototypePlan.DeferredForceChoices.Count));
-                Assert.That(validatedPlan.SpawnMarkers, Is.Not.Empty);
-                Assert.That(prototypeThreatChoice.ChoiceId, Is.EqualTo($"DeferredThreat:{ColonyFallPreset}:{ColonyFallSeededSlicePlanetId}"));
-                Assert.That(
-                    prototypeThreatChoice.Candidates.Select(candidate => candidate.SourcePrototypeId),
-                    Is.EqualTo(expectedThreatCandidates));
-                Assert.That(
-                    adaptedThreatChoice.Candidates.Select(candidate => candidate.SourcePrototypeId),
-                    Is.EqualTo(expectedThreatCandidates));
-            });
-
-            foreach (var prototypeCandidate in prototypeThreatChoice.Candidates)
-            {
-                var adaptedCandidate = adaptedThreatChoice.Candidates.Single(candidate =>
-                    candidate.SourcePrototypeId.Equals(prototypeCandidate.SourcePrototypeId, StringComparison.OrdinalIgnoreCase));
-                var RoundGroupId = prototypeCandidate.SourcePrototypeId switch
-                {
-                    var source when source.Equals(ColonyFallCultistThreat.Id, StringComparison.OrdinalIgnoreCase) =>
-                        ColonyFallCultistRoundGroup.Id,
-                    var source when source.Equals(ColonyFallXenoThreat.Id, StringComparison.OrdinalIgnoreCase) =>
-                        ColonyFallXenoRoundGroup.Id,
-                    var source when source.Equals(WendigoThreat.Id, StringComparison.OrdinalIgnoreCase) =>
-                        ColonyFallWendigoRoundGroup.Id,
-                    var source when source.Equals(ColonyFallAbominationThreat.Id, StringComparison.OrdinalIgnoreCase) =>
-                        ColonyFallAbominationRoundGroup.Id,
-                    _ => throw new InvalidOperationException($"Unexpected Colony Fall seeded threat '{prototypeCandidate.SourcePrototypeId}'."),
-                };
-                Assert.That(
-                    generator.TryResolveRoundGroupPrototype(
-                        RoundGroupId,
-                        playerCount,
                         out var RoundGroupCandidate,
                         out var RoundGroupDiagnostic),
                     Is.True,
@@ -3452,53 +2556,6 @@ public sealed class ScenarioPlanMarkerCoverageTest
     }
 
     [Test]
-    public async Task ColonyFallInlineQuietBackupRecordsRuntimeOwnershipForNoThreatPlan()
-    {
-        await using var pair = await PoolManager.GetServerClient();
-        var server = pair.Server;
-
-        await server.WaitAssertion(() =>
-        {
-            var prototypes = server.ResolveDependency<IPrototypeManager>();
-            var componentFactory = server.ResolveDependency<IComponentFactory>();
-            var generator = server.System<ScenarioPlanSystem>();
-            var preset = prototypes.Index<GamePresetPrototype>(ColonyFallPreset);
-            var playerCount = GetPresetValidPlayerCount(preset);
-            const string planetId = "AuPlanetChances";
-            Assert.That(
-                TryGetPlanet(prototypes, componentFactory, planetId, out var planet),
-                Is.True,
-                $"{planetId} did not resolve to a planet map prototype.");
-
-            var package = prototypes.Index(ColonyFallVotingChoices);
-            var planetChoice = package.PlanetChoices.Single(choice => choice.SupportsPlanet(planetId));
-
-            Assert.That(
-                generator.TryResolveVotingBackup(
-                    ColonyFallPreset,
-                    planetId,
-                    planet.MapId,
-                    playerCount,
-                    out var backupPlan,
-                    out var diagnostic),
-                Is.True,
-                diagnostic);
-            Assert.That(backupPlan, Is.Not.Null);
-
-            Assert.Multiple(() =>
-            {
-                Assert.That(planetChoice.BackupQuiet, Is.True);
-                Assert.That(backupPlan!.Forces, Is.Empty);
-                Assert.That(backupPlan.DeferredForceChoices, Is.Empty);
-                Assert.That(backupPlan.Diagnostics, Is.Empty);
-                Assert.That(backupPlan.SourceVotingChoicesIds, Is.EqualTo(new[] { ColonyFallVotingChoices.Id }));
-            });
-        });
-
-        await pair.CleanReturnAsync();
-    }
-
-    [Test]
     public async Task VotingBackupPackagePrototypesCoverTargetPresetPlanets()
     {
         await using var pair = await PoolManager.GetServerClient();
@@ -3510,7 +2567,7 @@ public sealed class ScenarioPlanMarkerCoverageTest
             var componentFactory = server.ResolveDependency<IComponentFactory>();
             var generator = server.System<ScenarioPlanSystem>();
 
-            foreach (var presetId in new[] { DistressSignalPreset, InsurgencyPreset, ColonyFallPreset })
+            foreach (var presetId in new[] { DistressSignalPreset })
             {
                 var preset = prototypes.Index<GamePresetPrototype>(presetId);
                 var playerCount = GetPresetValidPlayerCount(preset);
@@ -3733,44 +2790,6 @@ public sealed class ScenarioPlanMarkerCoverageTest
     }
 
     [Test]
-    public async Task RoundGroupPrototypeResolverMatchesClfAdapter()
-    {
-        await using var pair = await PoolManager.GetServerClient();
-        var server = pair.Server;
-
-        await server.WaitAssertion(() =>
-        {
-            var prototypes = server.ResolveDependency<IPrototypeManager>();
-            var componentFactory = server.ResolveDependency<IComponentFactory>();
-            var generator = server.System<ScenarioPlanSystem>();
-            var (planetId, planet) = GetFirstSupportedPlanet(prototypes, componentFactory, InsurgencyPreset);
-
-            Assert.That(
-                generator.TryResolveRoundGroupPrototype(
-                    InsurgencyClfRoundGroup.Id,
-                    MarkerValidationPlayerCount,
-                    out var prototypeForce,
-                    out var prototypeDiagnostic),
-                Is.True,
-                prototypeDiagnostic);
-            Assert.That(prototypeForce, Is.Not.Null);
-
-            var adaptedForce = generator.GeneratePlans(new ScenarioPlanValidationRequest(
-                    InsurgencyPreset,
-                    MarkerValidationPlayerCount,
-                    PlanetId: planetId,
-                    MapId: planet.MapId))
-                .Single()
-                .Forces
-                .Single(plannedForce => plannedForce.ForceKind == ScenarioForceKind.Clf);
-
-            AssertPlannedForcesMatch(prototypeForce!, adaptedForce);
-        });
-
-        await pair.CleanReturnAsync();
-    }
-
-    [Test]
     public async Task RoundGroupPrototypeResolverMatchesGovforPlatoonAdapter()
     {
         await using var pair = await PoolManager.GetServerClient();
@@ -3985,282 +3004,6 @@ public sealed class ScenarioPlanMarkerCoverageTest
             Assert.That(prototypeForce, Is.Not.Null);
 
             AssertPlannedForcesMatch(prototypeForce!, adaptedForce);
-        });
-
-        await pair.CleanReturnAsync();
-    }
-
-    [Test]
-    public async Task ColonyFallCultistRoundGroupPrototypeMatchesLegacyAdapter()
-    {
-        await using var pair = await PoolManager.GetServerClient();
-        var server = pair.Server;
-
-        await server.WaitAssertion(() =>
-        {
-            var prototypes = server.ResolveDependency<IPrototypeManager>();
-            var generator = server.System<ScenarioPlanSystem>();
-            var threat = prototypes.Index(ColonyFallCultistThreat);
-            var partySpawn = prototypes.Index(threat.RoundStartSpawn);
-            var force = prototypes.Index(ColonyFallCultistRoundGroup);
-            var spawnPlan = force.Spawn;
-            var legacyBodyCount = ThreatVoteSelection.CalculateBodyCount(partySpawn, MarkerValidationPlayerCount);
-            var request = new ScenarioPlanValidationRequest(
-                ColonyFallPreset,
-                MarkerValidationPlayerCount,
-                SelectedThreatId: threat.ID);
-
-            Assert.That(
-                generator.TryResolveRoundGroupPrototype(
-                    ColonyFallCultistRoundGroup.Id,
-                    MarkerValidationPlayerCount,
-                    out var prototypeForce,
-                    out var prototypeDiagnostic),
-                Is.True,
-                prototypeDiagnostic);
-            Assert.That(prototypeForce, Is.Not.Null);
-            Assert.That(
-                generator.TryResolveSelectedThreatForce(request, out var adaptedForce, out var diagnostic),
-                Is.True,
-                diagnostic);
-            Assert.That(adaptedForce, Is.Not.Null);
-
-            Assert.Multiple(() =>
-            {
-                Assert.That(force.Kind, Is.EqualTo(RoundGroupKind.Hostile));
-                Assert.That(force.SourcePrototypeId, Is.EqualTo(threat.ID));
-                Assert.That(force.Spawn.HasData, Is.True);
-                Assert.That(force.WinConditionRuleIds, Is.EquivalentTo(threat.WinConditions));
-                Assert.That(force.Timing.DelayMinSeconds, Is.EqualTo(threat.SpawnDelayMin));
-                Assert.That(force.Timing.DelayMaxSeconds, Is.EqualTo(threat.SpawnDelayMax));
-
-                Assert.That(adaptedForce!.LeaderBodies, Is.EqualTo(legacyBodyCount.Leaders));
-                Assert.That(adaptedForce.MemberBodies, Is.EqualTo(legacyBodyCount.Members));
-            });
-
-            AssertPrototypeForceMatchesThreatAdapter(prototypeForce!, adaptedForce!);
-            AssertScenarioSpawnDefinitionMatchesAdapter(spawnPlan, adaptedForce!.SpawnPlan);
-            AssertPartySpawnPlanPrototypeMatchesLegacy(spawnPlan, partySpawn, legacyBodyCount, thirdParty: false);
-        });
-
-        await pair.CleanReturnAsync();
-    }
-
-    [Test]
-    public async Task ColonyFallCultistMarkerRoundGroupPrototypeMatchesLegacyAdapter()
-    {
-        await using var pair = await PoolManager.GetServerClient();
-        var server = pair.Server;
-
-        await server.WaitAssertion(() =>
-        {
-            var prototypes = server.ResolveDependency<IPrototypeManager>();
-            var generator = server.System<ScenarioPlanSystem>();
-            var threat = prototypes.Index(CustomMarkerThreat);
-            var partySpawn = prototypes.Index(threat.RoundStartSpawn);
-            var force = prototypes.Index(ColonyFallCultistMarkerRoundGroup);
-            var spawnPlan = force.Spawn;
-            var legacyBodyCount = ThreatVoteSelection.CalculateBodyCount(partySpawn, MarkerValidationPlayerCount);
-            var request = new ScenarioPlanValidationRequest(
-                ColonyFallPreset,
-                MarkerValidationPlayerCount,
-                SelectedThreatId: threat.ID);
-
-            Assert.That(
-                generator.TryResolveRoundGroupPrototype(
-                    ColonyFallCultistMarkerRoundGroup.Id,
-                    MarkerValidationPlayerCount,
-                    out var prototypeForce,
-                    out var prototypeDiagnostic),
-                Is.True,
-                prototypeDiagnostic);
-            Assert.That(prototypeForce, Is.Not.Null);
-            Assert.That(
-                generator.TryResolveSelectedThreatForce(request, out var adaptedForce, out var diagnostic),
-                Is.True,
-                diagnostic);
-            Assert.That(adaptedForce, Is.Not.Null);
-
-            Assert.Multiple(() =>
-            {
-                Assert.That(force.Kind, Is.EqualTo(RoundGroupKind.Hostile));
-                Assert.That(force.SourcePrototypeId, Is.EqualTo(threat.ID));
-                Assert.That(force.Spawn.HasData, Is.True);
-                Assert.That(force.WinConditionRuleIds, Is.EquivalentTo(threat.WinConditions));
-                Assert.That(force.Timing.DelayMinSeconds, Is.EqualTo(threat.SpawnDelayMin));
-                Assert.That(force.Timing.DelayMaxSeconds, Is.EqualTo(threat.SpawnDelayMax));
-
-                Assert.That(adaptedForce!.LeaderBodies, Is.EqualTo(legacyBodyCount.Leaders));
-                Assert.That(adaptedForce.MemberBodies, Is.EqualTo(legacyBodyCount.Members));
-            });
-
-            AssertPrototypeForceMatchesThreatAdapter(prototypeForce!, adaptedForce!);
-            AssertScenarioSpawnDefinitionMatchesAdapter(spawnPlan, adaptedForce!.SpawnPlan);
-            AssertPartySpawnPlanPrototypeMatchesLegacy(spawnPlan, partySpawn, legacyBodyCount, thirdParty: false);
-            AssertPrototypeBucketBodiesMatchLegacy(spawnPlan, ThreatMarkerType.Leader, partySpawn.LeadersToSpawn, partySpawn);
-            AssertPrototypeBucketBodiesMatchLegacy(spawnPlan, ThreatMarkerType.Member, partySpawn.GruntsToSpawn, partySpawn);
-            AssertPrototypeBodyCountMatchesLegacyPartySpawn(spawnPlan, partySpawn, playerCount: 60);
-            AssertPrototypeBodyCountMatchesLegacyPartySpawn(spawnPlan, partySpawn, playerCount: 100);
-        });
-
-        await pair.CleanReturnAsync();
-    }
-
-    [Test]
-    public async Task ColonyFallXenoRoundGroupPrototypeMatchesLegacyAdapter()
-    {
-        await using var pair = await PoolManager.GetServerClient();
-        var server = pair.Server;
-
-        await server.WaitAssertion(() =>
-        {
-            var prototypes = server.ResolveDependency<IPrototypeManager>();
-            var generator = server.System<ScenarioPlanSystem>();
-            var threat = prototypes.Index(ColonyFallXenoThreat);
-            var partySpawn = prototypes.Index(threat.RoundStartSpawn);
-            var force = prototypes.Index(ColonyFallXenoRoundGroup);
-            var spawnPlan = force.Spawn;
-            var legacyBodyCount = ThreatVoteSelection.CalculateBodyCount(partySpawn, MarkerValidationPlayerCount);
-            var request = new ScenarioPlanValidationRequest(
-                ColonyFallPreset,
-                MarkerValidationPlayerCount,
-                SelectedThreatId: threat.ID);
-
-            Assert.That(
-                generator.TryResolveRoundGroupPrototype(
-                    ColonyFallXenoRoundGroup.Id,
-                    MarkerValidationPlayerCount,
-                    out var prototypeForce,
-                    out var prototypeDiagnostic),
-                Is.True,
-                prototypeDiagnostic);
-            Assert.That(prototypeForce, Is.Not.Null);
-            Assert.That(
-                generator.TryResolveSelectedThreatForce(request, out var adaptedForce, out var diagnostic),
-                Is.True,
-                diagnostic);
-            Assert.That(adaptedForce, Is.Not.Null);
-
-            Assert.Multiple(() =>
-            {
-                Assert.That(force.Kind, Is.EqualTo(RoundGroupKind.Hostile));
-                Assert.That(force.SourcePrototypeId, Is.EqualTo(threat.ID));
-                Assert.That(force.Spawn.HasData, Is.True);
-                Assert.That(force.WinConditionRuleIds, Is.EquivalentTo(threat.WinConditions));
-                Assert.That(force.Timing.DelayMinSeconds, Is.EqualTo(threat.SpawnDelayMin));
-                Assert.That(force.Timing.DelayMaxSeconds, Is.EqualTo(threat.SpawnDelayMax));
-
-                Assert.That(adaptedForce!.LeaderBodies, Is.EqualTo(legacyBodyCount.Leaders));
-                Assert.That(adaptedForce.MemberBodies, Is.EqualTo(legacyBodyCount.Members));
-            });
-
-            AssertPrototypeForceMatchesThreatAdapter(prototypeForce!, adaptedForce!);
-            AssertScenarioSpawnDefinitionMatchesAdapter(spawnPlan, adaptedForce!.SpawnPlan);
-            AssertPartySpawnPlanPrototypeMatchesLegacy(spawnPlan, partySpawn, legacyBodyCount, thirdParty: false);
-            AssertPrototypeBodyCountMatchesLegacyPartySpawn(spawnPlan, partySpawn, playerCount: 40);
-            AssertPrototypeBodyCountMatchesLegacyPartySpawn(spawnPlan, partySpawn, playerCount: 100);
-        });
-
-        await pair.CleanReturnAsync();
-    }
-
-    [Test]
-    public async Task ColonyFallWendigoRoundGroupPrototypeMatchesLegacyAdapter()
-    {
-        await using var pair = await PoolManager.GetServerClient();
-        var server = pair.Server;
-
-        await server.WaitAssertion(() =>
-        {
-            var prototypes = server.ResolveDependency<IPrototypeManager>();
-            var generator = server.System<ScenarioPlanSystem>();
-            var threat = prototypes.Index(WendigoThreat);
-            var partySpawn = prototypes.Index(threat.RoundStartSpawn);
-            var force = prototypes.Index(ColonyFallWendigoRoundGroup);
-            var spawnPlan = force.Spawn;
-            var legacyBodyCount = ThreatVoteSelection.CalculateBodyCount(partySpawn, MarkerValidationPlayerCount);
-            var request = new ScenarioPlanValidationRequest(
-                "ColonyFall",
-                MarkerValidationPlayerCount,
-                SelectedThreatId: threat.ID);
-
-            Assert.That(
-                generator.TryResolveSelectedThreatForce(request, out var adaptedForce, out var diagnostic),
-                Is.True,
-                diagnostic);
-            Assert.That(adaptedForce, Is.Not.Null);
-
-            Assert.Multiple(() =>
-            {
-                Assert.That(force.Kind, Is.EqualTo(RoundGroupKind.Hostile));
-                Assert.That(force.SourcePrototypeId, Is.EqualTo(threat.ID));
-                Assert.That(force.Spawn.HasData, Is.True);
-                Assert.That(force.WinConditionRuleIds, Is.EquivalentTo(threat.WinConditions));
-
-                Assert.That(adaptedForce!.LeaderBodies, Is.EqualTo(legacyBodyCount.Leaders));
-                Assert.That(adaptedForce.MemberBodies, Is.EqualTo(legacyBodyCount.Members));
-                Assert.That(spawnPlan.BodyBuckets.Single(bucket => bucket.Bucket == ThreatMarkerType.Leader.ToString()).Bodies["AU14Wendigo"], Is.EqualTo(1));
-            });
-
-            AssertScenarioSpawnDefinitionMatchesAdapter(spawnPlan, adaptedForce!.SpawnPlan);
-        });
-
-        await pair.CleanReturnAsync();
-    }
-
-    [Test]
-    public async Task ColonyFallAbominationRoundGroupPrototypeMatchesLegacyAdapter()
-    {
-        await using var pair = await PoolManager.GetServerClient();
-        var server = pair.Server;
-
-        await server.WaitAssertion(() =>
-        {
-            var prototypes = server.ResolveDependency<IPrototypeManager>();
-            var generator = server.System<ScenarioPlanSystem>();
-            var preset = prototypes.Index<GamePresetPrototype>(ColonyFallPreset);
-            var playerCount = GetPresetValidPlayerCount(preset);
-            var threat = prototypes.Index(ColonyFallAbominationThreat);
-            var partySpawn = prototypes.Index(threat.RoundStartSpawn);
-            var force = prototypes.Index(ColonyFallAbominationRoundGroup);
-            var spawnPlan = force.Spawn;
-            var legacyBodyCount = ThreatVoteSelection.CalculateBodyCount(partySpawn, playerCount);
-            var request = new ScenarioPlanValidationRequest(
-                ColonyFallPreset,
-                playerCount,
-                SelectedThreatId: threat.ID);
-
-            Assert.That(
-                generator.TryResolveRoundGroupPrototype(
-                    ColonyFallAbominationRoundGroup.Id,
-                    playerCount,
-                    out var prototypeForce,
-                    out var prototypeDiagnostic),
-                Is.True,
-                prototypeDiagnostic);
-            Assert.That(prototypeForce, Is.Not.Null);
-            Assert.That(
-                generator.TryResolveSelectedThreatForce(request, out var adaptedForce, out var diagnostic),
-                Is.True,
-                diagnostic);
-            Assert.That(adaptedForce, Is.Not.Null);
-
-            Assert.Multiple(() =>
-            {
-                Assert.That(force.Kind, Is.EqualTo(RoundGroupKind.Hostile));
-                Assert.That(force.SourcePrototypeId, Is.EqualTo(threat.ID));
-                Assert.That(force.Spawn.HasData, Is.True);
-                Assert.That(force.WinConditionRuleIds, Is.EquivalentTo(threat.WinConditions));
-                Assert.That(force.Timing.DelayMinSeconds, Is.EqualTo(threat.SpawnDelayMin));
-                Assert.That(force.Timing.DelayMaxSeconds, Is.EqualTo(threat.SpawnDelayMax));
-
-                Assert.That(adaptedForce!.LeaderBodies, Is.EqualTo(legacyBodyCount.Leaders));
-                Assert.That(adaptedForce.MemberBodies, Is.EqualTo(legacyBodyCount.Members));
-                Assert.That(spawnPlan.BodyBuckets.Single(bucket => bucket.Bucket == ThreatMarkerType.Entity.ToString()).Bodies["AU14AbominationFleshNest"], Is.EqualTo(1));
-            });
-
-            AssertPrototypeForceMatchesThreatAdapter(prototypeForce!, adaptedForce!);
-            AssertScenarioSpawnDefinitionMatchesAdapter(spawnPlan, adaptedForce!.SpawnPlan);
         });
 
         await pair.CleanReturnAsync();
@@ -5046,55 +3789,6 @@ public sealed class ScenarioPlanMarkerCoverageTest
             $"Scenario Plan dropship third-party runtime markers for {markerType} did not match loaded-grid Scenario-compatible marker selection.");
     }
 
-    private static void AssertClfResolvedMarkersMatchLegacy(
-        IEntityManager entities,
-        MapId mapId,
-        ResolvedClfSpawnMarkerSet markerSet,
-        string bucket,
-        List<EntityUid> legacyMarkers)
-    {
-        Assert.That(
-            markerSet.TryGetMarkers(bucket, out var markers),
-            Is.True,
-            $"Scenario Plan did not resolve CLF runtime markers for {bucket}.");
-
-        Assert.That(
-            markers,
-            Is.EquivalentTo(legacyMarkers),
-            $"Scenario Plan CLF runtime markers for {bucket} did not match Scenario-compatible marker selection on map {mapId}.");
-    }
-
-    private static (int CommandBodies, int GuerillaBodies) GetLegacyClfBodyCounts(
-        IPrototypeManager prototypes,
-        IComponentFactory componentFactory)
-    {
-        var addClfRule = prototypes.Index(AddClfRule);
-        Assert.That(
-            addClfRule.TryComp<AddJobsRuleComponent>(out var addJobs, componentFactory),
-            Is.True);
-        Assert.That(addJobs.Jobs, Is.Not.Null);
-
-        var commandBodies = 0;
-        var guerillaBodies = 0;
-        foreach (var (jobId, count) in addJobs.Jobs!)
-        {
-            if (IsClfCommandJob(jobId.Id))
-                commandBodies += Math.Max(0, count);
-            else if (jobId.Id.Contains("CLF", StringComparison.OrdinalIgnoreCase))
-                guerillaBodies += Math.Max(0, count);
-        }
-
-        return (commandBodies, guerillaBodies);
-    }
-
-    private static bool IsClfCommandJob(string jobId)
-    {
-        return jobId.Equals("AU14JobCLFCellLeader", StringComparison.OrdinalIgnoreCase) ||
-               jobId.Equals("AU14JobCLFRadioOperator", StringComparison.OrdinalIgnoreCase) ||
-               jobId.Equals("AU14JobCLFPhysician", StringComparison.OrdinalIgnoreCase) ||
-               jobId.Equals("AU14JobCLFSurgeon", StringComparison.OrdinalIgnoreCase);
-    }
-
     private static void AssertPrototypeForceMatchesThreatAdapter(
         PlannedForce prototypeForce,
         ResolvedThreatForcePlan adaptedForce)
@@ -5469,44 +4163,6 @@ public sealed class ScenarioPlanMarkerCoverageTest
                 !marker.Tags.Contains(ScenarioMarkerTags.ForceThirdParty) ||
                 !marker.Tags.Contains(ScenarioMarkerTags.Bucket(markerType.ToString())) ||
                 !marker.Tags.Contains(ScenarioMarkerTags.MarkerId(markerId)))
-            {
-                continue;
-            }
-
-            markers.Add(uid);
-        }
-
-        return markers;
-    }
-
-    private static List<EntityUid> FindScenarioCompatibleClfSafehouseMarkers(IEntityManager entities, MapId mapId)
-    {
-        var markers = new List<EntityUid>();
-        var query = entities.EntityQueryEnumerator<ScenarioSpawnMarkerComponent, TransformComponent>();
-        while (query.MoveNext(out var uid, out var marker, out var transform))
-        {
-            if (transform.MapID != mapId ||
-                marker.Kind != SpawnMarkerKind.ClfSafehouse ||
-                !marker.Tags.Contains(ScenarioMarkerTags.ForceClfSafehouse))
-            {
-                continue;
-            }
-
-            markers.Add(uid);
-        }
-
-        return markers;
-    }
-
-    private static List<EntityUid> FindLegacyClfCivilianSpawnPoints(IEntityManager entities, MapId mapId)
-    {
-        var markers = new List<EntityUid>();
-        var query = entities.EntityQueryEnumerator<SpawnPointComponent, TransformComponent>();
-        while (query.MoveNext(out var uid, out var spawnPoint, out var transform))
-        {
-            if (transform.MapID != mapId ||
-                spawnPoint.Job == null ||
-                !spawnPoint.Job.Value.Id.Equals("AU14JobCivilianColonist", StringComparison.OrdinalIgnoreCase))
             {
                 continue;
             }

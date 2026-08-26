@@ -32,14 +32,12 @@ public sealed class ThreatRoundFlowWiringTest
     }
 
     [Test]
-    public void DistressSignalAndColonyFallThreatFlowIsConnected()
+    public void DistressSignalThreatFlowIsConnected()
     {
         var prepareVote = typeof(ThreatVoteSystem).GetMethod(nameof(ThreatVoteSystem.TryPrepareThreatVote))!;
         var startVote = typeof(ThreatVoteSystem).GetMethod(nameof(ThreatVoteSystem.StartPreparedThreatVote))!;
         var spawnThreat = typeof(ThreatSystem).GetMethod(nameof(ThreatSystem.SpawnThreatAtRoundStart))!;
         var spawnVotedThreat = typeof(ThreatSystem).GetMethod(nameof(ThreatSystem.SpawnThreatFromVote))!;
-        var scheduleThreat = typeof(ThreatSystem)
-            .GetMethod("SchedulePendingThreatSpawn", BindingFlags.NonPublic | BindingFlags.Instance)!;
         var abortVote = typeof(ThreatVoteSystem)
             .GetMethod("AbortThreatVote", BindingFlags.NonPublic | BindingFlags.Instance)!;
         var removeThreatAssignments = typeof(ThreatSystem)
@@ -66,8 +64,6 @@ public sealed class ThreatRoundFlowWiringTest
                 "GameTicker must retain the immediate threat-spawn path for preselected threats.");
             Assert.That(HasReachableCallFrom<ThreatVoteSystem>("StartPreparedThreatVote", spawnVotedThreat), Is.True,
                 "Starting a prepared vote must reach voted threat spawning, including single-option auto-selection.");
-            Assert.That(HasReachableCallFrom<ThreatSystem>("SpawnThreatFromVote", scheduleThreat), Is.True,
-                "Voted Colony Fall threats must reach delayed threat scheduling.");
             Assert.That(HasReachableCallFrom<ThreatVoteSystem>("StartPreparedThreatVote", abortVote), Is.True,
                 "Failure to create a prepared threat vote must reach terminal cleanup.");
             Assert.That(HasReachableCallFrom<ThreatVoteSystem>("AbortThreatVote", removeThreatAssignments), Is.True,

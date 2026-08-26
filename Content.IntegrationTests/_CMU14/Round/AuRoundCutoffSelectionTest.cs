@@ -35,8 +35,6 @@ public sealed class AuRoundCutoffSelectionTest
     private const string PreservedAccessConsoleId = "CMUTestPreservedAccessRoundAsrsConsole";
     private const string ShepherdsPridePlanetId = "AUPlanetShepherdsPride";
     private static readonly ProtoId<PlatoonPrototype> HazopsPlatoon = "HAZOPS";
-    private static readonly ProtoId<GamePresetPrototype> JailbreakPreset = "Jailbreak";
-    private static readonly ProtoId<GamePresetPrototype> PrometheusPreset = "Prometheus";
     private static readonly ProtoId<PlatoonPrototype> RmcPlatoon = "RMC";
     private static readonly ProtoId<PlatoonPrototype> UppPlatoon = "UPP";
     private static readonly ProtoId<PlatoonPrototype> UscmPlatoon = "USCM";
@@ -121,7 +119,6 @@ public sealed class AuRoundCutoffSelectionTest
           showInVote: false
           usesGovforPlatoon: true
           threatSelectionMode: PostRoundstartVote
-          usesThreatSpawnDelay: true
           planetPool: CMUTestFixedFactionPlanetPool
           rules: []
 
@@ -1214,28 +1211,7 @@ public sealed class AuRoundCutoffSelectionTest
         "USSBushRedux",
         null,
         null,
-        CmuThreatSelectionMode.PostRoundstartVote,
-        false)]
-    [TestCase(
-        "ColonyFall",
-        "AUPlanetShepherdsPride",
-        "Sheperds",
-        null,
-        null,
-        null,
-        null,
-        CmuThreatSelectionMode.PostRoundstartVote,
-        true)]
-    [TestCase(
-        "Insurgency",
-        "AUPlanetShepherdsPride",
-        "Sheperds",
-        "USCM",
-        "USSBushRedux",
-        null,
-        null,
-        CmuThreatSelectionMode.Disabled,
-        false)]
+        CmuThreatSelectionMode.PostRoundstartVote)]
     [TestCase(
         "CMDistressSignal",
         null,
@@ -1244,8 +1220,7 @@ public sealed class AuRoundCutoffSelectionTest
         null,
         null,
         null,
-        CmuThreatSelectionMode.Disabled,
-        false)]
+        CmuThreatSelectionMode.Disabled)]
     public async Task CutoffUsesPrototypeBackedDefaults(
         string presetId,
         string? expectedPlanetId,
@@ -1254,8 +1229,7 @@ public sealed class AuRoundCutoffSelectionTest
         string? expectedGovforShipId,
         string? expectedOpforPlatoonId,
         string? expectedOpforShipId,
-        CmuThreatSelectionMode expectedThreatSelectionMode,
-        bool expectedThreatSpawnDelay)
+        CmuThreatSelectionMode expectedThreatSelectionMode)
     {
         await using var pair = await PoolManager.GetServerClient(new PoolSettings { Dirty = true });
         var server = pair.Server;
@@ -1286,7 +1260,6 @@ public sealed class AuRoundCutoffSelectionTest
                 Assert.That(
                     round.UsesPostRoundstartThreatVote(),
                     Is.EqualTo(expectedThreatSelectionMode == CmuThreatSelectionMode.PostRoundstartVote));
-                Assert.That(round.SelectedPreset?.UsesThreatSpawnDelay, Is.EqualTo(expectedThreatSpawnDelay));
             });
         });
 
@@ -1323,7 +1296,6 @@ public sealed class AuRoundCutoffSelectionTest
                 Assert.That(selection.OpforPlatoonId, Is.Null);
                 Assert.That(selection.OpforShipId, Is.Null);
                 Assert.That(round.UsesPostRoundstartThreatVote(), Is.True);
-                Assert.That(round.SelectedPreset?.UsesThreatSpawnDelay, Is.True);
                 Assert.That(plan.PlanetId, Is.EqualTo(selection.PlanetId));
                 Assert.That(
                     plan.Forces.Any(force =>
@@ -1337,18 +1309,6 @@ public sealed class AuRoundCutoffSelectionTest
                     plan.DeferredForceChoices.Any(choice =>
                         choice.ChoiceId.StartsWith("DeferredThreat:", StringComparison.Ordinal)),
                     Is.True);
-                Assert.That(
-                    plan.DeferredForceChoices
-                        .Where(choice => choice.ChoiceId.StartsWith("DeferredThreat:", StringComparison.Ordinal))
-                        .SelectMany(choice => choice.Candidates)
-                        .All(force => force.Timing.HasDelay),
-                    Is.True);
-                Assert.That(
-                    prototypes.Index(PrometheusPreset).ThreatSelectionMode,
-                    Is.EqualTo(CmuThreatSelectionMode.PreRoundstart));
-                Assert.That(
-                    prototypes.Index(JailbreakPreset).ThreatSelectionMode,
-                    Is.EqualTo(CmuThreatSelectionMode.PreRoundstart));
             });
         });
 

@@ -18,7 +18,6 @@ public sealed class ThreatScenarioPlanCoverageTest : GameTest
     private static readonly string[] Presets =
     [
         "DistressSignal",
-        "ColonyFall",
     ];
 
     public override PoolSettings PoolSettings => new()

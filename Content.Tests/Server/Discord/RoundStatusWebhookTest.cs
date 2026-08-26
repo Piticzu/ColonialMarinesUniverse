@@ -57,16 +57,13 @@ public sealed class RoundStatusWebhookTest
     public void GamemodeRoleLookupOnlyReturnsConfiguredRolesForSpecificGamemodes()
     {
         Assert.That(
-            RoundStatusWebhook.GetGamemodeRole("DistressSignal", "111", "222", "333"),
+            RoundStatusWebhook.GetGamemodeRole("DistressSignal", "111"),
             Is.EqualTo("111"));
         Assert.That(
-            RoundStatusWebhook.GetGamemodeRole("colonyfall", "111", "222", "333"),
-            Is.EqualTo("222"));
+            RoundStatusWebhook.GetGamemodeRole("distresssignal", "111"),
+            Is.EqualTo("111"));
         Assert.That(
-            RoundStatusWebhook.GetGamemodeRole("Insurgency", "111", "222", "333"),
-            Is.EqualTo("333"));
-        Assert.That(
-            RoundStatusWebhook.GetGamemodeRole("ForceOnForce", "111", "222", "333"),
+            RoundStatusWebhook.GetGamemodeRole("ForceOnForce", "111"),
             Is.Null);
     }
 
