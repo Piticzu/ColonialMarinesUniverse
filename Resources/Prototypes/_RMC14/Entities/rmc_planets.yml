@@ -195,7 +195,7 @@
   maxRandomOffset: 0
   randomRotation: false
   stations:
-    RMCSolaris:
+    Solaris:
       stationProto: StandardUNMCWarship
       components:
         - type: StationNameSetup
